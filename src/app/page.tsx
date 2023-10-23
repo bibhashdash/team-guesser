@@ -39,11 +39,11 @@ export default function Home() {
   const [userInput, setUserInput] = useState<string>('');
   const [userNuclearInput, setUserNuclearInput] = useState<string>('');
 
-  const [errorMessage, setErrorMessage] = useState<string>(null);
+  const [errorMessage, setErrorMessage] = useState<string>('');
   const [userSubmissionArray, setUserSubmissionArray] = useState<string[]>([]);
   const [disableInput, setDisableInput] = useState<boolean>(false);
 
-  const [successMessage, setSuccessMessage] = useState<string>(null);
+  const [successMessage, setSuccessMessage] = useState<string>('');
 
   const setTheTeam = (teams: Team[]) => {
     const random = Math.floor(Math.random() * teams.length);
@@ -153,10 +153,10 @@ export default function Home() {
           </button>
         </div>
         {
-          errorMessage != null && <p className="text-red500">{errorMessage}</p>
+          errorMessage != '' && <p className="text-red500">{errorMessage}</p>
         }
         {
-          successMessage != null && <p className="text-green400 text-center">{successMessage}</p>
+          successMessage != '' && <p className="text-green400 text-center">{successMessage}</p>
         }
       </div>
       <div>
