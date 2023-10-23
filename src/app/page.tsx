@@ -85,7 +85,7 @@ export default function Home() {
     if (!checkValidInput(userInput)) {
       setErrorMessage("Please enter a valid character");
       setInterval(() => {
-        setErrorMessage(null)
+        setErrorMessage('')
       }, 2000);
       return;
     } else {
@@ -97,7 +97,7 @@ export default function Home() {
     if (!checkValidInput(userNuclearInput)) {
       setErrorMessage("Invalid character present");
       setInterval(() => {
-        setErrorMessage(null)
+        setErrorMessage('')
       }, 2000);
       return;
     }
@@ -107,9 +107,6 @@ export default function Home() {
       setSuccessMessage("You won!");
     } else {
       setErrorMessage("Wrong guess, game over!");
-      setInterval(() => {
-        setErrorMessage(null)
-      }, 2000);
       setDisableInput(true);
     }
   }
