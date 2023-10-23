@@ -133,7 +133,7 @@ export default function Home() {
         <div id="user-input" className="mt-6 w-full flex justify-center gap-2 sm:gap-6 items-center">
           <p className="text-white100">Enter a character</p>
 
-          <input maxLength="1" value={userInput} onChange={(event) => setUserInput(event.target.value)}
+          <input maxLength={1} value={userInput} onChange={(event) => setUserInput(event.target.value)}
                  disabled={disableInput}
                  className="w-24 h-24 rounded-md text-5xl text-center"/>
           <button onClick={() => handleUserInputSubmission()}
