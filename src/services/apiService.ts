@@ -4,7 +4,7 @@ export interface Team {
   shortName: string;
 }
 
-export const getTeams = async (id: number): Promise<string[]> => {
+export const getTeams = async (id: number) => {
   const url = 'https://football-web-pages1.p.rapidapi.com/teams.json?';
 
   // try {
