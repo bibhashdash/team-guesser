@@ -2,6 +2,7 @@
 
 import {useEffect, useState} from "react";
 import {getTeams, Team} from "@/services/apiService";
+import {tempData} from "@/tempData";
 
 interface WordStorageBoxProps {
   word: string;
@@ -58,23 +59,24 @@ export default function Home() {
   }
 
   useEffect(() => {
-    const allTeamsInLocalStorage = JSON.parse(localStorage.getItem("teams"));
-    if (allTeamsInLocalStorage && allTeamsInLocalStorage.length > 0) {
-      setTheTeam(allTeamsInLocalStorage);
-    } else {
-      let tempTeams: string[] = [];
-      for (let i = 0; i < competitionIdsArray.length; i++) {
-        getTeams(competitionIdsArray[i]).then((result) => {
-          tempTeams.push(...result);
-          if (i === competitionIdsArray.length - 1) {
-
-            localStorage.setItem("teams", JSON.stringify(tempTeams));
-            setTheTeam(tempTeams);
-
-          }
-        });
-      }
-    }
+    // const allTeamsInLocalStorage = JSON.parse(localStorage.getItem("teams"));
+    // if (allTeamsInLocalStorage && allTeamsInLocalStorage.length > 0) {
+    //   setTheTeam(allTeamsInLocalStorage);
+    // } else {
+    //   let tempTeams: string[] = [];
+    //   for (let i = 0; i < competitionIdsArray.length; i++) {
+    //     getTeams(competitionIdsArray[i]).then((result) => {
+    //       tempTeams.push(...result);
+    //       if (i === competitionIdsArray.length - 1) {
+    //
+    //         localStorage.setItem("teams", JSON.stringify(tempTeams));
+    //         setTheTeam(tempTeams);
+    //
+    //       }
+    //     });
+    //   }
+    // }
+    setTheTeam(tempData);
   }, []);
 
 
