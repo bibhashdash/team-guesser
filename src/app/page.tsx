@@ -71,7 +71,7 @@ export default function Home() {
 
   return (
     <main className="flex min-h-screen flex-col items-center pt-24 bg-black300">
-      <h1 className="text-white100">Team Name Guesser</h1>
+      <h1 className="text-white100 text-3xl sm:text-4xl">Team Name Guesser</h1>
       <h2 className="text-white100">Like Hangman, but for football teams!</h2>
 
       <div className="border-2 border-black h-full w-full max-w-5xl rounded-md p-2">
@@ -87,17 +87,19 @@ export default function Home() {
             ))
           }
         </div>
-        <div id="user-input" className="mt-6 w-full flex justify-center gap-6 items-center">
-          <input value={userInput} onChange={(event) => setUserInput(event.target.value)}
+        <div id="user-input" className="mt-6 w-full flex justify-center gap-2 sm:gap-6 items-center">
+          <p className="text-white100">Enter a character</p>
+
+          <input maxLength="1" value={userInput} onChange={(event) => setUserInput(event.target.value)}
                  className="w-24 h-24 rounded-md text-5xl text-center"/>
           <button onClick={() => handleUserInputSubmission()}
                   className="px-6 py-2 rounded-md border-2 border-black bg-white100">Submit
           </button>
         </div>
-        <div className="mt-6 w-full flex justify-evenly items-center gap-6">
+        <div className="mt-6 w-full flex justify-evenly items-center gap-2 sm:gap-6">
           <input placeholder="Chance it in one..." value={userNuclearInput}
                  onChange={(event) => setUserNuclearInput(event.target.value)}
-                 className="w-full h-20 rounded-md text-sm sm:text-xl md:text-3xl lg:text-5xl text-center"/>
+                 className="w-full h-20 rounded-md text-xl sm:text-xl md:text-3xl lg:text-5xl text-center"/>
           <button onClick={() => handleNuclearSubmission()}
                   className="px-6 py-2 rounded-md border-2 border-black bg-white100">Go Nuclear!
           </button>
