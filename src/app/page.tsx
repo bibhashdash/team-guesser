@@ -45,7 +45,7 @@ export default function Home() {
 
   const [successMessage, setSuccessMessage] = useState<string>('');
 
-  const setTheTeam = (teams: Team[]) => {
+  const setTheTeam = (teams) => {
     const random = Math.floor(Math.random() * teams.length);
     setTeam(teams[random]["full-name"]);
   }
