@@ -45,13 +45,9 @@ export default function Home() {
 
   const [successMessage, setSuccessMessage] = useState<string>('');
 
-  const setTheTeam = (teams) => {
+  const setTheTeam = (teams:string[]) => {
     const random = Math.floor(Math.random() * teams.length);
-    Object.entries(teams[random]).forEach(([key, value]) => {
-      if (key === "full-name") {
-        setTeam(value as string);
-      }
-    });
+    setTeam(teams[random]);
   }
 
   const checkValidInput = (input: string) => {
@@ -63,15 +59,15 @@ export default function Home() {
 
   useEffect(() => {
     const allTeamsInLocalStorage = JSON.parse(localStorage.getItem("teams"));
-    if (allTeamsInLocalStorage.length > 0) {
+    if (allTeamsInLocalStorage && allTeamsInLocalStorage.length > 0) {
       setTheTeam(allTeamsInLocalStorage);
     } else {
-      let tempTeams: Team[] = [];
+      let tempTeams: string[] = [];
       for (let i = 0; i < competitionIdsArray.length; i++) {
         getTeams(competitionIdsArray[i]).then((result) => {
           tempTeams.push(...result);
-          console.log(tempTeams);
           if (i === competitionIdsArray.length - 1) {
+
             localStorage.setItem("teams", JSON.stringify(tempTeams));
             setTheTeam(tempTeams);
 

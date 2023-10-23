@@ -4,7 +4,7 @@ export interface Team {
   shortName: string;
 }
 
-export const getTeams = async (id: number): Promise<Team[]> => {
+export const getTeams = async (id: number): Promise<string[]> => {
   const url = 'https://football-web-pages1.p.rapidapi.com/teams.json?';
 
   try {
@@ -19,7 +19,10 @@ export const getTeams = async (id: number): Promise<Team[]> => {
     const response = await fetch(`${url}&comp=${id}`, options);
     const data = await response.json();
     if (response.ok) {
-     return data['teams'];
+     return data['teams'].reduce<Team[]>((acc, item, index) => {
+        acc.push(item['full-name']);
+        return acc
+      }, [])
     }
 
   } catch (error) {
