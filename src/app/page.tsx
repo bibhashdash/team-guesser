@@ -47,7 +47,11 @@ export default function Home() {
 
   const setTheTeam = (teams) => {
     const random = Math.floor(Math.random() * teams.length);
-    setTeam(teams[random]["full-name"]);
+    Object.entries(teams[random]).forEach(([key, value]) => {
+      if (key === "full-name") {
+        setTeam(value as string);
+      }
+    });
   }
 
   const checkValidInput = (input: string) => {
