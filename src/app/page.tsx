@@ -22,7 +22,7 @@ const WordStorageBox = ({ word, userInput }: WordStorageBoxProps) => {
   return (
     <div className="flex">
       {
-        word.split("").map((character, index) => <CharacterStorageBox character={character} revealed={userInput?.includes(character.toLowerCase())}/>)
+        word.split("").map((character, index) => <CharacterStorageBox character={character} revealed={userInput.includes(character.toLowerCase())}/>)
       }
     </div>
   )
@@ -72,8 +72,9 @@ export default function Home() {
     }
   const handleNuclearSubmission = () => {
     if (userNuclearInput.toLowerCase() === team.toLowerCase()) {
-      setUserSubmissionArray(team.trim().split(""));
+      setUserSubmissionArray(team.toLowerCase().split(""));
     }
+    console.log(userSubmissionArray);
   }
     useEffect(() => {
       getTeams().then(data => {
@@ -105,7 +106,7 @@ export default function Home() {
             <button onClick={() => handleUserInputSubmission()} className="px-6 py-2 rounded-md border-2 border-black bg-white100">Submit</button>
           </div>
           <div className="mt-6 w-full flex justify-evenly items-center gap-6">
-            <input value={userNuclearInput} onChange={(event) => setUserNuclearInput(event.target.value)} className="w-full h-20 rounded-md text-sm sm:text-xl text-center"/>
+            <input placeholder="Chance it in one..." value={userNuclearInput} onChange={(event) => setUserNuclearInput(event.target.value)} className="w-full h-20 rounded-md text-sm sm:text-xl md:text-3xl lg:text-5xl text-center"/>
             <button onClick={() => handleNuclearSubmission()} className="px-6 py-2 rounded-md border-2 border-black bg-white100">Go Nuclear!</button>
           </div>
           {
