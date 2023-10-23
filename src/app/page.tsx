@@ -1,6 +1,7 @@
 'use client';
 
 import {useEffect, useState} from "react";
+import {getTeams} from "@/services/apiService";
 
 interface WordStorageBoxProps {
   word: string;
@@ -34,33 +35,17 @@ const WordStorageBox = ({word, userInput}: WordStorageBoxProps) => {
 
 export default function Home() {
 
-  const url = 'https://football-web-pages1.p.rapidapi.com/teams.json?comp=1';
-  const options = {
-    method: 'GET',
-    headers: {
-      'X-RapidAPI-Key': '7e3e7507fbmsh3ac2e6ed9ad32bep1d3fa3jsn12b698d56994',
-      'X-RapidAPI-Host': 'football-web-pages1.p.rapidapi.com'
-    }
-  };
-
-  const getTeams = async () => {
-    try {
-      const response = await fetch(url, options);
-      const data = await response.json();
-      if (response.ok) { // if HTTP-status is 200-299
-        return data["teams"];
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
   const [team, setTeam] = useState<string>('');
   const [userInput, setUserInput] = useState<string>('');
   const [userNuclearInput, setUserNuclearInput] = useState<string>('');
   const [error, setError] = useState<boolean>(false);
   const [userSubmissionArray, setUserSubmissionArray] = useState<string[]>([]);
-
+  useEffect(() => {
+    getTeams().then(data => {
+      const random = Math.floor(Math.random() * data.length);
+      setTeam(data[random]["full-name"]);
+    });
+  }, []);
   const handleUserInputSubmission = () => {
 
     const regex = /^[A-Za-z0-9]*$/;
@@ -81,12 +66,7 @@ export default function Home() {
     }
     console.log(userSubmissionArray);
   }
-  useEffect(() => {
-    getTeams().then(data => {
-      const random = Math.floor(Math.random() * data.length);
-      setTeam(data[random]["full-name"]);
-    });
-  }, []);
+
 
   return (
     <main className="flex min-h-screen flex-col items-center pt-24 bg-black300">
