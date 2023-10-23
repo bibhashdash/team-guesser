@@ -1,7 +1,7 @@
 'use client';
 
 import {useEffect, useState} from "react";
-import {getTeams} from "@/services/apiService";
+import {getTeams, Team} from "@/services/apiService";
 
 interface WordStorageBoxProps {
   word: string;
@@ -34,26 +34,56 @@ const WordStorageBox = ({word, userInput}: WordStorageBoxProps) => {
 }
 
 export default function Home() {
-
+  const competitionIdsArray: Array<number> = [1, 2,];
   const [team, setTeam] = useState<string>('');
   const [userInput, setUserInput] = useState<string>('');
   const [userNuclearInput, setUserNuclearInput] = useState<string>('');
-  const [error, setError] = useState<boolean>(false);
+
+  const [errorMessage, setErrorMessage] = useState<string>(null);
   const [userSubmissionArray, setUserSubmissionArray] = useState<string[]>([]);
+  const [disableInput, setDisableInput] = useState<boolean>(false);
+
+  const [successMessage, setSuccessMessage] = useState<string>(null);
+
+  const setTheTeam = (teams: Team[]) => {
+    const random = Math.floor(Math.random() * teams.length);
+    setTeam(teams[random]["full-name"]);
+  }
+
+  const checkValidInput = (input: string) => {
+    const regex = /^[A-Za-z0-9]*$/;
+    if (regex.test(input) || input.includes(" ")) {
+      return true;
+    }
+  }
 
   useEffect(() => {
-    getTeams().then(data => {
-      const random = Math.floor(Math.random() * data.length);
-      setTeam(data[random]["full-name"]);
-    });
+    const allTeamsInLocalStorage = JSON.parse(localStorage.getItem("teams"));
+    if (allTeamsInLocalStorage.length > 0) {
+      setTheTeam(allTeamsInLocalStorage);
+    } else {
+      let tempTeams: Team[] = [];
+      for (let i = 0; i < competitionIdsArray.length; i++) {
+        getTeams(competitionIdsArray[i]).then((result) => {
+          tempTeams.push(...result);
+          console.log(tempTeams);
+          if (i === competitionIdsArray.length - 1) {
+            localStorage.setItem("teams", JSON.stringify(tempTeams));
+            setTheTeam(tempTeams);
+
+          }
+        });
+      }
+    }
   }, []);
+
+
   const handleUserInputSubmission = () => {
 
-    const regex = /^[A-Za-z0-9]*$/;
-    if (!regex.test(userInput)) {
-      setError(true);
+    if (!checkValidInput(userInput)) {
+      setErrorMessage("Please enter a valid character");
       setInterval(() => {
-        setError(false)
+        setErrorMessage(null)
       }, 2000);
       return;
     } else {
@@ -62,19 +92,33 @@ export default function Home() {
     }
   }
   const handleNuclearSubmission = () => {
+    if (!checkValidInput(userNuclearInput)) {
+      setErrorMessage("Invalid character present");
+      setInterval(() => {
+        setErrorMessage(null)
+      }, 2000);
+      return;
+    }
     if (userNuclearInput.toLowerCase() === team.toLowerCase()) {
       setUserSubmissionArray(team.toLowerCase().split(""));
+      setDisableInput(true);
+      setSuccessMessage("You won!");
+    } else {
+      setErrorMessage("Wrong guess, game over!");
+      setInterval(() => {
+        setErrorMessage(null)
+      }, 2000);
+      setDisableInput(true);
     }
-    console.log(userSubmissionArray);
   }
 
 
   return (
-    <main className="flex min-h-screen flex-col items-center pt-24 bg-black300">
+    <main className="flex min-h-screen flex-col items-center pt-2 bg-black300">
       <h1 className="text-white100 text-3xl sm:text-4xl">Team Name Guesser</h1>
       <h2 className="text-white100">Like Hangman, but for football teams!</h2>
 
-      <div className="border-2 border-black h-full w-full max-w-5xl rounded-md p-2">
+      <div className="h-full w-full max-w-5xl rounded-md p-2">
         <div id="chances-box">
           {}
         </div>
@@ -91,22 +135,35 @@ export default function Home() {
           <p className="text-white100">Enter a character</p>
 
           <input maxLength="1" value={userInput} onChange={(event) => setUserInput(event.target.value)}
+                 disabled={disableInput}
                  className="w-24 h-24 rounded-md text-5xl text-center"/>
           <button onClick={() => handleUserInputSubmission()}
+                  disabled={disableInput}
                   className="px-6 py-2 rounded-md border-2 border-black bg-white100">Submit
           </button>
         </div>
         <div className="mt-6 w-full flex justify-evenly items-center gap-2 sm:gap-6">
           <input placeholder="Chance it in one..." value={userNuclearInput}
                  onChange={(event) => setUserNuclearInput(event.target.value)}
+                 disabled={disableInput}
                  className="w-full h-20 rounded-md text-xl sm:text-xl md:text-3xl lg:text-5xl text-center"/>
           <button onClick={() => handleNuclearSubmission()}
+                  disabled={disableInput}
                   className="px-6 py-2 rounded-md border-2 border-black bg-white100">Go Nuclear!
           </button>
         </div>
         {
-          error && <p className="text-red-500">Please enter a valid character</p>
+          errorMessage != null && <p className="text-red500">{errorMessage}</p>
         }
+        {
+          successMessage != null && <p className="text-green400 text-center">{successMessage}</p>
+        }
+      </div>
+      <div>
+        <p className="text-white100 text-center text-sm px-4">
+          TNG uses data from the Football Web Pages API. All teams are based on the following leagues: English
+          Premier League, English Championship with more to be added on in due course.
+        </p>
       </div>
     </main>
   )

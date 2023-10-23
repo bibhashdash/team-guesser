@@ -11,13 +11,18 @@ const config: Config = {
      white100: '#f8f8f8',
      green400: '#188100',
       black300: '#2d2d2d',
+      red500: '#ec0202',
     },
+
     extend: {
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
+      fontFamily: {
+        sans: ["var(--font-poppins)"],
+      }
     },
   },
   plugins: [],

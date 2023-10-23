@@ -1,5 +1,11 @@
-export const getTeams = async () => {
-  const url = 'https://football-web-pages1.p.rapidapi.com/teams.json?comp=1';
+export interface Team {
+  id: number;
+  fullName: string;
+  shortName: string;
+}
+
+export const getTeams = async (id: number): Promise<Team[]> => {
+  const url = 'https://football-web-pages1.p.rapidapi.com/teams.json?';
 
   try {
     const apiKey = process.env.API_KEY;
@@ -10,11 +16,12 @@ export const getTeams = async () => {
         'X-RapidAPI-Host': 'football-web-pages1.p.rapidapi.com'
       }
     };
-    const response = await fetch(url, options);
+    const response = await fetch(`${url}&comp=${id}`, options);
     const data = await response.json();
-    if (response.ok) { // if HTTP-status is 200-299
-      return data["teams"];
+    if (response.ok) {
+     return data['teams'];
     }
+
   } catch (error) {
     console.log(error);
   }
