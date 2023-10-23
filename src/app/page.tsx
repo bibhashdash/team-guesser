@@ -40,7 +40,7 @@ export default function Home() {
   const [userNuclearInput, setUserNuclearInput] = useState<string>('');
   const [error, setError] = useState<boolean>(false);
   const [userSubmissionArray, setUserSubmissionArray] = useState<string[]>([]);
-  // console.log(getServerSideProps().then(result => console.log(result.props.apiKey)))
+
   useEffect(() => {
     getTeams().then(data => {
       const random = Math.floor(Math.random() * data.length);
