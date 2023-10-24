@@ -12,6 +12,7 @@ const config: Config = {
      green400: '#188100',
       black300: '#2d2d2d',
       red500: '#ec0202',
+      yellow500: '#ffc100',
     },
 
     extend: {

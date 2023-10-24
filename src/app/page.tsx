@@ -1,8 +1,9 @@
 'use client';
 
-import {useEffect, useState} from "react";
+import {JSX, useEffect, useState} from "react";
 import {getTeams, Team} from "@/services/apiService";
 import {tempData} from "@/tempData";
+import {CrossIcon} from "@/CrossIcon";
 
 interface WordStorageBoxProps {
   word: string;
@@ -17,7 +18,7 @@ interface CharacterStorageBoxProps {
 const CharacterStorageBox = ({character, revealed}: CharacterStorageBoxProps) => {
   return (
     <div
-      className={`border-2 border-black h-8 w-8 sm:w-10 sm:h-10 md:h-12 md:w-12 md:text-3xl lg:text-5xl lg:h-16 lg:w-16 rounded-md m-1 flex justify-center items-center text-white100 ${revealed ? 'bg-green400' : 'bg-white100'}`}>
+      className={`h-6 w-6 min-[400px]:w-10 min-[400px]:h-10 md:h-12 md:w-12 md:text-3xl lg:text-5xl lg:h-16 lg:w-16 mt-1 rounded-md flex justify-center items-center text-white100 ${revealed ? 'bg-green400' : 'bg-white100'}`}>
       {character}
     </div>
   )
@@ -25,7 +26,7 @@ const CharacterStorageBox = ({character, revealed}: CharacterStorageBoxProps) =>
 
 const WordStorageBox = ({word, userInput}: WordStorageBoxProps) => {
   return (
-    <div className="flex">
+    <div className="flex gap-1">
       {
         word.split("").map((character, index) => <CharacterStorageBox character={character}
                                                                       revealed={userInput.includes(character.toLowerCase())}/>)
@@ -39,14 +40,14 @@ export default function Home() {
   const [team, setTeam] = useState<string>('');
   const [userInput, setUserInput] = useState<string>('');
   const [userNuclearInput, setUserNuclearInput] = useState<string>('');
-
+  const [guessCount, setGuessCount] = useState<number>(0);
   const [errorMessage, setErrorMessage] = useState<string>('');
   const [userSubmissionArray, setUserSubmissionArray] = useState<string[]>([]);
   const [disableInput, setDisableInput] = useState<boolean>(false);
 
   const [successMessage, setSuccessMessage] = useState<string>('');
 
-  const setTheTeam = (teams:string[]) => {
+  const setTheTeam = (teams: string[]) => {
     const random = Math.floor(Math.random() * teams.length);
     setTeam(teams[random]);
   }
@@ -89,10 +90,25 @@ export default function Home() {
       }, 2000);
       return;
     } else {
-      userSubmissionArray.push(userInput.toLowerCase());
-      setUserInput('');
+      setGuessCount(prevState => prevState + 1);
     }
+    handleValidInput(userInput, guessCount);
   }
+
+  const handleValidInput = (input: string, count: number) => {
+
+    if (!team.toLowerCase().includes(input.toLowerCase())) {
+      setWrongGuessArray(prevState => prevState.map((item, index) => {
+        if (index < count) {
+          item.props.color = "#ec0202";
+          return item;
+        }
+      }))
+    }
+    userSubmissionArray.push(userInput.toLowerCase());
+    setUserInput('');
+  }
+
   const handleNuclearSubmission = () => {
     if (!checkValidInput(userNuclearInput)) {
       setErrorMessage("Invalid character present");
@@ -101,6 +117,7 @@ export default function Home() {
       }, 2000);
       return;
     }
+
     if (userNuclearInput.toLowerCase() === team.toLowerCase()) {
       setUserSubmissionArray(team.toLowerCase().split(""));
       setDisableInput(true);
@@ -111,17 +128,26 @@ export default function Home() {
     }
   }
 
+  const WrongGuessMarker = () => <div className="border-2 rounded border-yellow500 w-16 h-16"><CrossIcon /></div>;
+  const [wrongGuessArray, setWrongGuessArray] = useState<JSX.Element[]>(new Array(7).fill(<WrongGuessMarker />));
 
   return (
-    <main className="flex min-h-screen flex-col items-center pt-2 bg-black300">
-      <h1 className="text-white100 text-3xl sm:text-4xl">Team Name Guesser</h1>
-      <h2 className="text-white100">Like Hangman, but for football teams!</h2>
-
-      <div className="h-full w-full max-w-5xl rounded-md p-2">
-        <div id="chances-box">
-          {}
-        </div>
-        <div id="team-name" className="flex flex-col items-center">
+    <main className="min-h-screen w-full max-w-5xl grid grid-rows-12 pt-2 items-center justify-center">
+      <div className="row-span-3 px-2 flex flex-col items-center">
+        <h1 className="text-white100 text-2xl sm:text-3xl sm:text-4xl">Team Name Guesser</h1>
+        <h2 className="text-white100 text-sm">Like Hangman, but for football teams!</h2>
+      </div>
+      <div className="grid grid-cols-7 w-full px-4 row-span-2">
+        {
+          wrongGuessArray.map((item, index) => (
+            <div className="flex justify-center items-center">
+              {item}
+            </div>
+          ))
+        }
+      </div>
+      <div className="h-full rounded-md p-2 row-span-4 flex flex-col items-center">
+        <div id="team-name" className="flex flex-col items-center w-full">
           {
             team.split(" ").map((item, index) => (
               <div>
@@ -158,8 +184,8 @@ export default function Home() {
           successMessage != '' && <p className="text-green400 text-center">{successMessage}</p>
         }
       </div>
-      <div>
-        <p className="text-white100 text-center text-sm px-4">
+      <div className="row-span-3">
+        <p className="text-white100 text-center text-xs px-4">
           TNG uses data from the Football Web Pages API. All teams are based on the following leagues: English
           Premier League, English Championship with more to be added on in due course.
         </p>
