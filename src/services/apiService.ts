@@ -5,7 +5,7 @@ export interface Team {
 }
 
 export const getTeams = async (id: number) => {
-  const url = 'https://football-web-pages1.p.rapidapi.com/teams.json?';
+  const url = 'https://football-web-pages1.p.rapidapi.com/teams.json';
 
   // try {
   //   const apiKey = process.env.API_KEY;
@@ -16,13 +16,13 @@ export const getTeams = async (id: number) => {
   //       'X-RapidAPI-Host': 'football-web-pages1.p.rapidapi.com'
   //     }
   //   };
-  //   const response = await fetch(`${url}&comp=${id}`, options);
+  //   const response = await fetch(`${url}?comp=${id}`, options);
   //   const data = await response.json();
   //   if (response.ok) {
   //    return data['teams'].reduce<Team[]>((acc, item, index) => {
   //       acc.push(item['full-name']);
   //       return acc
-  //     }, [])
+  //     }, []);
   //   }
   //
   // } catch (error) {
