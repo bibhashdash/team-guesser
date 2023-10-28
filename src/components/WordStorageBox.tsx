@@ -1,29 +1,21 @@
-import {CharacterStorageBox} from "@/components/CharacterStorageBox";
+import {CharacterStorageBox} from "./CharacterStorageBox";
 import {GameState} from "@/utlities/models";
 
-interface WordStorageBoxProps {
-  word: string;
-  userInput: string[];
-  gameState: GameState;
+export interface WordStorageBoxProps {
+  length: number;
+  matcherWord: string;
+  userInput?: string;
+  textSingleCharacter: string;
 }
-
-export const WordStorageBox = ({word, userInput, gameState}: WordStorageBoxProps) => {
+// TODO: This is the wrong way to do this. Currently all the hidden letters are visible in the dev tools. Find a way to populate rather than just reveal.
+export const WordStorageBox = ({matcherWord, length, userInput, textSingleCharacter}: WordStorageBoxProps) => {
+  console.log(matcherWord.split(''));
   return (
-    <div className="flex gap-1">
+    <div className="flex gap-1 w-full">
       {
-        gameState === GameState.gameStarted ?
-          word.split("")
-            .map((character, index) =>
-              <CharacterStorageBox
-                character={character}
-                bgColor={userInput.includes(character.toLowerCase()) ? 'bg-green400' : 'bg-white100'}
-              />) :
-          word.split("")
-            .map((character, index) =>
-              <CharacterStorageBox
-                character={word.split('')[index]}
-                bgColor={word.split('')[index] === character ? 'bg-green400' : 'bg-red500'}
-              />)
+        matcherWord.split('').map((item, index) =>
+          <CharacterStorageBox character={item} />
+        )
       }
     </div>
   )

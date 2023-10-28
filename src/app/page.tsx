@@ -6,6 +6,7 @@ import {WordStorageBox} from "@/components/WordStorageBox";
 import {checkValidInput} from "@/utlities/checkValidInput";
 import {checkFullWord} from "@/utlities/checkFullWord";
 import {GameState} from "@/utlities/models";
+import {WhiteSquaresContainer} from "@/components/WhiteSquaresContainer";
 
 export default function Home() {
   const competitionIdsArray: Array<number> = [1, 2,];
@@ -17,8 +18,6 @@ export default function Home() {
   const [userSubmissionArray, setUserSubmissionArray] = useState<string[]>([]);
   const [disableInput, setDisableInput] = useState<boolean>(false);
   const [gameState, setGameState] = useState<GameState>(GameState.gameStarted);
-  // const WrongGuessMarker = ({color: string}) => <div className="border-2 rounded border-yellow500 w-16 h-16"><CrossIcon color={color} /></div>;
-  const [wrongGuessArray, setWrongGuessArray] = useState<JSX.Element[]>([]);
   const [successMessage, setSuccessMessage] = useState<string>('');
 
   const setTheTeam = (teams: string[]) => {
@@ -26,34 +25,14 @@ export default function Home() {
     setTeam(teams[random]);
   }
 
-
-
   useEffect(() => {
-    // const allTeamsInLocalStorage = JSON.parse(localStorage.getItem("teams"));
-    // if (allTeamsInLocalStorage && allTeamsInLocalStorage.length > 0) {
-    //   setTheTeam(allTeamsInLocalStorage);
-    // } else {
-    //   let tempTeams: string[] = [];
-    //   for (let i = 0; i < competitionIdsArray.length; i++) {
-    //     getTeams(competitionIdsArray[i]).then((result) => {
-    //       tempTeams.push(...result);
-    //       if (i === competitionIdsArray.length - 1) {
-    //
-    //         localStorage.setItem("teams", JSON.stringify(tempTeams));
-    //         setTheTeam(tempTeams);
-    //
-    //       }
-    //     });
-    //   }
-    // }
     setTheTeam(tempData);
-    // setWrongGuessArray(new Array(7).fill(<WrongGuessMarker />));
   }, []);
 
 
-  const handleUserInputSubmission = () => {
+  const handleUserInputSubmission = (text: string) => {
 
-    if (!checkValidInput(userInput)) {
+    if (!checkValidInput(text)) {
       setErrorMessage("Please enter a valid character");
       setInterval(() => {
         setErrorMessage('')
@@ -62,19 +41,18 @@ export default function Home() {
     } else {
       setGuessCount(prevState => prevState + 1);
     }
-    handleValidInput(userInput, guessCount);
+    handleValidInput(text, guessCount);
   }
 
   const handleValidInput = (input: string, count: number) => {
 
     if (!team.toLowerCase().includes(input.toLowerCase())) {
-      // setWrongGuessArray(prevState => prevState.map((item, index) => {
-      //   if (index < count) {
-      //     item.props.color = "#ec0202";
-      //     return item;
-      //   }
-      // }));
       setUserInput('');
+      setErrorMessage("Character not present");
+      setInterval(() => {
+        setErrorMessage('')
+      }, 1000);
+      return;
     }
     else {
       if (checkFullWord(userSubmissionArray.join(), team)) {
@@ -91,8 +69,8 @@ export default function Home() {
     }
   }
 
-  const handleNuclearSubmission = () => {
-    if (!checkValidInput(userNuclearInput)) {
+  const handleNuclearSubmission = (text: string) => {
+    if (!checkValidInput(text)) {
       setErrorMessage("Invalid character present");
       setInterval(() => {
         setErrorMessage('')
@@ -100,7 +78,7 @@ export default function Home() {
       return;
     }
 
-    if (userNuclearInput.toLowerCase().split('').length !== team.toLowerCase().split('').length) {
+    if (text.toLowerCase().split(' ').length !== team.toLowerCase().split(' ').length) {
       setErrorMessage("Error! Number of words do not match");
       setInterval(() => {
         setErrorMessage('')
@@ -108,19 +86,21 @@ export default function Home() {
       return;
     }
 
-    if (userNuclearInput.length !== team.length) {
+    if (text.length !== team.length) {
       setErrorMessage("Error! Number of characters do not match");
       setInterval(() => {
         setErrorMessage('')
       }, 2000);
       return;
     }
-    if (checkFullWord(userNuclearInput, team)) {
+
+    if (checkFullWord(text, team)) {
       setUserSubmissionArray(team.toLowerCase().split(""));
       setDisableInput(true);
       setSuccessMessage("You won!");
       setGameState(GameState.gameOver);
     }
+
     else {
       setUserSubmissionArray(team.toLowerCase().split(""));
       setErrorMessage("Wrong guess, game over!");
@@ -135,24 +115,9 @@ export default function Home() {
         <h1 className="text-white100 text-2xl sm:text-3xl sm:text-4xl">Team Name Guesser</h1>
         <h2 className="text-white100 text-sm">Like Hangman, but for football teams!</h2>
       </div>
-      {/*<div className="grid grid-cols-7 w-full px-4 row-span-2">*/}
-      {/*  {*/}
-      {/*    wrongGuessArray.map((item, index) => (*/}
-      {/*      <div className="flex justify-center items-center">*/}
-      {/*        {item}*/}
-      {/*      </div>*/}
-      {/*    ))*/}
-      {/*  }*/}
-      {/*</div>*/}
       <div className="h-full rounded-md p-2 row-span-4 flex flex-col items-center">
-        <div id="team-name" className="flex flex-col items-center w-full">
-          {
-            team.split(" ").map((item, index) => (
-              <div>
-                <WordStorageBox word={item} userInput={userSubmissionArray} gameState={gameState}/>
-              </div>
-            ))
-          }
+        <div>
+          <WhiteSquaresContainer text={userSubmissionArray.join()} matcherText={team} />
         </div>
         <div id="user-input" className="mt-6 w-full flex justify-center gap-2 sm:gap-6 items-center">
           <p className="text-white100">Enter a character ➡️</p>
@@ -160,7 +125,7 @@ export default function Home() {
           <input maxLength={1} value={userInput} onChange={(event) => setUserInput(event.target.value)}
                  disabled={disableInput}
                  className="w-24 h-24 rounded-md text-5xl text-center"/>
-          <button onClick={() => handleUserInputSubmission()}
+          <button onClick={() => handleUserInputSubmission(userInput)}
                   disabled={disableInput}
                   className="px-6 py-2 rounded-md border-2 border-white100 bg-blue500 text-white100">Submit
           </button>
@@ -170,7 +135,7 @@ export default function Home() {
                  onChange={(event) => setUserNuclearInput(event.target.value)}
                  disabled={disableInput}
                  className="w-full px-6 py-2 rounded-md border-2 text-xl md:text-3xl lg:text-5xl text-center"/>
-          <button onClick={() => handleNuclearSubmission()}
+          <button onClick={() => handleNuclearSubmission(userNuclearInput)}
                   disabled={disableInput}
                   className="px-6 py-2 rounded-md border-2 border-white100 text-white100 bg-green400 text-xl md:text-3xl lg:text-5xl font-bold">Go!
           </button>
