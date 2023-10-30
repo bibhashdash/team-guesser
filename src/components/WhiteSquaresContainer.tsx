@@ -1,20 +1,17 @@
-import {CharacterStorageBox} from "@/components/CharacterStorageBox";
-import {WordStorageBox} from "@/components/WordStorageBox";
+import {WordStorageBox} from "./WordStorageBox";
 
-interface WhiteSquaresContainerProps {
+export interface WhiteSquaresContainerProps {
   matcherText: string;
-  text?: string;
-  textSingleCharacter?: string;
+  userSubmissionArray: Array<string>;
 }
 
-export const WhiteSquaresContainer = ({text, matcherText, textSingleCharacter}: WhiteSquaresContainerProps) => {
-  const xyz = matcherText.split(' ');
-  const tempArray = new Array(matcherText.length).fill(<CharacterStorageBox character={''}/>);
+export const WhiteSquaresContainer = ({matcherText, userSubmissionArray}: WhiteSquaresContainerProps) => {
+  const arrayOfDecksOfWhiteSquares = matcherText.split(' ');
   return (
     <>
       {
-        xyz.map((word, index) =>
-          <WordStorageBox textSingleCharacter={textSingleCharacter ?? ''} matcherWord={word} length={word.length} userInput={text ?? ''} />
+        arrayOfDecksOfWhiteSquares.map((word, index) =>
+          <WordStorageBox matcherWord={word} userSubmissionArray={userSubmissionArray} />
         )
       }
     </>

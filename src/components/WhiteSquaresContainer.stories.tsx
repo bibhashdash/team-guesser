@@ -1,8 +1,8 @@
 import type {Meta, StoryObj} from '@storybook/react';
-import {WordStorageBox} from "./WordStorageBox";
+import {WhiteSquaresContainer} from "./WhiteSquaresContainer";
 
 const meta: Meta = {
-  title: 'WordStorageBox',
+  title: 'WhiteSquaresContainer',
   decorators: [(Story: any) => <div style={{
     backgroundColor: '#1F2937',
     height: '200px',
@@ -16,5 +16,5 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  render: () => <WordStorageBox matcherWord={'Manchester'} userSubmissionArray={['m', 'e', 's', 'x', 'y']} />
+  render: () => <WhiteSquaresContainer matcherText={'Manchester United'} userSubmissionArray={['m', 'e', 's', 'x', 'y']} />
 }

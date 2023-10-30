@@ -48,6 +48,7 @@ export default function Home() {
 
     if (!team.toLowerCase().includes(input.toLowerCase())) {
       setUserInput('');
+      // this is temporary, we will have the crosses at the top to signify wrong guesses
       setErrorMessage("Character not present");
       setInterval(() => {
         setErrorMessage('')
@@ -117,7 +118,7 @@ export default function Home() {
       </div>
       <div className="h-full rounded-md p-2 row-span-4 flex flex-col items-center">
         <div>
-          <WhiteSquaresContainer text={userSubmissionArray.join()} matcherText={team} />
+          <WhiteSquaresContainer userSubmissionArray={userSubmissionArray} matcherText={team} />
         </div>
         <div id="user-input" className="mt-6 w-full flex justify-center gap-2 sm:gap-6 items-center">
           <p className="text-white100">Enter a character ➡️</p>

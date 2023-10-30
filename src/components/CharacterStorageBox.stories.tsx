@@ -1,10 +1,9 @@
 import type {Meta, StoryObj} from '@storybook/react';
-import {CharacterStorageBox} from "../components/CharacterStorageBox";
+import {CharacterStorageBox} from "./CharacterStorageBox";
 
 const meta: Meta = {
   title: 'CharacterStorageBox',
-  component: CharacterStorageBox,
-} as Meta<typeof CharacterStorageBox>;
+} as Meta;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -15,7 +14,8 @@ export const Default: Story = {
       backgroundColor: '#1F2937',
       display: 'flex',
       width: '100%',
+      padding: '1rem',
     }}>
-      <CharacterStorageBox character={'h'}/>
+      <CharacterStorageBox character={'h'} backgroundColor={'bg-green400'}/>
     </div>
 }
