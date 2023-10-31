@@ -11,11 +11,14 @@ interface Props {
 const meta: Meta = {
   title: 'WordStorageBox',
   argTypes: {
-    userInput: {control: 'text', defaultValue: 'Manchester'},
+    userInput: {
+      control: 'text',
+    },
     gameState: {
-      control: 'select',
       options: [GameState.gameStarted, GameState.gameOver],
-      defaultValue: GameState.gameStarted,
+      control: {
+        type: 'select'
+      },
     }
   },
   decorators: [(Story: any) => <div style={{
@@ -34,15 +37,15 @@ const meta: Meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: { render: ({userInput}: Props) => JSX.Element } = {
+export const Default: { render: ({userInput, gameState}: Props) => JSX.Element } = {
 
-  render: ({userInput}: Props) => {
+  render: ({userInput, gameState}: Props) => {
     const [userSubmissionArray, setUserSubmissionArray] = useState<string[]>([]);
     useEffect(() => {
       setUserSubmissionArray(userInput.toLowerCase().split(''));
     }, [userInput]);
     return (
-      <WordStorageBox matcherWord={'Manchester'} userSubmissionArray={userSubmissionArray} />
+      <WordStorageBox matcherWord={'Manchester'} userSubmissionArray={userSubmissionArray} gameState={gameState} />
     )
   }
 }

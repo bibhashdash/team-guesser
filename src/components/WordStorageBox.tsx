@@ -22,7 +22,7 @@ export const WordStorageBox = ({matcherWord, userSubmissionArray, gameState = Ga
             matcherWord.split('').map((item, index) =>
               <CharacterStorageBox
                 backgroundColor={userSubmissionArray.includes(item.toLowerCase()) ? 'bg-green400' : 'bg-red500'}
-                character={userSubmissionArray.includes(item.toLowerCase()) ? item : userSubmissionArray[index]} />
+                character={item} />
           ))
       }
     </div>
