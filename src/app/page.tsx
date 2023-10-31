@@ -28,22 +28,8 @@ export default function Home() {
   }
 
   useEffect(() => {
-    // let tempTeams: string[] = [];
-    // for (let i = 0; i < competitionIdsArray.length; i++) {
-    //   getTeams(competitionIdsArray[i]).then((result) => {
-    //     tempTeams.push(...result);
-    //     if (i === competitionIdsArray.length - 1) {
-    //      console.log(tempTeams);
-    //      return;
-    //       localStorage.setItem("teams", JSON.stringify(tempTeams));
-    //       setTheTeam(tempTeams);
-    //
-    //     }
-    //   });
-    // }
     setTheTeam(tempData);
   }, []);
-
 
   const handleUserInputSubmission = (text: string) => {
 
@@ -199,6 +185,9 @@ export default function Home() {
                     </li>
                     <li>
                       <p className="text-white100">Special characters not so much!</p>
+                    </li>
+                    <li>
+                      <p className="text-white100">All clues based on data from the BBC.</p>
                     </li>
                     <li>
                       <p className="text-white100">All clues are based on teams from the following leagues:-</p>
