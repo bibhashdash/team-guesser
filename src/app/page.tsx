@@ -69,16 +69,14 @@ export default function Home() {
         setErrorMessage('')
       }, 1000);
       return;
-    }
-    else {
+    } else {
       if (checkFullWord(userSubmissionArray.join(), team)) {
         setUserSubmissionArray(team.toLowerCase().split(""));
         setUserInput('');
         setDisableInput(true);
         setSuccessMessage("You won!");
         setGameState(GameState.gameOver);
-      }
-      else {
+      } else {
         userSubmissionArray.push(userInput.toLowerCase());
         setUserInput('');
       }
@@ -99,6 +97,7 @@ export default function Home() {
 
     if (text.toLowerCase().split(' ').length !== team.toLowerCase().split(' ').length) {
       setErrorMessage("Error! Number of words do not match");
+      setUserInput('');
       setInterval(() => {
         setErrorMessage('')
       }, 2000);
@@ -107,6 +106,7 @@ export default function Home() {
 
     if (text.length !== team.length) {
       setErrorMessage("Error! Number of characters do not match");
+      setUserInput('');
       setInterval(() => {
         setErrorMessage('')
       }, 2000);
@@ -118,9 +118,7 @@ export default function Home() {
       setDisableInput(true);
       setSuccessMessage("You won!");
       setGameState(GameState.gameOver);
-    }
-
-    else {
+    } else {
       setUserSubmissionArray(text.toLowerCase().split(""));
       setErrorMessage("Wrong guess, game over!");
       setDisableInput(true);
@@ -136,7 +134,7 @@ export default function Home() {
       </div>
       <div className="h-full rounded-md p-2 row-span-4 flex flex-col items-center">
         <div>
-          <WhiteSquaresContainer gameState={gameState} userSubmissionArray={userSubmissionArray} matcherText={team} />
+          <WhiteSquaresContainer gameState={gameState} userSubmissionArray={userSubmissionArray} matcherText={team}/>
         </div>
         <div id="user-input" className="mt-6 w-full flex justify-center gap-2 sm:gap-6 items-center">
           <p className="text-white100">Enter a character ➡️</p>
@@ -170,8 +168,12 @@ export default function Home() {
       </div>
       <div className="row-span-3">
         <p className="text-white100 text-center text-xs px-4">
-          TNG uses data from the Football Web Pages API. All teams are based on the following leagues: English
-          Premier League, English Championship with more to be added on in due course.
+          All teams are based on the following leagues: English
+          Premier League, English Championship, English League One, English League Two, Scottish Premiership, French
+          Ligue 1, German Bundesliga, Italian Serie A, and Spanish La Liga.
+        </p>
+        <p className="text-white100 text-center text-xs px-4">
+          All team names are based on data from the BBC.
         </p>
       </div>
     </main>
