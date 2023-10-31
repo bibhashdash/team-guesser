@@ -7,9 +7,11 @@ import {checkValidInput} from "@/utlities/checkValidInput";
 import {checkFullWord} from "@/utlities/checkFullWord";
 import {GameState} from "@/utlities/models";
 import {WhiteSquaresContainer} from "@/components/WhiteSquaresContainer";
+import {getTeams} from "@/services/apiService";
 
 export default function Home() {
-  const competitionIdsArray: Array<number> = [1, 2,];
+  // premier league, c'ship, L1, L2, scottish prem, Ligue 1, Bundesliga, serie a, la liga
+  const competitionIdsArray: Array<number> = [1, 2, 3, 4, 17, 91, 92, 93, 94];
   const [team, setTeam] = useState<string>('');
   const [userInput, setUserInput] = useState<string>('');
   const [userNuclearInput, setUserNuclearInput] = useState<string>('');
@@ -26,6 +28,19 @@ export default function Home() {
   }
 
   useEffect(() => {
+    // let tempTeams: string[] = [];
+    // for (let i = 0; i < competitionIdsArray.length; i++) {
+    //   getTeams(competitionIdsArray[i]).then((result) => {
+    //     tempTeams.push(...result);
+    //     if (i === competitionIdsArray.length - 1) {
+    //      console.log(tempTeams);
+    //      return;
+    //       localStorage.setItem("teams", JSON.stringify(tempTeams));
+    //       setTheTeam(tempTeams);
+    //
+    //     }
+    //   });
+    // }
     setTheTeam(tempData);
   }, []);
 
@@ -68,6 +83,9 @@ export default function Home() {
         setUserInput('');
       }
     }
+    if (userSubmissionArray.length === team.trim().length) {
+      setGameState(GameState.gameOver);
+    }
   }
 
   const handleNuclearSubmission = (text: string) => {
@@ -103,7 +121,7 @@ export default function Home() {
     }
 
     else {
-      setUserSubmissionArray(team.toLowerCase().split(""));
+      setUserSubmissionArray(text.toLowerCase().split(""));
       setErrorMessage("Wrong guess, game over!");
       setDisableInput(true);
       setGameState(GameState.gameOver);
@@ -118,7 +136,7 @@ export default function Home() {
       </div>
       <div className="h-full rounded-md p-2 row-span-4 flex flex-col items-center">
         <div>
-          <WhiteSquaresContainer userSubmissionArray={userSubmissionArray} matcherText={team} />
+          <WhiteSquaresContainer gameState={gameState} userSubmissionArray={userSubmissionArray} matcherText={team} />
         </div>
         <div id="user-input" className="mt-6 w-full flex justify-center gap-2 sm:gap-6 items-center">
           <p className="text-white100">Enter a character ➡️</p>
