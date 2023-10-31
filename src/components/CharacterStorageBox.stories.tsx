@@ -1,5 +1,6 @@
 import type {Meta, StoryObj} from '@storybook/react';
 import {CharacterStorageBox} from "./CharacterStorageBox";
+import {JSX} from "react";
 
 interface Props {
   character: string;
