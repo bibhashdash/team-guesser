@@ -1,13 +1,11 @@
 'use client';
 
-import {JSX, useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import {tempData} from "@/tempData";
-import {WordStorageBox} from "@/components/WordStorageBox";
 import {checkValidInput} from "@/utlities/checkValidInput";
 import {checkFullWord} from "@/utlities/checkFullWord";
 import {GameState} from "@/utlities/models";
 import {WhiteSquaresContainer} from "@/components/WhiteSquaresContainer";
-import {getTeams} from "@/services/apiService";
 
 export default function Home() {
   // premier league, c'ship, L1, L2, scottish prem, Ligue 1, Bundesliga, serie a, la liga
@@ -144,7 +142,8 @@ export default function Home() {
                  className="w-24 h-24 rounded-md text-5xl text-center"/>
           <button onClick={() => handleUserInputSubmission(userInput)}
                   disabled={disableInput}
-                  className="px-6 py-2 rounded-md border-2 border-white100 bg-blue500 text-white100">Submit
+                  className={`px-6 py-2 rounded-md border-2 border-white100 ${disableInput ? 'bg-black300 text-black100 cursor-not-allowed' : 'bg-blue500 text-white100'}`}>
+            Submit
           </button>
         </div>
         <div className="mt-6 w-full flex justify-evenly items-center gap-2 sm:gap-6">
@@ -154,7 +153,8 @@ export default function Home() {
                  className="w-full px-6 py-2 rounded-md border-2 text-xl md:text-3xl lg:text-5xl text-center"/>
           <button onClick={() => handleNuclearSubmission(userNuclearInput)}
                   disabled={disableInput}
-                  className="px-6 py-2 rounded-md border-2 border-white100 text-white100 bg-green400 text-xl md:text-3xl lg:text-5xl font-bold">Go!
+                  className={`px-6 py-2 rounded-md border-2 border-white100 text-xl md:text-3xl lg:text-5xl font-bold ${disableInput ? 'bg-black300 text-black100 cursor-not-allowed' : 'bg-green400 text-white100'}`}>
+            Go!
           </button>
         </div>
         <div className="py-2">
