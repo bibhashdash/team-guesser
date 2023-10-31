@@ -10,15 +10,14 @@ interface Props {
 
 const meta: Meta = {
   title: 'WordStorageBox',
+  args: {
+    userInput: 'Manchester',
+    gameState: GameState.gameStarted,
+  },
   argTypes: {
-    userInput: {
-      control: 'text',
-    },
     gameState: {
+      control: 'select',
       options: [GameState.gameStarted, GameState.gameOver],
-      control: {
-        type: 'select'
-      },
     }
   },
   decorators: [(Story: any) => <div style={{
