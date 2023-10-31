@@ -1,32 +1,36 @@
 import type {Meta, StoryObj} from '@storybook/react';
 import {CharacterStorageBox} from "./CharacterStorageBox";
-import {JSX} from "react";
 
-interface Props {
+interface CharacterStorageBoxProps {
   character: string;
   validInput: 'valid' | 'invalid' | 'none';
 }
 
-const meta: Meta = {
+const meta = {
   title: 'CharacterStorageBox',
-  argTypes: {
-    character: {
-      control: 'text',
-      defaultValue: 'h',
-    },
-    validInput: {
-      control: 'select',
-      options: ['valid', 'invalid', 'none'],
-      defaultValue: 'valid',
-    }
-  }
-} as Meta<Props>;
+  args: {
+    character: 'h',
+    validInput: 'valid',
+  },
+
+  decorators: [(Story) => (
+    <div style={{
+      backgroundColor: '#1F2937',
+      height: '200px',
+      display: 'flex',
+      width: '100%',
+      padding: '1rem',
+    }}>
+      <Story/>
+    </div>
+  )],
+} as Meta<CharacterStorageBoxProps>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: { render: ({validInput, character}: Props) => JSX.Element } = {
-  render: ({validInput, character}:Props) => {
+export const Default = {
+  render: ({validInput, character}:CharacterStorageBoxProps) => {
     let background = 'bg-white100';
     if (validInput === 'invalid') {
       background = 'bg-red500';

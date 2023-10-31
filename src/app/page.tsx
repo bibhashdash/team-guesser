@@ -135,7 +135,7 @@ export default function Home() {
         <p className="text-green400 text-sm font-semibold underline" onClick={() => setShowModal(true)}>Rules</p>
       </div>
       <div className="h-full rounded-md p-2 row-span-4 flex flex-col items-center">
-        <div>
+        <div className="flex flex-col">
           <WhiteSquaresContainer gameState={gameState} userSubmissionArray={userSubmissionArray} matcherText={team}/>
         </div>
         <div id="user-input" className="mt-6 w-full flex justify-center gap-2 sm:gap-6 items-center">

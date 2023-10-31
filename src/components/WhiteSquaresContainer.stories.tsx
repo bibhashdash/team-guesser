@@ -1,13 +1,13 @@
 import type {Meta, StoryObj} from '@storybook/react';
 import {WhiteSquaresContainer} from "./WhiteSquaresContainer";
-import {JSX, useEffect, useState} from "react";
-import {useArgs} from "@storybook/preview-api";
+import {useEffect, useState} from "react";
 import {GameState} from "../utlities/models";
 
 interface Props {
   userInput: string;
+  gameState: GameState;
 }
-const meta: Meta = {
+const meta = {
   title: 'WhiteSquaresContainer',
   args: {
     userInput: 'Manchester United',
@@ -24,6 +24,7 @@ const meta: Meta = {
       backgroundColor: '#1F2937',
       height: '200px',
       display: 'flex',
+      flexDirection: 'column',
       width: '100%',
       padding: '1rem',
     }}>

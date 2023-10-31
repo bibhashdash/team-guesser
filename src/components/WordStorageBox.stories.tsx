@@ -1,6 +1,6 @@
 import type {Meta, StoryObj} from '@storybook/react';
 import {WordStorageBox} from "./WordStorageBox";
-import {JSX, useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import {GameState} from "../utlities/models";
 
 interface Props {
@@ -8,7 +8,7 @@ interface Props {
   gameState: GameState;
 }
 
-const meta: Meta = {
+const meta = {
   title: 'WordStorageBox',
   args: {
     userInput: 'Manchester',
