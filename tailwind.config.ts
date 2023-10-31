@@ -10,7 +10,9 @@ const config: Config = {
     colors: {
      white100: '#f8f8f8',
      green400: '#188100',
+     gray50: 'rgba(218,218,218,0.06)',
       black100: '#626262',
+      black200: '#4d4d4d',
       black300: '#2d2d2d',
       red500: '#ec0202',
       yellow500: '#ffc100',

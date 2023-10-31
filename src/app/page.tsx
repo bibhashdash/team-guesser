@@ -125,10 +125,11 @@ export default function Home() {
   }
 
   return (
-    <main className="min-h-screen w-full max-w-5xl grid grid-rows-12 pt-2 items-center justify-center">
+    <main className="min-h-screen w-full max-w-6xl grid grid-rows-12 pt-2 items-center justify-center border-2 border-gray50 rounded lg:px-6 shadow-xl bg-black300">
       <div className="row-span-3 px-2 flex flex-col items-center">
         <h1 className="text-white100 text-2xl sm:text-3xl sm:text-4xl">Team Name Guesser</h1>
         <h2 className="text-white100 text-sm">Like Hangman, but for football teams!</h2>
+        <p className="text-green400 text-sm font-semibold underline">Rules</p>
       </div>
       <div className="h-full rounded-md p-2 row-span-4 flex flex-col items-center">
         <div>
@@ -150,7 +151,7 @@ export default function Home() {
           <input placeholder="Chance it in one..." value={userNuclearInput}
                  onChange={(event) => setUserNuclearInput(event.target.value)}
                  disabled={disableInput}
-                 className="w-full px-6 py-2 rounded-md border-2 text-xl md:text-3xl lg:text-5xl text-center"/>
+                 className="w-full px-6 py-2 rounded-md border-2 text-lg sm:text-xl md:text-3xl lg:text-5xl text-center"/>
           <button onClick={() => handleNuclearSubmission(userNuclearInput)}
                   disabled={disableInput}
                   className={`px-6 py-2 rounded-md border-2 border-white100 text-xl md:text-3xl lg:text-5xl font-bold ${disableInput ? 'bg-black300 text-black100 cursor-not-allowed' : 'bg-green400 text-white100'}`}>
