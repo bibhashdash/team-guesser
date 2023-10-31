@@ -7,7 +7,7 @@ export interface WordStorageBoxProps {
   gameState: GameState;
 }
 
-export const WordStorageBox = ({matcherWord, userSubmissionArray, gameState = GameState.gameStarted}: WordStorageBoxProps) => {
+export const WordStorageBox = ({matcherWord, userSubmissionArray, gameState}: WordStorageBoxProps) => {
   return (
     <div className="flex gap-1 w-full">
       {
