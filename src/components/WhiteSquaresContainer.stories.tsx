@@ -35,7 +35,7 @@ const meta: Meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: { render: ({userInput, gameState}: Props) => JSX.Element } = {
+export const Default = {
   render: ({userInput, gameState}: Props) => {
     const [userSubmissionArray, setUserSubmissionArray] = useState<Array<string>>([]);
     useEffect(() => {
