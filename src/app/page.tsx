@@ -6,6 +6,7 @@ import {checkValidInput} from "@/utlities/checkValidInput";
 import {checkFullWord} from "@/utlities/checkFullWord";
 import {GameState} from "@/utlities/models";
 import {WhiteSquaresContainer} from "@/components/WhiteSquaresContainer";
+import {CloseIcon} from "@/components/CloseIcon";
 
 export default function Home() {
   // premier league, c'ship, L1, L2, scottish prem, Ligue 1, Bundesliga, serie a, la liga
@@ -19,6 +20,7 @@ export default function Home() {
   const [disableInput, setDisableInput] = useState<boolean>(false);
   const [gameState, setGameState] = useState<GameState>(GameState.gameStarted);
   const [successMessage, setSuccessMessage] = useState<string>('');
+  const [showModal, setShowModal] = useState<boolean>(false);
 
   const setTheTeam = (teams: string[]) => {
     const random = Math.floor(Math.random() * teams.length);
@@ -125,11 +127,12 @@ export default function Home() {
   }
 
   return (
-    <main className="min-h-screen w-full max-w-6xl grid grid-rows-12 pt-2 items-center justify-center border-2 border-gray50 rounded lg:px-6 shadow-xl bg-black300">
+    <main
+      className="relative min-h-screen w-full max-w-6xl grid grid-rows-12 pt-2 items-center justify-center border-2 border-gray50 rounded lg:px-6 shadow-xl bg-black300">
       <div className="row-span-3 px-2 flex flex-col items-center">
         <h1 className="text-white100 text-2xl sm:text-3xl sm:text-4xl">Team Name Guesser</h1>
         <h2 className="text-white100 text-sm">Like Hangman, but for football teams!</h2>
-        <p className="text-green400 text-sm font-semibold underline">Rules</p>
+        <p className="text-green400 text-sm font-semibold underline" onClick={() => setShowModal(true)}>Rules</p>
       </div>
       <div className="h-full rounded-md p-2 row-span-4 flex flex-col items-center">
         <div>
@@ -177,6 +180,56 @@ export default function Home() {
           All team names are based on data from the BBC.
         </p>
       </div>
+      {
+        showModal && (
+          <div className="absolute min-h-screen w-full bg-black200 h-full">
+            <div className="h-full w-full max-w-6xl bg-whiteTranslucent flex flex-col items-center">
+              <div className="h-full w-full max-w-3xl bg-black200 px-6 md:px-12 lg:px-16 md:pt-12 flex flex-col justify-start gap-2 md:gap-6">
+                <div className="w-full pt-4 px-2 flex justify-between">
+                  <p className="text-lg sm:text-xl lg:text-2xl text-green200">Rules</p>
+                  <CloseIcon onClick={() => setShowModal(false)} color="#f8f8f8" size={28}/>
+                </div>
+                <div className="">
+                  <ul className="m-0 text-sm sm:text-lg list-disc text-white100">
+                    <li>
+                      <p className="text-white100">Each deck of white squares represents a word in the name of a football team.</p>
+                    </li>
+                    <li>
+                      <p className="text-white100">Like hangman, you can enter 1 character and see how many you occurrences you have in the entire answer.</p>
+                    </li>
+                    <li>
+                      <p className="text-white100">Or you can chance it in one attempt! Do you dare?</p>
+                    </li>
+                    <li>
+                      <p className="text-white100">If you chance it in one and get it wrong, you lose!</p>
+                    </li>
+                    <li>
+                      <p className="text-white100">Numbers/Digits are very much possible in a team name.</p>
+                    </li>
+                    <li>
+                      <p className="text-white100">Special characters not so much!</p>
+                    </li>
+                    <li>
+                      <p className="text-white100">All clues are based on teams from the following leagues:-</p>
+                      <ul className="text-white100">
+                        <li><p>- English Premier League</p></li>
+                        <li><p>- English Championship</p></li>
+                        <li><p>- English League One</p></li>
+                        <li><p>- English League Two</p></li>
+                        <li><p>- Scottish Premiership</p></li>
+                        <li><p>- French Ligue 1</p></li>
+                        <li><p>- German Bundesliga</p></li>
+                        <li><p>- Italian Serie A</p></li>
+                        <li><p>- Spanish La Liga</p></li>
+                      </ul>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        )
+      }
     </main>
   )
 }

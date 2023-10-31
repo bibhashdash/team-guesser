@@ -8,7 +8,9 @@ const config: Config = {
   ],
   theme: {
     colors: {
+     whiteTranslucent: 'rgba(248,248,248,0.61)',
      white100: '#f8f8f8',
+     green200: '#1cb700',
      green400: '#188100',
      gray50: 'rgba(218,218,218,0.06)',
       black100: '#626262',
