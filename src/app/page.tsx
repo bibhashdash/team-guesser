@@ -170,16 +170,7 @@ export default function Home() {
           }
         </div>
       </div>
-      <div className="row-span-3">
-        <p className="text-white100 text-center text-xs px-4">
-          All teams are based on the following leagues: English
-          Premier League, English Championship, English League One, English League Two, Scottish Premiership, French
-          Ligue 1, German Bundesliga, Italian Serie A, and Spanish La Liga.
-        </p>
-        <p className="text-white100 text-center text-xs px-4">
-          All team names are based on data from the BBC.
-        </p>
-      </div>
+
       {
         showModal && (
           <div className="absolute min-h-screen w-full bg-black200 h-full">

@@ -171,7 +171,7 @@ export const tempData =
     "Rayo Vallecano",
     "Sevilla",
     "Las Palmas",
-    "Osauna",
+    "Osasuna",
     "Villarreal",
     "Getafe",
     "Cadiz",
