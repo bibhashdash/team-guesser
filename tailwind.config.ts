@@ -18,6 +18,7 @@ const config: Config = {
       black300: '#2d2d2d',
       red500: '#ec0202',
       yellow500: '#ffc100',
+      blue300: '#54b4ff',
       blue500: '#0079cb',
       orange500: '#d75d00',
     },

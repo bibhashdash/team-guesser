@@ -1,7 +1,7 @@
 'use client';
 
 import {useEffect, useState} from "react";
-import {tempData} from "@/tempData";
+import {keyboardContent, tempData} from "@/tempData";
 import {checkValidInput} from "@/utlities/checkValidInput";
 import {checkFullWord} from "@/utlities/checkFullWord";
 import {GameState} from "@/utlities/models";
@@ -114,13 +114,17 @@ export default function Home() {
 
   return (
     <main
-      className="relative min-h-screen w-full max-w-6xl grid grid-rows-12 pt-2 items-center justify-center border-2 border-gray50 rounded lg:px-6 shadow-xl bg-black300">
-      <div className="row-span-3 px-2 flex flex-col items-center">
+      className="relative min-h-screen w-full max-w-6xl flex flex-col pt-2 border-2 border-gray50 rounded lg:px-6 shadow-xl bg-black300">
+      <div className="px-2 flex flex-col items-center">
         <h1 className="text-white100 text-2xl sm:text-3xl sm:text-4xl">Team Name Guesser</h1>
         <h2 className="text-white100 text-sm">Like Hangman, but for football teams!</h2>
-        <p className="text-green400 text-sm font-semibold underline" onClick={() => setShowModal(true)}>Rules</p>
+        <p className="text-green400 text-sm font-semibold underline cursor-pointer"
+           onClick={() => setShowModal(true)}>Rules</p>
       </div>
-      <div className="h-full rounded-md p-2 row-span-4 flex flex-col items-center">
+      <div id="wrong-guess-crosses">
+
+      </div>
+      <div className="h-full rounded-md p-2 flex flex-col items-center">
         <div className="flex flex-col">
           <WhiteSquaresContainer gameState={gameState} userSubmissionArray={userSubmissionArray} matcherText={team}/>
         </div>
@@ -156,12 +160,27 @@ export default function Home() {
           }
         </div>
       </div>
-
+      <div id="virtual-keyboard" className="w-full h-full flex flex-col gap-2">
+        {
+          keyboardContent.map((row, index) =>
+            <div className="flex w-full gap-1">
+              {
+                row.map((key, index) =>
+                  <p className="w-full py-2 px-1 bg-gray50 text-blue300 flex items-center justify-center">
+                    {key}
+                  </p>
+                )
+              }
+            </div>
+          )
+        }
+      </div>
       {
         showModal && (
           <div className="absolute min-h-screen w-full bg-black200 h-full">
             <div className="h-full w-full max-w-6xl bg-whiteTranslucent flex flex-col items-center">
-              <div className="h-full w-full max-w-3xl bg-black200 px-6 md:px-12 lg:px-16 md:pt-12 flex flex-col justify-start gap-2 md:gap-6">
+              <div
+                className="h-full w-full max-w-3xl bg-black200 px-6 md:px-12 lg:px-16 md:pt-12 flex flex-col justify-start gap-2 md:gap-6">
                 <div className="w-full pt-4 px-2 flex justify-between">
                   <p className="text-lg sm:text-xl lg:text-2xl text-green200">Rules</p>
                   <CloseIcon onClick={() => setShowModal(false)} color="#f8f8f8" size={28}/>
@@ -169,10 +188,12 @@ export default function Home() {
                 <div className="">
                   <ul className="m-0 text-sm sm:text-lg list-disc text-white100">
                     <li>
-                      <p className="text-white100">Each deck of white squares represents a word in the name of a football team.</p>
+                      <p className="text-white100">Each deck of white squares represents a word in the name of a football
+                        team.</p>
                     </li>
                     <li>
-                      <p className="text-white100">Like hangman, you can enter 1 character and see how many you occurrences you have in the entire answer.</p>
+                      <p className="text-white100">Like hangman, you can enter 1 character and see how many occurrences
+                        you have in the entire answer.</p>
                     </li>
                     <li>
                       <p className="text-white100">Or you can chance it in one attempt! Do you dare?</p>
