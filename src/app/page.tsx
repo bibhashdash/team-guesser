@@ -32,6 +32,11 @@ export default function Home() {
     setTheTeam(tempData);
   }, []);
 
+  const handleTabChange = (tab: InputTab) => {
+    setUserInput('');
+    setUserNuclearInput('');
+    setInputTab(tab);
+  }
   // useEffect(() => {
   //
   // }, [inputTab]);
@@ -125,7 +130,6 @@ export default function Home() {
       className="relative w-full max-w-6xl flex flex-col justify-evenly border-2 border-gray50 rounded lg:px-6 shadow-xl bg-black300">
       <div className="px-2 flex flex-col items-center">
         <h1 className="text-white100 text-2xl sm:text-3xl sm:text-4xl">Team Name Guesser</h1>
-        <h2 className="text-white100 text-sm">Like Hangman, but for football teams!</h2>
         <p className="text-green400 text-sm font-semibold underline cursor-pointer"
            onClick={() => setShowModal(true)}>Rules</p>
       </div>
@@ -134,33 +138,33 @@ export default function Home() {
         <div className="flex flex-col">
           <WhiteSquaresContainer gameState={gameState} userSubmissionArray={userSubmissionArray} matcherText={team}/>
         </div>
-        <div id="wrong-guess-crosses" className="flex gap-4 items-center justify-center mt-4">
-          <CloseIcon color="#ec0202" size={28}/>
-          <CloseIcon color="#ec0202" size={28}/>
-          <CloseIcon color="#ec0202" size={28}/>
-          <CloseIcon color="#ec0202" size={28}/>
-          <CloseIcon color="#ec0202" size={28}/>
-          <CloseIcon color="#ec0202" size={28}/>
-          <CloseIcon color="#ec0202" size={28}/>
-        </div>
       </div>
-      <div id="tabbed-view-for-inputs" className="flex flex-col items-center gap-2">
+      <div id="tabbed-view-for-inputs" className="flex flex-col items-center gap-2 w-full px-1">
         <div id="tabbed-navbar" className="flex w-full max-w-3xl justify-evenly">
-          <div onClick={() => setInputTab(InputTab.oneByOne)} className="border-2 border-gray50 w-full rounded-l-md py-2 text-center">1 by 1</div>
-          <div onClick={() => setInputTab(InputTab.goForGlory)} className="border-2 border-gray50 w-full rounded-r-md py-2 text-center">Go for glory!</div>
+          <div onClick={() => handleTabChange(InputTab.oneByOne)}
+               className={`cursor-pointer border-gray50 w-full shadow-md py-2 text-center ${inputTab === InputTab.oneByOne ? 'border-b-4 border-b-blue500 text-blue500 font-semibold' : 'text-white50' }`}>
+            One by One
+          </div>
+          <div onClick={() => handleTabChange(InputTab.goForGlory)}
+               className={`cursor-pointer border-gray50 w-full py-2 text-center ${inputTab === InputTab.goForGlory ? 'border-b-4 border-b-blue500 text-blue500 font-semibold' : 'text-white50'}`}>
+            Go for glory!
+          </div>
         </div>
         {
           inputTab === InputTab.oneByOne ? (
-            <div id="one-by-one-input" className="flex justify-center">
-              <div className="rounded-md text-5xl text-center bg-white100 w-28 h-20 flex justify-center items-center">
-                {userInput}
+              <div id="one-by-one-input" className="flex justify-center">
+                <div className="rounded-md text-5xl text-center bg-black300 border-2 border-black100 text-white100 w-28 h-16 flex justify-center items-center">
+                  {userInput}
+                </div>
               </div>
-            </div>
-          ) : <div id="go-for-glory-input" className="flex justify-center">
-            <div className="rounded-md text-5xl text-center bg-white100 w-full h-20 flex justify-center items-center">
-
-            </div>
-          </div>
+            ) :
+            (
+              <div id="go-for-glory-input" className="flex justify-center w-full">
+                <div className="rounded-md text-5xl text-center bg-black300 border-2 border-black100 text-white100 w-full h-16 flex justify-center items-center">
+                  {userNuclearInput}
+                </div>
+              </div>
+            )
         }
 
       </div>
