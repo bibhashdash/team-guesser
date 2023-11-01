@@ -142,11 +142,11 @@ export default function Home() {
       <div id="tabbed-view-for-inputs" className="flex flex-col items-center gap-2 w-full px-1">
         <div id="tabbed-navbar" className="flex w-full max-w-3xl justify-evenly">
           <div onClick={() => handleTabChange(InputTab.oneByOne)}
-               className={`cursor-pointer border-gray50 w-full shadow-md py-2 text-center ${inputTab === InputTab.oneByOne ? 'border-b-4 border-b-blue500 text-blue500 font-semibold' : 'text-white50' }`}>
+               className={`cursor-pointer border-gray50 w-full py-2 text-center ${inputTab === InputTab.oneByOne ? 'shadow-xl border-b-4 border-b-blue500 text-blue500 font-semibold' : 'text-white50' }`}>
             One by One
           </div>
           <div onClick={() => handleTabChange(InputTab.goForGlory)}
-               className={`cursor-pointer border-gray50 w-full py-2 text-center ${inputTab === InputTab.goForGlory ? 'border-b-4 border-b-blue500 text-blue500 font-semibold' : 'text-white50'}`}>
+               className={`cursor-pointer border-gray50 w-full py-2 text-center ${inputTab === InputTab.goForGlory ? 'shadow-xl border-b-4 border-b-blue500 text-blue500 font-semibold' : 'text-white50'}`}>
             Go for glory!
           </div>
         </div>
