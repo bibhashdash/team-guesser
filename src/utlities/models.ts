@@ -11,3 +11,8 @@ export enum InputTab {
   oneByOne = 'oneByOne',
   goForGlory = 'goForGlory',
 }
+
+export enum GameResult {
+  win = 'win',
+  loss = 'loss',
+}
