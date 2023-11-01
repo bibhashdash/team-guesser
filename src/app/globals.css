@@ -2,3 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+@media (orientation: portrait) {
+    .main-layout {
+        height: 100vh;
+    }
+}
+
+@media (orientation: landscape) {
+    .main-layout {
+        height: fit-content;
+    }
+}
+

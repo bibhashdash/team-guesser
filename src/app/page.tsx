@@ -127,19 +127,17 @@ export default function Home() {
 
   return (
     <main
-      className="relative w-full max-w-6xl flex flex-col justify-evenly border-2 border-gray50 rounded lg:px-6 shadow-xl bg-black300">
-      <div className="px-2 flex flex-col items-center">
+      className="relative w-full h-screen max-w-6xl flex flex-col justify-evenly border-2 border-gray50 rounded lg:px-6 shadow-xl bg-black300">
+      <div className="flex flex-col items-center">
         <h1 className="text-white100 text-2xl sm:text-3xl sm:text-4xl">Team Name Guesser</h1>
         <p className="text-green400 text-sm font-semibold underline cursor-pointer"
            onClick={() => setShowModal(true)}>Rules</p>
       </div>
 
-      <div className="rounded-md p-2 flex flex-col items-center">
-        <div className="flex flex-col">
-          <WhiteSquaresContainer gameState={gameState} userSubmissionArray={userSubmissionArray} matcherText={team}/>
-        </div>
+      <div className="flex flex-col items-center">
+          <WhiteSquaresContainer gameState={gameState} userSubmissionArray={userSubmissionArray} matcherText="Borussia Monchengladbach" />
       </div>
-      <div id="tabbed-view-for-inputs" className="flex flex-col items-center gap-2 w-full px-1">
+      <div id="tabbed-view-for-inputs" className="flex flex-col items-center w-full gap-2">
         <div id="tabbed-navbar" className="flex w-full max-w-3xl justify-evenly">
           <div onClick={() => handleTabChange(InputTab.oneByOne)}
                className={`cursor-pointer border-gray50 w-full py-2 text-center ${inputTab === InputTab.oneByOne ? 'shadow-xl border-b-4 border-b-blue500 text-blue500 font-semibold' : 'text-white50' }`}>
@@ -153,29 +151,29 @@ export default function Home() {
         {
           inputTab === InputTab.oneByOne ? (
               <div id="one-by-one-input" className="flex justify-center">
-                <div className="rounded-md text-5xl text-center bg-black300 border-2 border-black100 text-white100 w-28 h-16 flex justify-center items-center">
+                <div className="rounded-md text-5xl text-center bg-black300 border-2 border-black100 text-white100 w-20 h-16 sm:w-28 sm:h-28 flex justify-center items-center">
                   {userInput}
                 </div>
               </div>
             ) :
             (
               <div id="go-for-glory-input" className="flex justify-center w-full">
-                <div className="rounded-md text-5xl text-center bg-black300 border-2 border-black100 text-white100 w-full h-16 flex justify-center items-center">
+                <div className="rounded-md text-5xl text-center bg-black300 border-2 border-black100 text-white100 w-full h-16 sm:h-28 flex justify-center items-center">
                   {userNuclearInput}
                 </div>
               </div>
             )
         }
-
       </div>
-      <div id="virtual-keyboard" className="w-full flex flex-col gap-2 px-1">
+
+      <div id="virtual-keyboard" className="w-full flex flex-col gap-1">
         {
           keyboardContent.map((row, index) =>
             <div className="flex w-full gap-1">
               {
                 row.map((keyMap, index) =>
                   <p onClick={() => handleUserInputSubmission(keyMap)}
-                     className="w-full py-2 px-1 bg-gray50 text-blue300 flex items-center justify-center">
+                     className="m-0 w-full py-2 bg-gray50 text-blue300 flex items-center justify-center">
                     {keyMap}
                   </p>
                 )
@@ -186,16 +184,16 @@ export default function Home() {
       </div>
       {
         showModal && (
-          <div className="absolute min-h-screen w-full bg-black200 h-full">
+          <div className="absolute w-full bg-black200 h-full">
             <div className="h-full w-full max-w-6xl bg-whiteTranslucent flex flex-col items-center">
               <div
-                className="h-full w-full max-w-3xl bg-black200 px-6 md:px-12 lg:px-16 md:pt-12 flex flex-col justify-start gap-2 md:gap-6">
-                <div className="w-full pt-4 px-2 flex justify-between">
+                className="h-full w-full max-w-3xl bg-black200 md:px-12 lg:px-16 md:pt-12 flex flex-col justify-start gap-2 md:gap-6">
+                <div className="w-full pt-4 flex justify-between">
                   <p className="text-lg sm:text-xl lg:text-2xl text-green200">Rules</p>
                   <CloseIcon onClick={() => setShowModal(false)} color="#f8f8f8" size={28}/>
                 </div>
                 <div className="">
-                  <ul className="m-0 text-sm sm:text-lg list-disc text-white100">
+                  <ul className="m-0 text-sm sm:text-lg list-none text-white100">
                     <li>
                       <p className="text-white100">Each deck of white squares represents a word in the name of a football
                         team.</p>

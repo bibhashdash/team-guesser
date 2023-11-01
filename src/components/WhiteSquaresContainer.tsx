@@ -10,12 +10,12 @@ export interface WhiteSquaresContainerProps {
 export const WhiteSquaresContainer = ({matcherText, userSubmissionArray, gameState}: WhiteSquaresContainerProps) => {
   const arrayOfDecksOfWhiteSquares = matcherText.split(' ');
   return (
-    <>
+    <div className="">
       {
         arrayOfDecksOfWhiteSquares.map((word, index) =>
           <WordStorageBox gameState={gameState} matcherWord={word} userSubmissionArray={userSubmissionArray} />
         )
       }
-    </>
+    </div>
   )
 }
