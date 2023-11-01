@@ -32,17 +32,20 @@ export default function Home() {
   }, []);
 
   const handleUserInputSubmission = (text: string) => {
-
-    if (!checkValidInput(text)) {
-      setErrorMessage("Please enter a valid character");
-      setInterval(() => {
-        setErrorMessage('')
-      }, 2000);
+    if (text === "DEL") {
+      setUserInput('');
       return;
-    } else {
+    }
+    if (text === "ENTER"){
+      alert("Enter pressed");
+      // do the checks with team name handleValidInput or whatever
       setGuessCount(prevState => prevState + 1);
     }
-    handleValidInput(text, guessCount);
+
+    // if it's not del or enter then it must be a character
+    else {
+      setUserInput(text);
+    }
   }
 
   const handleValidInput = (input: string, count: number) => {
@@ -129,16 +132,11 @@ export default function Home() {
           <WhiteSquaresContainer gameState={gameState} userSubmissionArray={userSubmissionArray} matcherText={team}/>
         </div>
         <div id="user-input" className="mt-6 w-full flex justify-center gap-2 sm:gap-6 items-center">
-          <p className="text-white100">Enter a character ➡️</p>
+          <p className="text-white100 text-sm sm:text-xl">Enter a character ➡️</p>
+          <div className="rounded-md text-5xl text-center bg-white100 w-28 h-20 flex justify-center items-center">
+            {userInput}
+          </div>
 
-          <input maxLength={1} value={userInput} onChange={(event) => setUserInput(event.target.value)}
-                 disabled={disableInput}
-                 className="w-24 h-24 rounded-md text-5xl text-center"/>
-          <button onClick={() => handleUserInputSubmission(userInput)}
-                  disabled={disableInput}
-                  className={`px-6 py-2 rounded-md border-2 border-white100 ${disableInput ? 'bg-black300 text-black100 cursor-not-allowed' : 'bg-blue500 text-white100'}`}>
-            Submit
-          </button>
         </div>
         <div className="mt-6 w-full flex justify-evenly items-center gap-2 sm:gap-6">
           <input placeholder="Chance it in one..." value={userNuclearInput}
@@ -160,14 +158,14 @@ export default function Home() {
           }
         </div>
       </div>
-      <div id="virtual-keyboard" className="w-full h-full flex flex-col gap-2">
+      <div id="virtual-keyboard" className="w-full h-full flex flex-col gap-2 px-1">
         {
           keyboardContent.map((row, index) =>
             <div className="flex w-full gap-1">
               {
-                row.map((key, index) =>
-                  <p className="w-full py-2 px-1 bg-gray50 text-blue300 flex items-center justify-center">
-                    {key}
+                row.map((keyMap, index) =>
+                  <p onClick={() => handleUserInputSubmission(keyMap)} className="w-full py-2 px-1 bg-gray50 text-blue300 flex items-center justify-center">
+                    {keyMap}
                   </p>
                 )
               }
@@ -175,6 +173,7 @@ export default function Home() {
           )
         }
       </div>
+      {/*<p className="text-white100 text-xl">{guessCount}</p>*/}
       {
         showModal && (
           <div className="absolute min-h-screen w-full bg-black200 h-full">
