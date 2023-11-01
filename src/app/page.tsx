@@ -86,7 +86,7 @@ export default function Home() {
 
   const handleValidInput = (count?: number) => {
 
-    if (!team.toLowerCase().includes(userInput?.toLowerCase())) {
+    if (userInput !== undefined && !team.toLowerCase().includes(userInput.toLowerCase())) {
       setUserInput(undefined);
       // this is temporary, we will have the crosses at the top to signify wrong guesses
       // setErrorMessage("Character not present");
@@ -95,10 +95,10 @@ export default function Home() {
       // }, 1000);
       return;
     } else {
-        userSubmissionArray.push(userInput?.toLowerCase());
+        userInput && userSubmissionArray.push(userInput.toLowerCase());
         setUserInput(undefined);
     }
-    function extractUniqueLetters(str) {
+    function extractUniqueLetters(str: string) {
       let uniqueLetters = '';
       for (let i = 0; i < str.length; i++) {
         if (str[i] !== ' ' && !uniqueLetters.includes(str[i])) {
@@ -110,7 +110,7 @@ export default function Home() {
 
     const teamUniqueLetters = extractUniqueLetters(team.toLowerCase());
 
-    const tempCheck = (array, string) => {
+    const tempCheck = (array: Array<string>, string: string) => {
       for (let i=0; i< array.length; i++) {
         if (!string.includes(array[i])) {
           return false;
