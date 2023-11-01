@@ -1,7 +1,7 @@
 import {IconProps} from "@/utlities/models";
 
 interface CloseIconProps extends IconProps {
-  onClick: () => void;
+  onClick?: () => void;
 }
 
 export const CloseIcon = ({size, color, onClick}: CloseIconProps) => {

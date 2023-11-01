@@ -4,7 +4,7 @@ import {useEffect, useState} from "react";
 import {keyboardContent, tempData} from "@/tempData";
 import {checkValidInput} from "@/utlities/checkValidInput";
 import {checkFullWord} from "@/utlities/checkFullWord";
-import {GameState} from "@/utlities/models";
+import {GameState, InputTab} from "@/utlities/models";
 import {WhiteSquaresContainer} from "@/components/WhiteSquaresContainer";
 import {CloseIcon} from "@/components/CloseIcon";
 
@@ -21,6 +21,7 @@ export default function Home() {
   const [gameState, setGameState] = useState<GameState>(GameState.gameStarted);
   const [successMessage, setSuccessMessage] = useState<string>('');
   const [showModal, setShowModal] = useState<boolean>(false);
+  const [inputTab, setInputTab] = useState<InputTab>(InputTab.oneByOne);
 
   const setTheTeam = (teams: string[]) => {
     const random = Math.floor(Math.random() * teams.length);
@@ -31,12 +32,16 @@ export default function Home() {
     setTheTeam(tempData);
   }, []);
 
+  // useEffect(() => {
+  //
+  // }, [inputTab]);
+
   const handleUserInputSubmission = (text: string) => {
     if (text === "DEL") {
       setUserInput('');
       return;
     }
-    if (text === "ENTER"){
+    if (text === "ENTER") {
       alert("Enter pressed");
       // do the checks with team name handleValidInput or whatever
       setGuessCount(prevState => prevState + 1);
@@ -117,54 +122,56 @@ export default function Home() {
 
   return (
     <main
-      className="relative min-h-screen w-full max-w-6xl flex flex-col pt-2 border-2 border-gray50 rounded lg:px-6 shadow-xl bg-black300">
+      className="relative w-full max-w-6xl flex flex-col justify-evenly border-2 border-gray50 rounded lg:px-6 shadow-xl bg-black300">
       <div className="px-2 flex flex-col items-center">
         <h1 className="text-white100 text-2xl sm:text-3xl sm:text-4xl">Team Name Guesser</h1>
         <h2 className="text-white100 text-sm">Like Hangman, but for football teams!</h2>
         <p className="text-green400 text-sm font-semibold underline cursor-pointer"
            onClick={() => setShowModal(true)}>Rules</p>
       </div>
-      <div id="wrong-guess-crosses">
 
-      </div>
-      <div className="h-full rounded-md p-2 flex flex-col items-center">
+      <div className="rounded-md p-2 flex flex-col items-center">
         <div className="flex flex-col">
           <WhiteSquaresContainer gameState={gameState} userSubmissionArray={userSubmissionArray} matcherText={team}/>
         </div>
-        <div id="user-input" className="mt-6 w-full flex justify-center gap-2 sm:gap-6 items-center">
-          <p className="text-white100 text-sm sm:text-xl">Enter a character ➡️</p>
-          <div className="rounded-md text-5xl text-center bg-white100 w-28 h-20 flex justify-center items-center">
-            {userInput}
-          </div>
-
-        </div>
-        <div className="mt-6 w-full flex justify-evenly items-center gap-2 sm:gap-6">
-          <input placeholder="Chance it in one..." value={userNuclearInput}
-                 onChange={(event) => setUserNuclearInput(event.target.value)}
-                 disabled={disableInput}
-                 className="w-full px-6 py-2 rounded-md border-2 text-lg sm:text-xl md:text-3xl lg:text-5xl text-center"/>
-          <button onClick={() => handleNuclearSubmission(userNuclearInput)}
-                  disabled={disableInput}
-                  className={`px-6 py-2 rounded-md border-2 border-white100 text-xl md:text-3xl lg:text-5xl font-bold ${disableInput ? 'bg-black300 text-black100 cursor-not-allowed' : 'bg-green400 text-white100'}`}>
-            Go!
-          </button>
-        </div>
-        <div className="py-2">
-          {
-            errorMessage != '' && <p className="text-red500">{errorMessage}</p>
-          }
-          {
-            successMessage != '' && <p className="text-green400 text-center">{successMessage}</p>
-          }
+        <div id="wrong-guess-crosses" className="flex gap-4 items-center justify-center mt-4">
+          <CloseIcon color="#ec0202" size={28}/>
+          <CloseIcon color="#ec0202" size={28}/>
+          <CloseIcon color="#ec0202" size={28}/>
+          <CloseIcon color="#ec0202" size={28}/>
+          <CloseIcon color="#ec0202" size={28}/>
+          <CloseIcon color="#ec0202" size={28}/>
+          <CloseIcon color="#ec0202" size={28}/>
         </div>
       </div>
-      <div id="virtual-keyboard" className="w-full h-full flex flex-col gap-2 px-1">
+      <div id="tabbed-view-for-inputs" className="flex flex-col items-center gap-2">
+        <div id="tabbed-navbar" className="flex w-full max-w-3xl justify-evenly">
+          <div onClick={() => setInputTab(InputTab.oneByOne)} className="border-2 border-gray50 w-full rounded-l-md py-2 text-center">1 by 1</div>
+          <div onClick={() => setInputTab(InputTab.goForGlory)} className="border-2 border-gray50 w-full rounded-r-md py-2 text-center">Go for glory!</div>
+        </div>
+        {
+          inputTab === InputTab.oneByOne ? (
+            <div id="one-by-one-input" className="flex justify-center">
+              <div className="rounded-md text-5xl text-center bg-white100 w-28 h-20 flex justify-center items-center">
+                {userInput}
+              </div>
+            </div>
+          ) : <div id="go-for-glory-input" className="flex justify-center">
+            <div className="rounded-md text-5xl text-center bg-white100 w-full h-20 flex justify-center items-center">
+
+            </div>
+          </div>
+        }
+
+      </div>
+      <div id="virtual-keyboard" className="w-full flex flex-col gap-2 px-1">
         {
           keyboardContent.map((row, index) =>
             <div className="flex w-full gap-1">
               {
                 row.map((keyMap, index) =>
-                  <p onClick={() => handleUserInputSubmission(keyMap)} className="w-full py-2 px-1 bg-gray50 text-blue300 flex items-center justify-center">
+                  <p onClick={() => handleUserInputSubmission(keyMap)}
+                     className="w-full py-2 px-1 bg-gray50 text-blue300 flex items-center justify-center">
                     {keyMap}
                   </p>
                 )
@@ -173,7 +180,6 @@ export default function Home() {
           )
         }
       </div>
-      {/*<p className="text-white100 text-xl">{guessCount}</p>*/}
       {
         showModal && (
           <div className="absolute min-h-screen w-full bg-black200 h-full">
