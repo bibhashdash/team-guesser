@@ -1,14 +1,16 @@
 interface CharacterStorageBoxProps {
   character?: string;
   backgroundColor?: string;
+  squareSize: number;
 }
 
-export const CharacterStorageBox = ({character, backgroundColor}: CharacterStorageBoxProps) => {
-
+export const CharacterStorageBox = ({character, backgroundColor, squareSize}: CharacterStorageBoxProps) => {
   return (
     <div
-      className={`h-6 w-4 min-[400px]:h-5 min-[400px]:w-5 min-[500px]:w-7 min-[500px]:h-7 min-[600px]:w-9 min-[600px]:h-9 md:h-11 md:w-11 lg:h-16 lg:w-16 mt-1 flex justify-center items-center ${backgroundColor}`}>
-      <p className="w-full md:text-3xl lg:text-5xl text-center text-white100">
+      className={`mt-1 flex justify-center items-center ${backgroundColor}`}
+      style={{width: `${squareSize}px`, height: `${squareSize}px`}}
+    >
+      <p className="md:text-3xl lg:text-5xl text-center text-white100">
         {character}
       </p>
     </div>

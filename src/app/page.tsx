@@ -23,11 +23,11 @@ export default function Home() {
   const [showRulesModal, setShowRulesModal] = useState<boolean>(false);
   const [showGameOverModal, setShowGameOverModal] = useState<boolean>(false);
   const [inputTab, setInputTab] = useState<InputTab>(InputTab.oneByOne);
-
+  const testingTempTeam = "Borussia Monchengladbach";
   const setTheTeam = (teams: string[]) => {
     const random = Math.floor(Math.random() * teams.length);
     // setTeam(teams[random]);
-    setTeam("United");
+    setTeam(testingTempTeam);
   }
 
   useEffect(() => {
@@ -173,8 +173,8 @@ export default function Home() {
            onClick={() => setShowRulesModal(true)}>Rules</p>
       </div>
 
-      <div className="flex flex-col items-center">
-          <WhiteSquaresContainer gameState={gameState} userSubmissionArray={userSubmissionArray} matcherText="United" />
+      <div className="flex flex-col items-center w-full h-fit">
+          <WhiteSquaresContainer gameState={gameState} userSubmissionArray={userSubmissionArray} matcherText={testingTempTeam} />
       </div>
       <div id="tabbed-view-for-inputs" className="flex flex-col items-center w-full gap-2">
         <div id="tabbed-navbar" className="flex w-full max-w-3xl justify-evenly">
