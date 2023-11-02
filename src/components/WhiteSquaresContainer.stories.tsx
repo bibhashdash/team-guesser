@@ -6,12 +6,14 @@ import {GameState} from "../utlities/models";
 interface Props {
   userInput: string;
   gameState: GameState;
+  matcherWord: string;
 }
 const meta = {
   title: 'WhiteSquaresContainer',
   args: {
     userInput: 'Manchester United',
     gameState: GameState.gameStarted,
+    matcherWord: 'Manchester United',
   },
   argTypes: {
     gameState: {
@@ -22,7 +24,7 @@ const meta = {
   decorators: [(Story) => (
     <div style={{
       backgroundColor: '#1F2937',
-      height: '200px',
+      height: '500px',
       display: 'flex',
       flexDirection: 'column',
       width: '100%',
@@ -37,13 +39,13 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default = {
-  render: ({userInput, gameState}: Props) => {
+  render: ({userInput, gameState, matcherWord}: Props) => {
     const [userSubmissionArray, setUserSubmissionArray] = useState<Array<string>>([]);
     useEffect(() => {
       setUserSubmissionArray(userInput.toLowerCase().split(''));
     }, [userInput]);
     return (
-      <WhiteSquaresContainer matcherText={'Manchester United'} userSubmissionArray={userSubmissionArray} gameState={gameState} />
+      <WhiteSquaresContainer matcherText={matcherWord} userSubmissionArray={userSubmissionArray} gameState={gameState} />
     )
   }
 }

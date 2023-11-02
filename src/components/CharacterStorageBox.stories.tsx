@@ -44,7 +44,7 @@ export const Default = {
         width: '100%',
         padding: '1rem',
       }}>
-        <CharacterStorageBox character={character} backgroundColor={background}/>
+        <CharacterStorageBox squareSize={39} character={character} backgroundColor={background}/>
       </div>
     )
   }
