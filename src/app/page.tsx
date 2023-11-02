@@ -215,7 +215,7 @@ export default function Home() {
                   <p onClick={() => {
                     keyMap === "ENTER" ? handleEnterPress(inputTab) : handleUserInputSubmission(keyMap, inputTab)
                   }}
-                     className="cursor-pointer m-0 w-full py-2 bg-gray50 text-blue300 flex items-center justify-center hover:bg-black100">
+                     className="cursor-pointer m-0 w-full py-2 lg:py-4 bg-gray50 text-blue300 flex items-center justify-center hover:bg-black100">
                     {keyMap}
                   </p>
                 )
