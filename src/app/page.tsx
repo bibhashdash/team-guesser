@@ -13,7 +13,7 @@ export default function Home() {
   // const competitionIdsArray: Array<number> = [1, 2, 3, 4, 17, 91, 92, 93, 94];
   const [team, setTeam] = useState<string>('');
   const [userInput, setUserInput] = useState<string | undefined>(undefined);
-  const [userNuclearInput, setUserNuclearInput] = useState<string>('');
+  const [userNuclearInput, setUserNuclearInput] = useState<Array<string>>([]);
   const [guessCount, setGuessCount] = useState<number>(0);
   const [errorMessage, setErrorMessage] = useState<string>('');
   const [userSubmissionArray, setUserSubmissionArray] = useState<string[]>([]);
@@ -39,11 +39,11 @@ export default function Home() {
     setGameState(GameState.gameOver);
     setUserSubmissionArray(team.toLowerCase().split(""));
     setUserInput(undefined);
-    setShowGameOverModal(true)
+    // setShowGameOverModal(true)
   }
   const handleTabChange = (tab: InputTab) => {
     setUserInput('');
-    setUserNuclearInput('');
+    setUserNuclearInput([]);
     setInputTab(tab);
   }
 
@@ -59,6 +59,10 @@ export default function Home() {
         break;
       case InputTab.goForGlory:
         console.log("Go for glory");
+        if (userNuclearInput.length > 0) {
+           // call the handlenuclearsubmission function
+          handleNuclearSubmission();
+        }
 
     }
   }
@@ -80,7 +84,15 @@ export default function Home() {
         }
         break;
       case InputTab.goForGlory:
-        console.log("Go for glory");
+        if (text === "DEL") {
+          setUserNuclearInput(prevState => prevState.slice(0, prevState.length - 1));
+          return;
+        }
+        if (text === "SPACE") {
+          setUserNuclearInput(prevState => [...prevState, " "]);
+          return;
+        }
+        setUserNuclearInput(prevState => [...prevState, text]);
         break;
     }
   }
@@ -125,44 +137,37 @@ export default function Home() {
 
   }
 
-  const handleNuclearSubmission = (text: string) => {
-    if (!checkValidInput(text)) {
-      setErrorMessage("Invalid character present");
-      setInterval(() => {
-        setErrorMessage('')
-      }, 2000);
-      return;
-    }
-
-    if (text.toLowerCase().split(' ').length !== team.toLowerCase().split(' ').length) {
-      setErrorMessage("Error! Number of words do not match");
-      setUserInput('');
-      setInterval(() => {
-        setErrorMessage('')
-      }, 2000);
-      return;
-    }
-
-    if (text.length !== team.length) {
-      setErrorMessage("Error! Number of characters do not match");
-      setUserInput('');
-      setInterval(() => {
-        setErrorMessage('')
-      }, 2000);
-      return;
-    }
-
-    if (checkFullWord(text, team)) {
-      setUserSubmissionArray(team.toLowerCase().split(""));
-
-      setSuccessMessage("You won!");
+  const handleNuclearSubmission = () => {
+    //set the game state to game finished
       setGameState(GameState.gameOver);
-    } else {
-      setUserSubmissionArray(text.toLowerCase().split(""));
-      setErrorMessage("Wrong guess, game over!");
+    // check if userNuclearInput has same number of words as team
+       const array1 = userNuclearInput.join('').toLowerCase().split(' ');
+       const array2 = team.toLowerCase().split(' ');
+       if (array1.length !== array2.length) {
+         // show an error message saying "Number of words do not match"
+         return;
+       }
 
-      setGameState(GameState.gameOver);
-    }
+    // check if userNuclearInput has same number of characters as team
+      if (userNuclearInput.length !== team.length) {
+        // show an error message saying "Number of characters do not match"
+        return;
+      }
+
+    // check if there is a full match
+    else {
+        if (userNuclearInput.join('').toLowerCase() === team.toLowerCase()) {
+          handleGameFinished(GameResult.win);
+        }
+        if (userNuclearInput.join('').toLowerCase() !== team.toLowerCase()) {
+          handleGameFinished(GameResult.loss);
+        }
+        const array3 = userNuclearInput.filter(item => item !== " ");
+        const array4 = array3.map(item => item.toLowerCase());
+        setUserSubmissionArray(array4);
+        setGameState(GameState.gameOver);
+      }
+
   }
 
   return (
@@ -198,7 +203,7 @@ export default function Home() {
             ) :
             (
               <div id="go-for-glory-input" className="flex justify-center w-full">
-                <div className="rounded-md text-5xl text-center bg-black300 border-2 border-black100 text-white100 w-full h-16 sm:h-28 flex justify-center items-center">
+                <div className="rounded-md text-5xl text-center bg-black300 border-2 border-black100 text-white100 w-full h-12 sm:h-28 flex justify-center items-center">
                   {userNuclearInput}
                 </div>
               </div>
