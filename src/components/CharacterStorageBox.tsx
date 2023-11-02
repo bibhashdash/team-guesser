@@ -13,12 +13,13 @@ export const CharacterStorageBox = ({character, backgroundColor, squareSize}: Ch
           {
             width: `${squareSize}px`,
             height: `${squareSize}px`,
-            maxWidth: "80px",
-            maxHeight: "80px",
+            maxWidth: "100px",
+            maxHeight: "100px",
+            fontSize: `${(squareSize * 6 / 10)}px`,
           }
         }
     >
-      <p className="md:text-3xl lg:text-5xl text-center text-white100">
+      <p className="text-center text-white100">
         {character}
       </p>
     </div>
