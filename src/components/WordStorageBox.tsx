@@ -10,7 +10,7 @@ export interface WordStorageBoxProps {
 
 export const WordStorageBox = ({matcherWord, userSubmissionArray, gameState, squareSize}: WordStorageBoxProps) => {
   return (
-    <div className="flex gap-1 w-full h-full justify-stretch items-stretch">
+    <div className="flex gap-1 w-full justify-stretch">
       {
         gameState === GameState.gameStarted ? (
           matcherWord.split('').map((item, index) =>

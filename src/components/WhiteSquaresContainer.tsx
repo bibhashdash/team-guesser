@@ -37,7 +37,7 @@ export const WhiteSquaresContainer = ({matcherText, userSubmissionArray, gameSta
 
   const arrayOfDecksOfWhiteSquares = matcherText.split(' ');
   return (
-    <div id="white-squares-container" className="w-full h-full px-2">
+    <div id="white-squares-container" className="w-full h-full px-2 flex flex-col gap-2">
       {
         arrayOfDecksOfWhiteSquares.map((word, index) =>
           <WordStorageBox squareSize={squareSize} gameState={gameState} matcherWord={word} userSubmissionArray={userSubmissionArray} />
