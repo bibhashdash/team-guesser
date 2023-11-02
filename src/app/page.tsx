@@ -23,14 +23,16 @@ export default function Home() {
   const [showRulesModal, setShowRulesModal] = useState<boolean>(false);
   const [showGameOverModal, setShowGameOverModal] = useState<boolean>(false);
   const [inputTab, setInputTab] = useState<InputTab>(InputTab.oneByOne);
-
+  // const testingTeam = "Brighton and Hove Albion";
   const setTheTeam = (teams: string[]) => {
     const random = Math.floor(Math.random() * teams.length);
     setTeam(teams[random]);
   }
 
+
   useEffect(() => {
     setTheTeam(tempData);
+    // setTeam(testingTeam)
   }, []);
   const handleGameFinished = (result: GameResult) => {
     result === GameResult.win ? setGameOverMessage("You won!") : setGameOverMessage("You lost!");
@@ -175,7 +177,7 @@ export default function Home() {
       <div className="flex flex-col items-center w-full h-fit">
           <WhiteSquaresContainer gameState={gameState} userSubmissionArray={userSubmissionArray} matcherText={team} />
       </div>
-      <div id="tabbed-view-for-inputs" className="flex flex-col items-center w-full gap-2">
+      <div id="tabbed-view-for-inputs" className="flex flex-col items-center w-full gap-2 py-1">
         <div id="tabbed-navbar" className="flex w-full max-w-3xl justify-evenly">
           <div onClick={() => handleTabChange(InputTab.oneByOne)}
                className={`cursor-pointer border-gray50 w-full py-2 text-center ${inputTab === InputTab.oneByOne ? 'shadow-xl border-b-4 border-b-blue500 text-blue500 font-semibold' : 'text-white50' }`}>
@@ -189,7 +191,7 @@ export default function Home() {
         {
           inputTab === InputTab.oneByOne ? (
               <div id="one-by-one-input" className="flex justify-center">
-                <div className="rounded-md text-5xl text-center bg-black300 border-2 border-black100 text-white100 w-20 h-16 sm:w-28 sm:h-28 flex justify-center items-center">
+                <div className="rounded-md text-5xl text-center bg-black300 border-2 border-black100 text-white100 w-16 h-12 sm:w-28 sm:h-28 flex justify-center items-center">
                   {userInput}
                 </div>
               </div>
