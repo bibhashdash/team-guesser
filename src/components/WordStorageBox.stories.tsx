@@ -44,7 +44,7 @@ export const Default = {
       setUserSubmissionArray(userInput.toLowerCase().split(''));
     }, [userInput]);
     return (
-      <WordStorageBox matcherWord={'Manchester'} userSubmissionArray={userSubmissionArray} gameState={gameState} />
+      <WordStorageBox squareSize={39} matcherWord={'Manchester'} userSubmissionArray={userSubmissionArray} gameState={gameState} />
     )
   }
 }

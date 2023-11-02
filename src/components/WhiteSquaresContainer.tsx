@@ -1,3 +1,5 @@
+'use client';
+
 import {WordStorageBox} from "./WordStorageBox";
 import {GameState} from "@/utlities/models";
 import React, {useRef} from "react";
@@ -19,15 +21,16 @@ export const WhiteSquaresContainer = ({matcherText, userSubmissionArray, gameSta
     }
   }
 
-  const resizeObserver = new ResizeObserver(entries => {
-    for (let entry of entries) {
-      if (entry.contentBoxSize) {
-        setContainerSize(entry.contentBoxSize[0].inlineSize);
-      }
-    }
-  });
+
  React.useEffect(() => {
-   resizeObserver.observe(document.getElementById("white-squares-container"));
+   const resizeObserver = new ResizeObserver(entries => {
+     for (let entry of entries) {
+       if (entry.contentBoxSize) {
+         setContainerSize(entry.contentBoxSize[0].inlineSize);
+       }
+     }
+   });
+     resizeObserver.observe(document.getElementById("white-squares-container")!);
  }, []);
 
 
