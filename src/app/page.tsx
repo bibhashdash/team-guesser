@@ -2,8 +2,6 @@
 
 import {useEffect, useState} from "react";
 import {keyboardContent, tempData} from "@/tempData";
-import {checkValidInput} from "@/utlities/checkValidInput";
-import {checkFullWord} from "@/utlities/checkFullWord";
 import {GameResult, GameState, InputTab} from "@/utlities/models";
 import {WhiteSquaresContainer} from "@/components/WhiteSquaresContainer";
 import {CloseIcon} from "@/components/CloseIcon";
@@ -23,7 +21,7 @@ export default function Home() {
   const [showRulesModal, setShowRulesModal] = useState<boolean>(false);
   const [showGameOverModal, setShowGameOverModal] = useState<boolean>(false);
   const [inputTab, setInputTab] = useState<InputTab>(InputTab.oneByOne);
-  const [disabledKeys, setDisabledKeys] = useState<string[]>([]);
+  const [disabledKeysForOneByOne, setDisabledKeysForOneByOne] = useState<string[]>([]);
   // const testingTeam = "Borussia Monchengladbach";
   const setTheTeam = (teams: string[]) => {
     const random = Math.floor(Math.random() * teams.length);
@@ -55,7 +53,7 @@ export default function Home() {
           // do the checks with team name handleValidInput or whatever
           handleValidInput();
           setGuessCount(prevState => prevState + 1);
-          setDisabledKeys(prevState => [...prevState, userInput]);
+          setDisabledKeysForOneByOne(prevState => [...prevState, userInput]);
           return;
         }
         break;
@@ -222,8 +220,8 @@ export default function Home() {
                   <button onClick={() => {
                     keyMap === "ENTER" ? handleEnterPress(inputTab) : handleUserInputSubmission(keyMap, inputTab)
                   }}
-                     className={`cursor-pointer m-0 w-full py-2 lg:py-4 flex items-center justify-center ${disabledKeys.includes(keyMap) ? 'bg-black300 text-gray50' : 'bg-gray50 text-blue300 hover:bg-black100'}`}
-                  disabled={disabledKeys.includes(keyMap)}
+                     className={`cursor-pointer m-0 w-full py-2 lg:py-4 flex items-center justify-center ${inputTab === InputTab.oneByOne && disabledKeysForOneByOne.includes(keyMap) ? 'bg-black300 text-gray50' : 'bg-gray50 text-blue300 hover:bg-black100'}`}
+                  disabled={ inputTab === InputTab.oneByOne ? disabledKeysForOneByOne.includes(keyMap) : false }
                   >
                     {keyMap === "DEL" ? '⬅' : null} {keyMap}
                   </button>

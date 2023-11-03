@@ -14,9 +14,9 @@ export const CharacterStorageBox = ({character, backgroundColor, squareSize}: Ch
           {
             width: `${squareSize}px`,
             height: `${squareSize}px`,
-            maxWidth: "60px",
-            maxHeight: "60px",
-            fontSize: `${squareSize <= 30 ? (squareSize * 2 / 3) : (squareSize * 6 / 10)}px`,
+            maxWidth: "70px",
+            maxHeight: "70px",
+            fontSize: `${squareSize <= 30 ? (squareSize * 2 / 3) : (squareSize * 5.5 / 10)}px`,
           }
         }
     >
