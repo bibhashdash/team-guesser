@@ -24,16 +24,16 @@ export default function Home() {
   const [showGameOverModal, setShowGameOverModal] = useState<boolean>(false);
   const [inputTab, setInputTab] = useState<InputTab>(InputTab.oneByOne);
   const [disabledKeys, setDisabledKeys] = useState<string[]>([]);
-  const testingTeam = "Borussia Monchengladbach";
+  // const testingTeam = "Borussia Monchengladbach";
   const setTheTeam = (teams: string[]) => {
     const random = Math.floor(Math.random() * teams.length);
-    // setTeam(teams[random]);
+    setTeam(teams[random]);
   }
 
 
   useEffect(() => {
-    // setTheTeam(tempData);
-    setTeam(testingTeam)
+    setTheTeam(tempData);
+    // setTeam(testingTeam)
   }, []);
   const handleGameFinished = (result: GameResult) => {
     result === GameResult.win ? setGameOverMessage("You won!") : setGameOverMessage("You lost!");
@@ -182,7 +182,7 @@ export default function Home() {
       </div>
 
       <div className="flex flex-col items-center w-full h-fit">
-          <WhiteSquaresContainer gameState={gameState} userSubmissionArray={userSubmissionArray} matcherText={testingTeam} />
+          <WhiteSquaresContainer gameState={gameState} userSubmissionArray={userSubmissionArray} matcherText={team} />
       </div>
       <div id="tabbed-view-for-inputs" className="flex flex-col items-center w-full gap-2 py-1">
         <div id="tabbed-navbar" className="flex w-full max-w-3xl justify-evenly">
