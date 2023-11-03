@@ -23,14 +23,14 @@ export default function Home() {
   const [inputTab, setInputTab] = useState<InputTab>(InputTab.oneByOne);
   const [disabledKeysForOneByOne, setDisabledKeysForOneByOne] = useState<string[]>([]);
   // const testingTeam = "Borussia Monchengladbach";
-  const setTheTeam = (teams: string[]) => {
-    const random = Math.floor(Math.random() * teams.length);
-    setTeam(teams[random]);
+  const setTheTeam = () => {
+    const random = Math.floor(Math.random() * tempData.length);
+    setTeam(tempData[random]);
   }
 
 
   useEffect(() => {
-    setTheTeam(tempData);
+    setTheTeam();
     // setTeam(testingTeam)
   }, []);
   const handleGameFinished = (result: GameResult) => {
@@ -175,8 +175,16 @@ export default function Home() {
       className="relative w-full h-screen max-w-6xl flex flex-col justify-evenly border-2 border-gray50 rounded lg:px-6 shadow-xl bg-black300">
       <div className="flex flex-col items-center">
         <h1 className="text-white100 text-2xl sm:text-3xl sm:text-4xl">Team Name Guesser</h1>
-        <p className="text-green400 text-sm font-semibold underline cursor-pointer"
-           onClick={() => setShowRulesModal(true)}>Rules</p>
+        <div className="w-full max-w-sm flex justify-between px-1">
+          <p className="text-green400 text-sm font-semibold underline cursor-pointer"
+             onClick={() => setShowRulesModal(true)}>
+            Rules
+          </p>
+          <p className="text-green400 text-sm font-semibold underline cursor-pointer"
+             onClick={() => setTheTeam()}>
+            New Game
+          </p>
+        </div>
       </div>
 
       <div className="flex flex-col items-center w-full h-fit">
