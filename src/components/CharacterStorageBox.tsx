@@ -5,6 +5,7 @@ interface CharacterStorageBoxProps {
 }
 
 export const CharacterStorageBox = ({character, backgroundColor, squareSize}: CharacterStorageBoxProps) => {
+  console.log(squareSize)
   return (
     <div
       className={`mt-1 flex justify-center items-center ${backgroundColor}`}
@@ -13,9 +14,9 @@ export const CharacterStorageBox = ({character, backgroundColor, squareSize}: Ch
           {
             width: `${squareSize}px`,
             height: `${squareSize}px`,
-            maxWidth: "100px",
-            maxHeight: "100px",
-            fontSize: `${(squareSize * 6 / 10)}px`,
+            maxWidth: "60px",
+            maxHeight: "60px",
+            fontSize: `${squareSize <= 30 ? (squareSize * 2 / 3) : (squareSize * 6 / 10)}px`,
           }
         }
     >

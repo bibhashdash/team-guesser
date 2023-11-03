@@ -23,16 +23,17 @@ export default function Home() {
   const [showRulesModal, setShowRulesModal] = useState<boolean>(false);
   const [showGameOverModal, setShowGameOverModal] = useState<boolean>(false);
   const [inputTab, setInputTab] = useState<InputTab>(InputTab.oneByOne);
-  // const testingTeam = "Brighton and Hove Albion";
+  const [disabledKeys, setDisabledKeys] = useState<string[]>([]);
+  const testingTeam = "Borussia Monchengladbach";
   const setTheTeam = (teams: string[]) => {
     const random = Math.floor(Math.random() * teams.length);
-    setTeam(teams[random]);
+    // setTeam(teams[random]);
   }
 
 
   useEffect(() => {
-    setTheTeam(tempData);
-    // setTeam(testingTeam)
+    // setTheTeam(tempData);
+    setTeam(testingTeam)
   }, []);
   const handleGameFinished = (result: GameResult) => {
     result === GameResult.win ? setGameOverMessage("You won!") : setGameOverMessage("You lost!");
@@ -54,6 +55,7 @@ export default function Home() {
           // do the checks with team name handleValidInput or whatever
           handleValidInput();
           setGuessCount(prevState => prevState + 1);
+          setDisabledKeys(prevState => [...prevState, userInput]);
           return;
         }
         break;
@@ -180,7 +182,7 @@ export default function Home() {
       </div>
 
       <div className="flex flex-col items-center w-full h-fit">
-          <WhiteSquaresContainer gameState={gameState} userSubmissionArray={userSubmissionArray} matcherText={team} />
+          <WhiteSquaresContainer gameState={gameState} userSubmissionArray={userSubmissionArray} matcherText={testingTeam} />
       </div>
       <div id="tabbed-view-for-inputs" className="flex flex-col items-center w-full gap-2 py-1">
         <div id="tabbed-navbar" className="flex w-full max-w-3xl justify-evenly">
@@ -217,12 +219,14 @@ export default function Home() {
             <div className="flex w-full gap-1">
               {
                 row.map((keyMap, index) =>
-                  <p onClick={() => {
+                  <button onClick={() => {
                     keyMap === "ENTER" ? handleEnterPress(inputTab) : handleUserInputSubmission(keyMap, inputTab)
                   }}
-                     className="cursor-pointer m-0 w-full py-2 lg:py-4 bg-gray50 text-blue300 flex items-center justify-center hover:bg-black100">
+                     className={`cursor-pointer m-0 w-full py-2 lg:py-4 flex items-center justify-center ${disabledKeys.includes(keyMap) ? 'bg-black300 text-gray50' : 'bg-gray50 text-blue300 hover:bg-black100'}`}
+                  disabled={disabledKeys.includes(keyMap)}
+                  >
                     {keyMap}
-                  </p>
+                  </button>
                 )
               }
             </div>
