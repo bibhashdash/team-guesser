@@ -213,7 +213,7 @@ export default function Home() {
         }
       </div>
 
-      <div id="virtual-keyboard" className="w-full flex flex-col gap-1">
+      <div id="virtual-keyboard" className="w-full flex flex-col gap-1 content-center">
         {
           keyboardContent.map((row, index) =>
             <div className="flex w-full gap-1">
@@ -225,7 +225,7 @@ export default function Home() {
                      className={`cursor-pointer m-0 w-full py-2 lg:py-4 flex items-center justify-center ${disabledKeys.includes(keyMap) ? 'bg-black300 text-gray50' : 'bg-gray50 text-blue300 hover:bg-black100'}`}
                   disabled={disabledKeys.includes(keyMap)}
                   >
-                    {keyMap}
+                    {keyMap === "DEL" ? '⬅' : null} {keyMap}
                   </button>
                 )
               }
