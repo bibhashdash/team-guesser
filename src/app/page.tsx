@@ -24,6 +24,16 @@ export default function Home() {
   const [disabledKeysForOneByOne, setDisabledKeysForOneByOne] = useState<string[]>([]);
   // const testingTeam = "Borussia Monchengladbach";
   const setTheTeam = () => {
+    setGameState(GameState.gameStarted);
+    setUserSubmissionArray([]);
+    setInputTab(InputTab.oneByOne);
+    setDisabledKeysForOneByOne([]);
+    setGuessCount(0);
+    setUserNuclearInput([]);
+    setUserInput(undefined);
+    setGameOverMessage('');
+    setShowGameOverModal(false);
+    setShowRulesModal(false)
     const random = Math.floor(Math.random() * tempData.length);
     setTeam(tempData[random]);
   }
@@ -211,7 +221,7 @@ export default function Home() {
             ) :
             (
               <div id="go-for-glory-input" className="flex justify-center w-full">
-                <div className="rounded-md text-5xl text-center bg-black300 border-2 border-black100 text-white100 w-full h-12 sm:h-28 flex justify-center items-center">
+                <div className="rounded-md text-sm sm:text-lg md:text-xl lg:text-3xl text-center bg-black300 border-2 border-black100 text-white100 w-full h-12 sm:h-28 flex justify-center items-center">
                   {userNuclearInput}
                 </div>
               </div>
