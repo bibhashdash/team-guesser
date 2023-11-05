@@ -20,6 +20,7 @@ export const WhiteSquaresContainer = ({
   const [squareSize, setSquareSize] = React.useState(0);
   const [containerSize, setContainerSize] = React.useState(0);
   const tempArray = matcherText.split(" ");
+  // console.log(userSubmissionArray);
   let longestWordLength = 0;
   for (let i = 0; i < tempArray.length; i++) {
     if (tempArray[i].length > longestWordLength) {

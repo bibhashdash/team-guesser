@@ -78,7 +78,6 @@ export default function Home() {
         }
         break;
       case InputTab.goForGlory:
-        console.log("Go for glory");
         if (userNuclearInput.length > 0) {
           // call the handlenuclearsubmission function
           handleNuclearSubmission();
@@ -122,9 +121,17 @@ export default function Home() {
     if (userInput !== undefined && !team.toLowerCase().includes(userInput.toLowerCase())) {
       if (wrongGuessCount === 6) {
         setWrongGuessCount(prevState => prevState + 1);
+        setGameState(GameState.gameOver);
         setGameResult(GameResult.loss);
-        handleGameFinished();
-        console.log(userSubmissionArray);
+        // handleGameFinished();
+        const len = team.split('').filter(item => item !== ' ').length;
+        const newArray = new Array(len - userSubmissionArray.length).fill(' ');
+        // console.log(newArray);
+        setUserInput(undefined);
+
+        setUserSubmissionArray(prevState => {
+          return [...prevState, ...newArray]
+        });
         return;
       }
       else if (wrongGuessCount < 6) {
