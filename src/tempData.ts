@@ -177,9 +177,33 @@ export const tempData =
     "Cadiz",
     "Mallorca",
     "Alaves",
-    "Celta Viga",
+    "Celta Vigo",
     "Granada",
     "Almeria",
+    "Chesterfield",
+    "Barnet",
+    "Bromley",
+    "Solihull Moors",
+    "Altrincham",
+    "FC Halifax Town",
+    "Aldershot Town",
+    "Gateshead",
+    "Rochdale",
+    "Oldham Athletic",
+    "Eastleigh",
+    "Woking",
+    "Dagenham & Redbridge",
+    "Hartlepool United",
+    "Southend United",
+    "Dorking Wanderers",
+    "Wealdstone",
+    "Boreham Wood",
+    "Ebbsfleet United",
+    "AFC Fylde",
+    "Maidenhead United",
+    "York City",
+    "Oxford City",
+    "Kidderminster Harriers",
   ];
 let longestWordInEntireArray = "";
 const bigResult = tempData.reduce((acc, curr) => {
@@ -205,4 +229,65 @@ export const keyboardContent = [
   ["A", "S", "D", "F", "G", "H", "J", "K", "L"],
   ["-","Z", "X", "C", "V", "B", "N", "M", "&"],
   ["ENTER", "SPACE", "DEL"],
-]
+];
+
+export interface Keymap {
+    id: number;
+    row: number;
+    key: string;
+    isIncorrectGuess?: boolean;
+}
+
+export const extendedKeyboardContent: Array<Array<Keymap>> = [
+  [
+    { id: 1, key: "1", isIncorrectGuess: false, row: 0 },
+    { id: 2, key: "2", isIncorrectGuess: false, row: 0 },
+    { id: 3, key: "3", isIncorrectGuess: false, row: 0 },
+    { id: 4, key: "4", isIncorrectGuess: false, row: 0 },
+    { id: 5, key: "5", isIncorrectGuess: false, row: 0 },
+    { id: 6, key: "6", isIncorrectGuess: false, row: 0 },
+    { id: 7, key: "7", isIncorrectGuess: false, row: 0 },
+    { id: 8, key: "8", isIncorrectGuess: false, row: 0 },
+    { id: 9, key: "9", isIncorrectGuess: false, row: 0 },
+    { id: 10, key: "0", isIncorrectGuess: false, row: 0 },
+  ],
+  [
+    { id: 11, key: "Q", isIncorrectGuess: false, row: 1 },
+    { id: 12, key: "W", isIncorrectGuess: false, row: 1 },
+    { id: 13, key: "E", isIncorrectGuess: false, row: 1 },
+    { id: 14, key: "R", isIncorrectGuess: false, row: 1 },
+    { id: 15, key: "T", isIncorrectGuess: false, row: 1 },
+    { id: 16, key: "Y", isIncorrectGuess: false, row: 1 },
+    { id: 17, key: "U", isIncorrectGuess: false, row: 1 },
+    { id: 18, key: "I", isIncorrectGuess: false, row: 1 },
+    { id: 19, key: "O", isIncorrectGuess: false, row: 1 },
+    { id: 20, key: "P", isIncorrectGuess: false, row: 1 },
+  ],
+  [
+    { id: 21, key: "A", isIncorrectGuess: false, row: 2 },
+    { id: 22, key: "S", isIncorrectGuess: false, row: 2 },
+    { id: 23, key: "D", isIncorrectGuess: false, row: 2 },
+    { id: 24, key: "F", isIncorrectGuess: false, row: 2 },
+    { id: 25, key: "G", isIncorrectGuess: false, row: 2 },
+    { id: 26, key: "H", isIncorrectGuess: false, row: 2 },
+    { id: 27, key: "J", isIncorrectGuess: false, row: 2 },
+    { id: 28, key: "K", isIncorrectGuess: false, row: 2 },
+    { id: 29, key: "L", isIncorrectGuess: false, row: 2 },
+  ],
+  [
+    { id: 30, key: "-", isIncorrectGuess: false, row: 3 },
+    { id: 31, key: "Z", isIncorrectGuess: false, row: 3 },
+    { id: 32, key: "X", isIncorrectGuess: false, row: 3 },
+    { id: 33, key: "C", isIncorrectGuess: false, row: 3 },
+    { id: 34, key: "V", isIncorrectGuess: false, row: 3 },
+    { id: 35, key: "B", isIncorrectGuess: false, row: 3 },
+    { id: 36, key: "N", isIncorrectGuess: false, row: 3 },
+    { id: 37, key: "M", isIncorrectGuess: false, row: 3 },
+    { id: 38, key: "&", isIncorrectGuess: false, row: 3 },
+  ],
+  [
+    { id: 39, key: "ENTER", row: 4},
+    { id: 40, key: "SPACE", row: 4},
+    { id: 41, key: "DEL", row: 4},
+  ]
+];

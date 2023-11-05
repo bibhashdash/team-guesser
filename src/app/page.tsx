@@ -1,11 +1,16 @@
 'use client';
 
 import {useEffect, useState} from "react";
-import {keyboardContent, tempData} from "@/tempData";
+import {extendedKeyboardContent, keyboardContent, tempData} from "@/tempData";
 import {GameResult, GameState, InputTab} from "@/utlities/models";
 import {WhiteSquaresContainer} from "@/components/WhiteSquaresContainer";
 import {CloseIcon} from "@/components/CloseIcon";
 import 'animate.css';
+import {FootballIcon} from "@/FootballIcon";
+
+interface WrongGuessArrayProps {
+  isLitUp: boolean;
+}
 
 export default function Home() {
   // premier league, c'ship, L1, L2, scottish prem, Ligue 1, Bundesliga, serie a, la liga
@@ -14,6 +19,7 @@ export default function Home() {
   const [userInput, setUserInput] = useState<string | undefined>(undefined);
   const [userNuclearInput, setUserNuclearInput] = useState<Array<string>>([]);
   const [guessCount, setGuessCount] = useState<number>(0);
+  const [wrongGuessCount, setWrongGuessCount] = useState<number>(0);
   const [errorMessage, setErrorMessage] = useState<string>('');
   const [userSubmissionArray, setUserSubmissionArray] = useState<string[]>([]);
   const [gameState, setGameState] = useState<GameState>(GameState.gameStarted);
@@ -38,9 +44,11 @@ export default function Home() {
     setShowRulesModal(false)
     const random = Math.floor(Math.random() * tempData.length);
     setTeam(tempData[random]);
-    setGameResult(GameResult.default)
+    setGameResult(GameResult.default);
+    setWrongGuessCount(0);
   }
 
+  const wrongGuessArray = new Array(7).fill(<></>)
 
   useEffect(() => {
     setTheTeam();
@@ -72,7 +80,7 @@ export default function Home() {
       case InputTab.goForGlory:
         console.log("Go for glory");
         if (userNuclearInput.length > 0) {
-           // call the handlenuclearsubmission function
+          // call the handlenuclearsubmission function
           handleNuclearSubmission();
         }
 
@@ -112,17 +120,14 @@ export default function Home() {
   const handleValidInput = (count?: number) => {
 
     if (userInput !== undefined && !team.toLowerCase().includes(userInput.toLowerCase())) {
+      setWrongGuessCount(prevState => prevState + 1);
       setUserInput(undefined);
-      // this is temporary, we will have the crosses at the top to signify wrong guesses
-      // setErrorMessage("Character not present");
-      // setInterval(() => {
-      //   setErrorMessage('')
-      // }, 1000);
       return;
     } else {
-        userInput && userSubmissionArray.push(userInput.toLowerCase());
-        setUserInput(undefined);
+      userInput && userSubmissionArray.push(userInput.toLowerCase());
+      setUserInput(undefined);
     }
+
     function extractUniqueLetters(str: string) {
       let uniqueLetters = '';
       for (let i = 0; i < str.length; i++) {
@@ -136,7 +141,7 @@ export default function Home() {
     const teamUniqueLetters = extractUniqueLetters(team.toLowerCase());
 
     const tempCheck = (array: Array<string>, string: string) => {
-      for (let i=0; i< array.length; i++) {
+      for (let i = 0; i < array.length; i++) {
         if (!string.includes(array[i])) {
           return false;
         }
@@ -156,50 +161,50 @@ export default function Home() {
 
   const handleNuclearSubmission = () => {
     // check if userNuclearInput has same number of words as team
-       const array1 = userNuclearInput.join('').toLowerCase().split(' ');
-       const array2 = team.toLowerCase().split(' ');
-       if (array1.length !== array2.length) {
-         // show an error message saying "Number of words do not match"
-         return;
-       }
+    const array1 = userNuclearInput.join('').toLowerCase().split(' ');
+    const array2 = team.toLowerCase().split(' ');
+    if (array1.length !== array2.length) {
+      // show an error message saying "Number of words do not match"
+      return;
+    }
 
     // check if userNuclearInput has same number of characters as team
-      if (userNuclearInput.length !== team.length) {
-        // show an error message saying "Number of characters do not match"
-        return;
-      }
+    if (userNuclearInput.length !== team.length) {
+      // show an error message saying "Number of characters do not match"
+      return;
+    }
 
     // check if there is a full match
     else {
-        setGameState(GameState.gameOver);
+      setGameState(GameState.gameOver);
 
-        if (userNuclearInput.join('').toLowerCase() === team.toLowerCase()) {
-          setGameResult(GameResult.win)
-          handleGameFinished();
-        }
-        if (userNuclearInput.join('').toLowerCase() !== team.toLowerCase()) {
-          setGameResult(GameResult.loss)
-          handleGameFinished();
-        }
-        const array3 = userNuclearInput.filter(item => item !== " ");
-        const array4 = array3.map(item => item.toLowerCase());
-        setUserSubmissionArray(array4);
-        setGameState(GameState.gameOver);
+      if (userNuclearInput.join('').toLowerCase() === team.toLowerCase()) {
+        setGameResult(GameResult.win)
+        handleGameFinished();
       }
+      if (userNuclearInput.join('').toLowerCase() !== team.toLowerCase()) {
+        setGameResult(GameResult.loss)
+        handleGameFinished();
+      }
+      const array3 = userNuclearInput.filter(item => item !== " ");
+      const array4 = array3.map(item => item.toLowerCase());
+      setUserSubmissionArray(array4);
+      setGameState(GameState.gameOver);
+    }
 
   }
 
   return (
     <main
-      className="relative w-full h-screen max-w-6xl flex flex-col justify-evenly border-2 border-gray50 rounded lg:px-6 shadow-xl bg-black300">
-      <div className="flex flex-col items-center">
-        <h1 className="text-white100 text-2xl sm:text-3xl sm:text-4xl">Team Name Guesser</h1>
+      className="relative w-full h-screen max-w-6xl flex flex-col justify-between border-2 border-gray50 rounded lg:px-6 shadow-xl bg-black300">
+      <div className="flex flex-col items-center justify-evenly">
+        <h1 className="text-white100 text-sm sm:text-3xl sm:text-4xl">TEAM NAME GUESSER</h1>
         <div className="w-full max-w-sm flex justify-between px-1">
-          <p className="text-green400 text-sm font-semibold underline cursor-pointer"
+          <p className="text-blue300 text-sm font-semibold underline cursor-pointer"
              onClick={() => setShowRulesModal(true)}>
             Rules
           </p>
-          <p className="text-green400 text-sm font-semibold underline cursor-pointer"
+          <p className="text-blue300 text-sm font-semibold underline cursor-pointer"
              onClick={() => setTheTeam()}>
             New Game
           </p>
@@ -207,12 +212,13 @@ export default function Home() {
       </div>
 
       <div className="flex flex-col items-center w-full h-fit">
-          <WhiteSquaresContainer gameResult={gameResult} gameState={gameState} userSubmissionArray={userSubmissionArray} matcherText={team} />
+        <WhiteSquaresContainer gameResult={gameResult} gameState={gameState} userSubmissionArray={userSubmissionArray}
+                               matcherText={team}/>
       </div>
       <div id="tabbed-view-for-inputs" className="flex flex-col items-center w-full gap-2 py-1">
         <div id="tabbed-navbar" className="flex w-full max-w-3xl justify-evenly">
           <div onClick={() => handleTabChange(InputTab.oneByOne)}
-               className={`cursor-pointer border-gray50 w-full py-2 text-center ${inputTab === InputTab.oneByOne ? 'shadow-xl border-b-4 border-b-blue500 text-blue500 font-semibold' : 'text-white50' }`}>
+               className={`cursor-pointer border-gray50 w-full py-2 text-center ${inputTab === InputTab.oneByOne ? 'shadow-xl border-b-4 border-b-blue500 text-blue500 font-semibold' : 'text-white50'}`}>
             One by One
           </div>
           <div onClick={() => handleTabChange(InputTab.goForGlory)}
@@ -223,34 +229,49 @@ export default function Home() {
         {
           inputTab === InputTab.oneByOne ? (
               <div id="one-by-one-input" className="flex justify-center">
-                <div className="rounded-md text-5xl text-center bg-black300 border-2 border-black100 text-white100 w-16 h-12 sm:w-28 sm:h-28 flex justify-center items-center">
+                <div
+                  className="rounded-md text-3xl text-center bg-black300 border-2 border-black100 text-white100 w-16 h-12 sm:w-20 sm:h-20 flex justify-center items-center">
                   {userInput}
                 </div>
               </div>
             ) :
             (
               <div id="go-for-glory-input" className="flex justify-center w-full">
-                <div className="rounded-md text-sm sm:text-lg md:text-xl lg:text-3xl text-center bg-black300 border-2 border-black100 text-white100 w-full h-12 sm:h-28 flex justify-center items-center">
+                <div
+                  className="rounded-md text-sm sm:text-lg md:text-xl lg:text-3xl text-center bg-black300 border-2 border-black100 text-white100 w-full h-12 sm:h-28 flex justify-center items-center">
                   {userNuclearInput}
                 </div>
               </div>
             )
         }
+        <div className="flex gap-4 w-full justify-center">
+          {
+            wrongGuessArray.map((item, index) =>
+              <div className={`${index + 1 <= wrongGuessCount ? ' animate__animated animate__bounce' : null }`}>
+               <FootballIcon size={16} color={index + 1 <= wrongGuessCount ? '#ec0202' : '#3d3d3d'} />
+              </div>)
+          }
+        </div>
       </div>
+
+
 
       <div id="virtual-keyboard" className="w-full flex flex-col gap-1 content-center">
         {
-          keyboardContent.map((row, index) =>
+          extendedKeyboardContent.map((row, index) =>
             <div className="flex w-full gap-1">
               {
                 row.map((keyMap, index) =>
                   <button onClick={() => {
-                    keyMap === "ENTER" ? handleEnterPress(inputTab) : handleUserInputSubmission(keyMap, inputTab)
+                    keyMap.key === "ENTER" ? handleEnterPress(inputTab) : handleUserInputSubmission(keyMap.key, inputTab)
                   }}
-                     className={`cursor-pointer m-0 w-full py-2 lg:py-4 flex items-center justify-center ${inputTab === InputTab.oneByOne && disabledKeysForOneByOne.includes(keyMap) ? 'bg-black300 text-gray50' : 'bg-gray50 text-blue300 hover:bg-black100'}`}
-                  disabled={ inputTab === InputTab.oneByOne ? disabledKeysForOneByOne.includes(keyMap) : false }
+                          className={`cursor-pointer m-0 w-full py-2 lg:py-4 flex items-center justify-center 
+                     ${inputTab === InputTab.oneByOne && disabledKeysForOneByOne.includes(keyMap.key)
+                            ? 'bg-black300 text-gray50'
+                            : 'bg-gray50 text-blue300 hover:bg-black100'}`}
+                          disabled={inputTab === InputTab.oneByOne ? disabledKeysForOneByOne.includes(keyMap.key) : false}
                   >
-                    {keyMap === "DEL" ? '⬅' : null} {keyMap}
+                    {keyMap.key === "DEL" ? '⬅' : null} {keyMap.key}
                   </button>
                 )
               }
@@ -269,7 +290,7 @@ export default function Home() {
                   <CloseIcon onClick={() => setShowRulesModal(false)} color="#f8f8f8" size={28}/>
                 </div>
                 <div className="">
-                  <ul className="m-0 text-sm sm:text-lg list-none text-white100">
+                  <ul className="m-0 text-sm sm:text-lg list-disc text-white100">
                     <li>
                       <p className="text-white100">Each deck of white squares represents a word in the name of a football
                         team.</p>
@@ -285,10 +306,11 @@ export default function Home() {
                       <p className="text-white100">If you chance it in one and get it wrong, you lose!</p>
                     </li>
                     <li>
-                      <p className="text-white100">Numbers/Digits are very much possible in a team name.</p>
+                      <p className="text-white100">Numbers/Digits/Dashes/Ampersands are very much possible in a team
+                        name.</p>
                     </li>
                     <li>
-                      <p className="text-white100">Special characters not so much!</p>
+                      <p className="text-white100">Other special characters not possible!</p>
                     </li>
                     <li>
                       <p className="text-white100">All clues based on data from the BBC.</p>
@@ -300,6 +322,7 @@ export default function Home() {
                         <li><p>- English Championship</p></li>
                         <li><p>- English League One</p></li>
                         <li><p>- English League Two</p></li>
+                        <li><p>- English National League</p></li>
                         <li><p>- Scottish Premiership</p></li>
                         <li><p>- French Ligue 1</p></li>
                         <li><p>- German Bundesliga</p></li>
@@ -318,7 +341,8 @@ export default function Home() {
         showGameOverModal && (
           <div className="absolute w-full bg-black200 h-full px-2">
             <div className="h-full w-full max-w-6xl bg-whiteTranslucent flex flex-col items-center">
-              <div className="h-full w-full max-w-3xl bg-black200 md:px-12 lg:px-16 md:pt-12 flex flex-col justify-start gap-2 md:gap-6">
+              <div
+                className="h-full w-full max-w-3xl bg-black200 md:px-12 lg:px-16 md:pt-12 flex flex-col justify-start gap-2 md:gap-6">
                 <div className="w-full pt-4 flex justify-between">
                   <p className="text-lg sm:text-xl lg:text-2xl text-green200">Game Over</p>
                   <CloseIcon onClick={() => setShowGameOverModal(false)} color="#f8f8f8" size={28}/>

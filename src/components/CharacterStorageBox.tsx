@@ -13,7 +13,7 @@ export const CharacterStorageBox = ({character, backgroundColor, squareSize, gam
 
   return (
     <div
-      className={`mt-1 flex justify-center items-center ${backgroundColor} ${gameResult === GameResult.win ? 'animate__animated animate__bounce' : ''}}`}
+      className={`mt-1 flex justify-center items-center ${backgroundColor}`}
       style=
         {
           {

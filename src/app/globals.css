@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+    margin: 0;
+    padding: 0;
+}
 .animate-on-win {
     animation: bounce 0.5s linear;
 }
