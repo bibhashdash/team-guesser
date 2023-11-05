@@ -18,13 +18,10 @@ export default function Home() {
   const [team, setTeam] = useState<string>('');
   const [userInput, setUserInput] = useState<string | undefined>(undefined);
   const [userNuclearInput, setUserNuclearInput] = useState<Array<string>>([]);
-  const [guessCount, setGuessCount] = useState<number>(0);
   const [wrongGuessCount, setWrongGuessCount] = useState<number>(0);
-  const [errorMessage, setErrorMessage] = useState<string>('');
   const [userSubmissionArray, setUserSubmissionArray] = useState<string[]>([]);
   const [gameState, setGameState] = useState<GameState>(GameState.gameStarted);
   const [gameResult, setGameResult] = useState<GameResult>(GameResult.default);
-  const [successMessage, setSuccessMessage] = useState<string>('');
   const [gameOverMessage, setGameOverMessage] = useState<string>('');
   const [showRulesModal, setShowRulesModal] = useState<boolean>(false);
   const [showGameOverModal, setShowGameOverModal] = useState<boolean>(false);
@@ -36,7 +33,6 @@ export default function Home() {
     setUserSubmissionArray([]);
     setInputTab(InputTab.oneByOne);
     setDisabledKeysForOneByOne([]);
-    setGuessCount(0);
     setUserNuclearInput([]);
     setUserInput(undefined);
     setGameOverMessage('');
@@ -55,7 +51,6 @@ export default function Home() {
     // setTeam(testingTeam)
   }, []);
   const handleGameFinished = () => {
-    gameResult === GameResult.win ? setGameOverMessage("You won!") : setGameOverMessage("You lost!");
     setGameState(GameState.gameOver);
     setUserSubmissionArray(team.toLowerCase().split(""));
     setUserInput(undefined);
@@ -72,7 +67,6 @@ export default function Home() {
         if (userInput !== undefined) {
           // do the checks with team name handleValidInput or whatever
           handleValidInput();
-          setGuessCount(prevState => prevState + 1);
           setDisabledKeysForOneByOne(prevState => [...prevState, userInput]);
           return;
         }
@@ -126,7 +120,6 @@ export default function Home() {
         // handleGameFinished();
         const len = team.split('').filter(item => item !== ' ').length;
         const newArray = new Array(len - userSubmissionArray.length).fill(' ');
-        // console.log(newArray);
         setUserInput(undefined);
 
         setUserSubmissionArray(prevState => {
