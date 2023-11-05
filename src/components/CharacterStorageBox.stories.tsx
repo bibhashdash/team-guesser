@@ -1,5 +1,6 @@
 import type {Meta, StoryObj} from '@storybook/react';
 import {CharacterStorageBox} from "./CharacterStorageBox";
+import {GameResult} from "@/utlities/models";
 
 interface CharacterStorageBoxProps {
   character: string;
@@ -44,7 +45,7 @@ export const Default = {
         width: '100%',
         padding: '1rem',
       }}>
-        <CharacterStorageBox squareSize={39} character={character} backgroundColor={background}/>
+        <CharacterStorageBox gameResult={GameResult.default} squareSize={39} character={character} backgroundColor={background}/>
       </div>
     )
   }

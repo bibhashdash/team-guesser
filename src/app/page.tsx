@@ -5,6 +5,7 @@ import {keyboardContent, tempData} from "@/tempData";
 import {GameResult, GameState, InputTab} from "@/utlities/models";
 import {WhiteSquaresContainer} from "@/components/WhiteSquaresContainer";
 import {CloseIcon} from "@/components/CloseIcon";
+import 'animate.css';
 
 export default function Home() {
   // premier league, c'ship, L1, L2, scottish prem, Ligue 1, Bundesliga, serie a, la liga
@@ -16,6 +17,7 @@ export default function Home() {
   const [errorMessage, setErrorMessage] = useState<string>('');
   const [userSubmissionArray, setUserSubmissionArray] = useState<string[]>([]);
   const [gameState, setGameState] = useState<GameState>(GameState.gameStarted);
+  const [gameResult, setGameResult] = useState<GameResult>(GameResult.default);
   const [successMessage, setSuccessMessage] = useState<string>('');
   const [gameOverMessage, setGameOverMessage] = useState<string>('');
   const [showRulesModal, setShowRulesModal] = useState<boolean>(false);
@@ -36,6 +38,7 @@ export default function Home() {
     setShowRulesModal(false)
     const random = Math.floor(Math.random() * tempData.length);
     setTeam(tempData[random]);
+    setGameResult(GameResult.default)
   }
 
 
@@ -43,12 +46,11 @@ export default function Home() {
     setTheTeam();
     // setTeam(testingTeam)
   }, []);
-  const handleGameFinished = (result: GameResult) => {
-    result === GameResult.win ? setGameOverMessage("You won!") : setGameOverMessage("You lost!");
+  const handleGameFinished = () => {
+    gameResult === GameResult.win ? setGameOverMessage("You won!") : setGameOverMessage("You lost!");
     setGameState(GameState.gameOver);
     setUserSubmissionArray(team.toLowerCase().split(""));
     setUserInput(undefined);
-    // setShowGameOverModal(true)
   }
   const handleTabChange = (tab: InputTab) => {
     setUserInput('');
@@ -142,14 +144,17 @@ export default function Home() {
       return true;
     }
     if (userSubmissionArray.length === teamUniqueLetters.length) {
-      tempCheck(userSubmissionArray, teamUniqueLetters) ? handleGameFinished(GameResult.win) : handleGameFinished(GameResult.loss);
+      if (tempCheck(userSubmissionArray, teamUniqueLetters)) {
+        setGameResult(GameResult.win);
+        handleGameFinished();
+      } else {
+        setGameResult(GameResult.loss);
+        handleGameFinished();
+      }
     }
-
   }
 
   const handleNuclearSubmission = () => {
-    //set the game state to game finished
-      setGameState(GameState.gameOver);
     // check if userNuclearInput has same number of words as team
        const array1 = userNuclearInput.join('').toLowerCase().split(' ');
        const array2 = team.toLowerCase().split(' ');
@@ -166,11 +171,15 @@ export default function Home() {
 
     // check if there is a full match
     else {
+        setGameState(GameState.gameOver);
+
         if (userNuclearInput.join('').toLowerCase() === team.toLowerCase()) {
-          handleGameFinished(GameResult.win);
+          setGameResult(GameResult.win)
+          handleGameFinished();
         }
         if (userNuclearInput.join('').toLowerCase() !== team.toLowerCase()) {
-          handleGameFinished(GameResult.loss);
+          setGameResult(GameResult.loss)
+          handleGameFinished();
         }
         const array3 = userNuclearInput.filter(item => item !== " ");
         const array4 = array3.map(item => item.toLowerCase());
@@ -198,7 +207,7 @@ export default function Home() {
       </div>
 
       <div className="flex flex-col items-center w-full h-fit">
-          <WhiteSquaresContainer gameState={gameState} userSubmissionArray={userSubmissionArray} matcherText={team} />
+          <WhiteSquaresContainer gameResult={gameResult} gameState={gameState} userSubmissionArray={userSubmissionArray} matcherText={team} />
       </div>
       <div id="tabbed-view-for-inputs" className="flex flex-col items-center w-full gap-2 py-1">
         <div id="tabbed-navbar" className="flex w-full max-w-3xl justify-evenly">

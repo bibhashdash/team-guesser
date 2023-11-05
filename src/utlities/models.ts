@@ -15,4 +15,5 @@ export enum InputTab {
 export enum GameResult {
   win = 'win',
   loss = 'loss',
+  default = 'default',
 }
