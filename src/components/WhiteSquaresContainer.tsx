@@ -46,7 +46,7 @@ export const WhiteSquaresContainer = ({
 
   const arrayOfDecksOfWhiteSquares = matcherText.split(' ');
   return (
-    <div id="white-squares-container" className="w-full h-full px-2 flex flex-col gap-2">
+    <div id="white-squares-container" className="w-full h-full px-2 flex flex-col gap-2 content-center">
       {
         matcherText ? (
             arrayOfDecksOfWhiteSquares.map((word, index) =>

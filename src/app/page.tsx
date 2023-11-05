@@ -120,7 +120,16 @@ export default function Home() {
   const handleValidInput = (count?: number) => {
 
     if (userInput !== undefined && !team.toLowerCase().includes(userInput.toLowerCase())) {
-      setWrongGuessCount(prevState => prevState + 1);
+      if (wrongGuessCount === 6) {
+        setWrongGuessCount(prevState => prevState + 1);
+        setGameResult(GameResult.loss);
+        handleGameFinished();
+        console.log(userSubmissionArray);
+        return;
+      }
+      else if (wrongGuessCount < 6) {
+        setWrongGuessCount(prevState => prevState + 1);
+      }
       setUserInput(undefined);
       return;
     } else {
@@ -230,7 +239,7 @@ export default function Home() {
           inputTab === InputTab.oneByOne ? (
               <div id="one-by-one-input" className="flex justify-center">
                 <div
-                  className="rounded-md text-3xl text-center bg-black300 border-2 border-black100 text-white100 w-16 h-12 sm:w-20 sm:h-20 flex justify-center items-center">
+                  className="rounded-md text-3xl text-center bg-black300 border-2 border-black100 text-white100 w-16 h-12 sm:w-20 sm:h-18 flex justify-center items-center">
                   {userInput}
                 </div>
               </div>
@@ -238,7 +247,7 @@ export default function Home() {
             (
               <div id="go-for-glory-input" className="flex justify-center w-full">
                 <div
-                  className="rounded-md text-sm sm:text-lg md:text-xl lg:text-3xl text-center bg-black300 border-2 border-black100 text-white100 w-full h-12 sm:h-28 flex justify-center items-center">
+                  className="rounded-md text-sm sm:text-lg md:text-xl lg:text-3xl text-center bg-black300 border-2 border-black100 text-white100 w-full h-12 sm:h-18 flex justify-center items-center">
                   {userNuclearInput}
                 </div>
               </div>
