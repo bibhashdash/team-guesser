@@ -36,3 +36,18 @@
         animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
     }
 }
+
+
+.animate-character-into-view {
+    animation: character-into-view 1s ease-in-out;
+}
+
+@keyframes character-into-view {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+

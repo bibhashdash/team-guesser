@@ -252,17 +252,17 @@ export default function Home() {
               </div>
             )
         }
-        <div className="flex gap-4 w-full justify-center">
-          {
-            wrongGuessArray.map((item, index) =>
-              <div className={`${index + 1 <= wrongGuessCount ? 'animate-on-wrong-guess' : null }`}>
-               <FootballIcon size={20} color={index + 1 <= wrongGuessCount ? '#ec0202' : '#3d3d3d'} />
-              </div>)
-          }
-        </div>
+
       </div>
 
-
+      <div className="flex gap-4 w-full justify-center">
+        {
+          wrongGuessArray.map((item, index) =>
+            <div className={`${index + 1 <= wrongGuessCount ? 'animate-on-wrong-guess' : null }`}>
+              <FootballIcon size={20} color={index + 1 <= wrongGuessCount ? '#ec0202' : '#3d3d3d'} />
+            </div>)
+        }
+      </div>
 
       <div id="virtual-keyboard" className="w-full flex flex-col gap-1 content-center">
         {
