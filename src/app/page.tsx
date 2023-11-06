@@ -21,6 +21,7 @@ export default function Home() {
   const [showGameOverModal, setShowGameOverModal] = useState<boolean>(false);
   const [inputTab, setInputTab] = useState<InputTab>(InputTab.oneByOne);
   const [disabledKeysForOneByOne, setDisabledKeysForOneByOne] = useState<string[]>([]);
+  const [buttonEffect, setButtonEffect] = useState<boolean>(false);
   // const testingTeam = "Borussia Monchengladbach";
   const setTheTeam = () => {
     setGameState(GameState.gameStarted);
@@ -120,8 +121,7 @@ export default function Home() {
           return [...prevState, ...newArray]
         });
         return;
-      }
-      else if (wrongGuessCount < 6) {
+      } else if (wrongGuessCount < 6) {
         setWrongGuessCount(prevState => prevState + 1);
       }
       setUserInput(undefined);
@@ -199,7 +199,7 @@ export default function Home() {
 
   return (
     <main
-      className="relative w-full h-screen max-w-6xl flex flex-col border-2 border-gray50 rounded lg:px-6 shadow-xl bg-black300">
+      className="relative w-full h-screen justify-between max-w-6xl flex flex-col border-2 border-gray50 rounded lg:px-6 shadow-xl bg-black300">
       <div className="flex flex-col items-center justify-evenly">
         <h1 className="text-white100 text-sm sm:text-3xl sm:text-4xl">TEAM NAME GUESSER</h1>
         <div className="w-full max-w-sm flex justify-between px-1">
@@ -253,8 +253,8 @@ export default function Home() {
       <div className="flex gap-4 w-full justify-center">
         {
           wrongGuessArray.map((item, index) =>
-            <div className={`${index + 1 <= wrongGuessCount ? 'animate-on-wrong-guess' : null }`}>
-              <FootballIcon size={20} color={index + 1 <= wrongGuessCount ? '#ec0202' : '#3d3d3d'} />
+            <div className={`${index + 1 <= wrongGuessCount ? 'animate-on-wrong-guess' : null}`}>
+              <FootballIcon size={20} color={index + 1 <= wrongGuessCount ? '#ec0202' : '#3d3d3d'}/>
             </div>)
         }
       </div>
@@ -265,14 +265,18 @@ export default function Home() {
             <div className="flex w-full gap-1">
               {
                 row.map((keyMap, index) =>
-                  <button onClick={() => {
-                    keyMap.key === "ENTER" ? handleEnterPress(inputTab) : handleUserInputSubmission(keyMap.key, inputTab)
-                  }}
-                          className={`cursor-pointer m-0 w-full py-2 lg:py-4 flex items-center justify-center 
+                  <button
+
+                    onClick={() => {
+                      setButtonEffect(true);
+                      keyMap.key === "ENTER" ? handleEnterPress(inputTab) : handleUserInputSubmission(keyMap.key, inputTab);
+                    }}
+                    onAnimationEnd={() => setButtonEffect(false)}
+                    className={`${keyMap.row < 4 && 'focus:animate-ping-once'} ${keyMap.row === 4 && buttonEffect && 'focus:animate-button-pressed'} cursor-pointer m-0 w-full py-2 lg:py-4 flex items-center justify-center 
                      ${inputTab === InputTab.oneByOne && disabledKeysForOneByOne.includes(keyMap.key)
-                            ? 'bg-black300 text-gray50'
-                            : 'bg-gray50 text-blue300 hover:bg-black100'}`}
-                          disabled={inputTab === InputTab.oneByOne ? disabledKeysForOneByOne.includes(keyMap.key) : false}
+                      ? 'bg-black300 text-gray50'
+                      : 'bg-gray50 text-blue300 hover:bg-black100'}`}
+                    disabled={inputTab === InputTab.oneByOne ? disabledKeysForOneByOne.includes(keyMap.key) : false}
                   >
                     {keyMap.key === "DEL" ? '⬅' : null} {keyMap.key}
                   </button>

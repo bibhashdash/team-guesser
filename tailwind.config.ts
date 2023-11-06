@@ -32,6 +32,18 @@ const config: Config = {
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
+      keyframes: {
+        'scale-up-down': {
+          '0%': { transform: 'scale(1)' },
+          '50%': { transform: 'scale(0.9)' },
+          '100%': { transform: 'scale(1)' },
+        }
+      },
+      animation: {
+        'bounce-once': 'bounce 0.3s cubic-bezier(0, 0, 0.2, 1) 1',
+        'ping-once': 'ping 0.3s cubic-bezier(0, 0, 0.2, 1) 1',
+        'button-pressed': 'scale-up-down 0.3s cubic-bezier(0, 0, 0.2, 1) 1',
+      },
       fontFamily: {
         sans: ["var(--font-poppins)"],
       }
