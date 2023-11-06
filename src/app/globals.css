@@ -6,6 +6,9 @@
     margin: 0;
     padding: 0;
 }
+.h-screen {
+    height: var(--vh, 100vh);
+}
 .animate-on-wrong-guess {
     animation: football-bounce 1.4s ease-in-out;
 }

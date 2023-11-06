@@ -6,8 +6,10 @@ import {GameResult, GameState, InputTab} from "@/utlities/models";
 import {WhiteSquaresContainer} from "@/components/WhiteSquaresContainer";
 import {CloseIcon} from "@/components/CloseIcon";
 import {FootballIcon} from "@/FootballIcon";
+import {useClientDimensions} from "@/utlities/clientDimensions";
 
 export default function Home() {
+  useClientDimensions();
 
   const [team, setTeam] = useState<string>('');
   const [userInput, setUserInput] = useState<string | undefined>(undefined);

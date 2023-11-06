@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Inter, Poppins } from 'next/font/google'
 import './globals.css'
+import {useClientDimensions} from "@/utlities/clientDimensions";
 
 const inter = Inter({ subsets: ['latin'] })
 const poppins = Poppins(
