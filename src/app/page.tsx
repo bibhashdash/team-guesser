@@ -7,6 +7,8 @@ import {WhiteSquaresContainer} from "@/components/WhiteSquaresContainer";
 import {CloseIcon} from "@/components/CloseIcon";
 import {FootballIcon} from "@/FootballIcon";
 import {useClientDimensions} from "@/utlities/clientDimensions";
+import {BackspaceIcon} from "@/BackspaceIcon";
+import {ReturnIcon} from "@/ReturnIcon";
 
 export default function Home() {
   useClientDimensions();
@@ -201,7 +203,7 @@ export default function Home() {
 
   return (
     <main
-      className="relative w-full h-screen justify-between max-w-6xl flex flex-col border-2 border-gray50 rounded lg:px-6 shadow-xl bg-black300">
+      className="relative w-full h-screen justify-evenly py-2 max-w-6xl flex flex-col border-2 border-gray50 rounded lg:px-6 shadow-xl bg-black300">
       <div className="flex flex-col items-center justify-evenly">
         <h1 className="text-white100 text-sm sm:text-3xl sm:text-4xl">TEAM NAME GUESSER</h1>
         <div className="w-full max-w-sm flex justify-between px-1">
@@ -264,7 +266,7 @@ export default function Home() {
       <div id="virtual-keyboard" className="w-full flex flex-col gap-1 content-center">
         {
           extendedKeyboardContent.map((row, index) =>
-            <div className="flex w-full gap-1">
+            <div className={`w-full gap-1 ${index === 4 ? 'grid grid-cols-12' : 'flex'}`}>
               {
                 row.map((keyMap, index) =>
                   <button
@@ -274,13 +276,25 @@ export default function Home() {
                       keyMap.key === "ENTER" ? handleEnterPress(inputTab) : handleUserInputSubmission(keyMap.key, inputTab);
                     }}
                     onAnimationEnd={() => setButtonEffect(false)}
-                    className={`${keyMap.row < 4 && 'focus:animate-ping-once'} ${keyMap.row === 4 && buttonEffect && 'focus:animate-button-pressed'} cursor-pointer m-0 w-full py-2 lg:py-4 flex items-center justify-center 
-                     ${inputTab === InputTab.oneByOne && disabledKeysForOneByOne.includes(keyMap.key)
+                    className={`
+                    ${keyMap.row < 4 && 'focus:animate-ping-once '} 
+                    ${keyMap.row === 4 && buttonEffect && 'focus:animate-button-pressed '}
+                    ${keyMap.key === "DEL" || keyMap.key === "ENTER" ? 'col-span-3' : keyMap.key === "SPACE" ? 'col-span-6' : null}  
+                    ${inputTab === InputTab.oneByOne && disabledKeysForOneByOne.includes(keyMap.key)
                       ? 'bg-black300 text-gray50'
-                      : 'bg-gray50 text-blue300 hover:bg-black100'}`}
+                      : 'bg-gray50 text-blue300 hover:bg-black100'}
+                      cursor-pointer m-0 w-full py-2 lg:py-4 flex items-center justify-center
+                      `}
                     disabled={inputTab === InputTab.oneByOne ? disabledKeysForOneByOne.includes(keyMap.key) : false}
                   >
-                    {keyMap.key === "DEL" ? '⬅' : null} {keyMap.key}
+                    {
+                      keyMap.key === "DEL" ? (<BackspaceIcon size={24} color="#54b4ff"/>)
+                        :
+                        keyMap.key === "ENTER" ? (<ReturnIcon size={24} color="#54b4ff"/>)
+                          :
+                          keyMap.key === "SPACE" ? ' '
+                            : keyMap.key
+                    }
                   </button>
                 )
               }
