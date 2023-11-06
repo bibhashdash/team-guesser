@@ -1,19 +1,14 @@
 'use client';
 
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {extendedKeyboardContent, keyboardContent, tempData} from "@/tempData";
 import {GameResult, GameState, InputTab} from "@/utlities/models";
 import {WhiteSquaresContainer} from "@/components/WhiteSquaresContainer";
 import {CloseIcon} from "@/components/CloseIcon";
 import {FootballIcon} from "@/FootballIcon";
 
-interface WrongGuessArrayProps {
-  isLitUp: boolean;
-}
-
 export default function Home() {
-  // premier league, c'ship, L1, L2, scottish prem, Ligue 1, Bundesliga, serie a, la liga
-  // const competitionIdsArray: Array<number> = [1, 2, 3, 4, 17, 91, 92, 93, 94];
+
   const [team, setTeam] = useState<string>('');
   const [userInput, setUserInput] = useState<string | undefined>(undefined);
   const [userNuclearInput, setUserNuclearInput] = useState<Array<string>>([]);
@@ -204,7 +199,9 @@ export default function Home() {
 
   return (
     <main
-      className="relative w-full h-screen max-w-6xl flex flex-col justify-between border-2 border-gray50 rounded lg:px-6 shadow-xl bg-black300">
+      id="main-body"
+      style={{height: `${mainHeight}px`}}
+      className="relative w-full max-w-6xl flex flex-col border-2 border-gray50 rounded lg:px-6 shadow-xl bg-black300">
       <div className="flex flex-col items-center justify-evenly">
         <h1 className="text-white100 text-sm sm:text-3xl sm:text-4xl">TEAM NAME GUESSER</h1>
         <div className="w-full max-w-sm flex justify-between px-1">
