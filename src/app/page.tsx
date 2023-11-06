@@ -199,9 +199,7 @@ export default function Home() {
 
   return (
     <main
-      id="main-body"
-      style={{height: `${mainHeight}px`}}
-      className="relative w-full max-w-6xl flex flex-col border-2 border-gray50 rounded lg:px-6 shadow-xl bg-black300">
+      className="relative w-full h-screen max-w-6xl flex flex-col border-2 border-gray50 rounded lg:px-6 shadow-xl bg-black300">
       <div className="flex flex-col items-center justify-evenly">
         <h1 className="text-white100 text-sm sm:text-3xl sm:text-4xl">TEAM NAME GUESSER</h1>
         <div className="w-full max-w-sm flex justify-between px-1">
