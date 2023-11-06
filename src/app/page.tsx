@@ -256,7 +256,7 @@ export default function Home() {
         <div className="flex gap-4 w-full justify-center">
           {
             wrongGuessArray.map((item, index) =>
-              <div className={`${index + 1 <= wrongGuessCount ? ' animate__animated animate__bounce' : null }`}>
+              <div className={`${index + 1 <= wrongGuessCount ? 'animate-on-wrong-guess' : null }`}>
                <FootballIcon size={16} color={index + 1 <= wrongGuessCount ? '#ec0202' : '#3d3d3d'} />
               </div>)
           }
