@@ -7,7 +7,7 @@
     padding: 0;
 }
 .animate-on-wrong-guess {
-    animation: bounce 1s linear;
+    animation: bounce 1.4s linear;
 }
 @keyframes bounce {
     0% {
