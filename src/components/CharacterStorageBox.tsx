@@ -1,6 +1,4 @@
 import {GameResult} from "../utlities/models";
-import {useEffect} from "react";
-import 'animate.css';
 
 interface CharacterStorageBoxProps {
   character?: string;

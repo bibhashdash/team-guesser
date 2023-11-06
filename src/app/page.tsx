@@ -5,7 +5,6 @@ import {extendedKeyboardContent, keyboardContent, tempData} from "@/tempData";
 import {GameResult, GameState, InputTab} from "@/utlities/models";
 import {WhiteSquaresContainer} from "@/components/WhiteSquaresContainer";
 import {CloseIcon} from "@/components/CloseIcon";
-import 'animate.css';
 import {FootballIcon} from "@/FootballIcon";
 
 interface WrongGuessArrayProps {
@@ -257,7 +256,7 @@ export default function Home() {
           {
             wrongGuessArray.map((item, index) =>
               <div className={`${index + 1 <= wrongGuessCount ? 'animate-on-wrong-guess' : null }`}>
-               <FootballIcon size={16} color={index + 1 <= wrongGuessCount ? '#ec0202' : '#3d3d3d'} />
+               <FootballIcon size={20} color={index + 1 <= wrongGuessCount ? '#ec0202' : '#3d3d3d'} />
               </div>)
           }
         </div>
