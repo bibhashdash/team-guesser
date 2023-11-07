@@ -340,27 +340,11 @@ export default function Home() {
                         <li><p>- German Bundesliga</p></li>
                         <li><p>- Italian Serie A</p></li>
                         <li><p>- Spanish La Liga</p></li>
+                        <li><p>- American MLS</p></li>
                       </ul>
                     </li>
                   </ul>
                 </div>
-              </div>
-            </div>
-          </div>
-        )
-      }
-      {
-        showGameOverModal && (
-          <div className="absolute w-full bg-black200 h-full px-2">
-            <div className="h-full w-full max-w-6xl bg-whiteTranslucent flex flex-col items-center">
-              <div
-                className="h-full w-full max-w-3xl bg-black200 md:px-12 lg:px-16 md:pt-12 flex flex-col justify-start gap-2 md:gap-6">
-                <div className="w-full pt-4 flex justify-between">
-                  <p className="text-lg sm:text-xl lg:text-2xl text-green200">Game Over</p>
-                  <CloseIcon onClick={() => setShowGameOverModal(false)} color="#f8f8f8" size={28}/>
-                </div>
-                <p>{gameOverMessage}</p>
-
               </div>
             </div>
           </div>
