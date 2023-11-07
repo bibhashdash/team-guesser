@@ -5,10 +5,11 @@ import {extendedKeyboardContent, keyboardContent, tempData} from "@/tempData";
 import {GameResult, GameState, InputTab} from "@/utlities/models";
 import {WhiteSquaresContainer} from "@/components/WhiteSquaresContainer";
 import {CloseIcon} from "@/components/CloseIcon";
-import {FootballIcon} from "@/FootballIcon";
+import {FootballIcon} from "@/icons/FootballIcon";
 import {useClientDimensions} from "@/utlities/clientDimensions";
-import {BackspaceIcon} from "@/BackspaceIcon";
-import {ReturnIcon} from "@/ReturnIcon";
+import {BackspaceIcon} from "@/icons/BackspaceIcon";
+import {ReturnIcon} from "@/icons/ReturnIcon";
+import {Navbar} from "@/components/Navbar";
 
 export default function Home() {
   useClientDimensions();
@@ -204,19 +205,7 @@ export default function Home() {
   return (
     <main
       className="relative w-full h-screen justify-evenly py-2 max-w-6xl flex flex-col border-2 border-gray50 rounded lg:px-6 shadow-xl bg-black300">
-      <div className="flex flex-col items-center justify-evenly">
-        <h1 className="text-white100 text-sm sm:text-3xl sm:text-4xl">TEAM NAME GUESSER</h1>
-        <div className="w-full max-w-sm flex justify-between px-1">
-          <p className="text-blue300 text-sm font-semibold underline cursor-pointer"
-             onClick={() => setShowRulesModal(true)}>
-            Rules
-          </p>
-          <p className="text-blue300 text-sm font-semibold underline cursor-pointer"
-             onClick={() => setTheTeam()}>
-            New Game
-          </p>
-        </div>
-      </div>
+      <Navbar clickRulesIcon={() => setShowRulesModal(true)} clickRefreshIcon={() => setTheTeam()} />
 
       <div className="flex flex-col items-center w-full h-fit">
         <WhiteSquaresContainer gameResult={gameResult} gameState={gameState} userSubmissionArray={userSubmissionArray}
