@@ -78,22 +78,19 @@
     }
 }
 
-.landscape-warning {
-    display: none;
+.game-over-message-fade-in {
+    animation: game-over-message-fade-in 1s ease-in-out;
 }
-/*@media only screen and (orientation: landscape) {*/
-/*    .landscape-warning {*/
-/*        display: block;*/
-/*        position: fixed;*/
-/*        top: 0;*/
-/*        left: 0;*/
-/*        width: 100vw;*/
-/*        height: 100vh;*/
-/*        background-color: rgba(0, 0, 0, 0.8);*/
-/*        z-index: 100;*/
-/*        display: flex;*/
-/*        justify-content: center;*/
-/*        align-items: center;*/
-/*    }*/
-/*}*/
+
+@keyframes game-over-message-fade-in {
+    from {
+        transform: translateY(100px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0px);
+        opacity: 1;
+    }
+}
+
 

@@ -22,11 +22,9 @@ export default function Home() {
   const [gameState, setGameState] = useState<GameState>(GameState.gameStarted);
   const [gameResult, setGameResult] = useState<GameResult>(GameResult.default);
   const [showRulesModal, setShowRulesModal] = useState<boolean>(false);
-  const [showLandscapeWarning, setShowLandscapeWarning] = useState<boolean>(false);
   const [inputTab, setInputTab] = useState<InputTab>(InputTab.oneByOne);
   const [disabledKeysForOneByOne, setDisabledKeysForOneByOne] = useState<string[]>([]);
   const [buttonEffect, setButtonEffect] = useState<boolean>(false);
-  const [bodySizes, setBodySizes] = useState({width: 0, height: 0});
   // const testingTeam = "Borussia Monchengladbach";
   const setTheTeam = () => {
     setGameState(GameState.gameStarted);
@@ -35,7 +33,6 @@ export default function Home() {
     setDisabledKeysForOneByOne([]);
     setUserNuclearInput([]);
     setUserInput(undefined);
-    setShowLandscapeWarning(false);
     setShowRulesModal(false)
     const random = Math.floor(Math.random() * tempData.length);
     setTeam(tempData[random]);
@@ -245,13 +242,24 @@ export default function Home() {
       <div className="flex gap-4 w-full justify-center">
         {
           wrongGuessArray.map((item, index) =>
-            <div className={`${index + 1 <= wrongGuessCount ? 'animate-on-wrong-guess' : null}`}>
+            <div key={index} className={`${index + 1 <= wrongGuessCount ? 'animate-on-wrong-guess' : null}`}>
               <FootballIcon size={20} color={index + 1 <= wrongGuessCount ? '#ec0202' : '#3d3d3d'}/>
             </div>)
         }
       </div>
 
-      <div id="virtual-keyboard" className="w-full flex flex-col gap-1 content-center">
+      <div id="virtual-keyboard" className="relative w-full flex flex-col gap-1 content-center">
+        {
+          gameState === GameState.gameOver && (
+            <div className="absolute w-full h-full bg-black300 opacity-90">
+              <div className="w-full h-full flex flex-col justify-center items-center game-over-message-fade-in">
+                <h1 className="text-2xl md:text-5xl text-white100" >{
+                  gameResult === GameResult.win ? 'WINNER!' : 'BAD LUCK!'
+                }</h1>
+              </div>
+            </div>
+          )
+        }
         {
           extendedKeyboardContent.map((row, index) =>
             <div key={index} className={`w-full gap-1 ${index === 4 ? 'grid grid-cols-12' : 'flex'}`}>

@@ -20,7 +20,7 @@ export const WhiteSquaresContainer = ({
   const [squareSize, setSquareSize] = React.useState(0);
   const [containerSize, setContainerSize] = React.useState(0);
   const tempArray = matcherText.split(" ");
-  // console.log(userSubmissionArray);
+
   let longestWordLength = 0;
   for (let i = 0; i < tempArray.length; i++) {
     if (tempArray[i].length > longestWordLength) {
@@ -59,7 +59,7 @@ export const WhiteSquaresContainer = ({
                               userSubmissionArray={userSubmissionArray}/>
             )
           ) :
-          <div>
+          <div className="w-full h-full flex justify-center">
            <p className="text-white100 text-center">Loading...</p>
           </div>
       }
