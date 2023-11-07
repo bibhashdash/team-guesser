@@ -51,7 +51,11 @@ export const WhiteSquaresContainer = ({
       {
         matcherText ? (
             arrayOfDecksOfWhiteSquares.map((word, index) =>
-              <WordStorageBox gameResult={gameResult} squareSize={squareSize} gameState={gameState} matcherWord={word}
+              <WordStorageBox gameResult={gameResult}
+                              squareSize={squareSize}
+                              gameState={gameState}
+                              matcherWord={word}
+                              key={index}
                               userSubmissionArray={userSubmissionArray}/>
             )
           ) :

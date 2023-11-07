@@ -16,6 +16,7 @@ export const WordStorageBox = ({matcherWord, userSubmissionArray, gameState, squ
         gameState === GameState.gameStarted ? (
           matcherWord.split('').map((item, index) =>
             <CharacterStorageBox
+              key={index}
               gameResult={gameResult}
               squareSize={squareSize}
               backgroundColor={userSubmissionArray.includes(item.toLowerCase()) ? 'bg-green400' : 'bg-white100'}
@@ -25,6 +26,7 @@ export const WordStorageBox = ({matcherWord, userSubmissionArray, gameState, squ
           (
             matcherWord.split('').map((item, index) =>
               <CharacterStorageBox
+                key={index}
                 gameResult={gameResult}
                 squareSize={squareSize}
                 backgroundColor={userSubmissionArray.includes(item.toLowerCase()) ? 'bg-green400' : 'bg-red500'}

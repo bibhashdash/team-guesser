@@ -1,7 +1,7 @@
 'use client';
 
 import React, {useEffect, useState} from "react";
-import {extendedKeyboardContent, keyboardContent, tempData} from "@/tempData";
+import {extendedKeyboardContent, tempData} from "@/tempData";
 import {GameResult, GameState, InputTab} from "@/utlities/models";
 import {WhiteSquaresContainer} from "@/components/WhiteSquaresContainer";
 import {CloseIcon} from "@/components/CloseIcon";
@@ -21,12 +21,12 @@ export default function Home() {
   const [userSubmissionArray, setUserSubmissionArray] = useState<string[]>([]);
   const [gameState, setGameState] = useState<GameState>(GameState.gameStarted);
   const [gameResult, setGameResult] = useState<GameResult>(GameResult.default);
-  const [gameOverMessage, setGameOverMessage] = useState<string>('');
   const [showRulesModal, setShowRulesModal] = useState<boolean>(false);
-  const [showGameOverModal, setShowGameOverModal] = useState<boolean>(false);
+  const [showLandscapeWarning, setShowLandscapeWarning] = useState<boolean>(false);
   const [inputTab, setInputTab] = useState<InputTab>(InputTab.oneByOne);
   const [disabledKeysForOneByOne, setDisabledKeysForOneByOne] = useState<string[]>([]);
   const [buttonEffect, setButtonEffect] = useState<boolean>(false);
+  const [bodySizes, setBodySizes] = useState({width: 0, height: 0});
   // const testingTeam = "Borussia Monchengladbach";
   const setTheTeam = () => {
     setGameState(GameState.gameStarted);
@@ -35,8 +35,7 @@ export default function Home() {
     setDisabledKeysForOneByOne([]);
     setUserNuclearInput([]);
     setUserInput(undefined);
-    setGameOverMessage('');
-    setShowGameOverModal(false);
+    setShowLandscapeWarning(false);
     setShowRulesModal(false)
     const random = Math.floor(Math.random() * tempData.length);
     setTeam(tempData[random]);
@@ -211,7 +210,7 @@ export default function Home() {
         <WhiteSquaresContainer gameResult={gameResult} gameState={gameState} userSubmissionArray={userSubmissionArray}
                                matcherText={team}/>
       </div>
-      <div id="tabbed-view-for-inputs" className="flex flex-col items-center w-full gap-2 py-1">
+      <div id="tabbed-view-for-inputs" className="flex flex-col items-center w-full gap-2 md:gap-6 py-1">
         <div id="tabbed-navbar" className="flex w-full max-w-3xl justify-evenly">
           <div onClick={() => handleTabChange(InputTab.oneByOne)}
                className={`cursor-pointer border-gray50 w-full py-2 text-center ${inputTab === InputTab.oneByOne ? 'shadow-xl border-b-4 border-b-blue500 text-blue500 font-semibold' : 'text-white50'}`}>
@@ -255,11 +254,11 @@ export default function Home() {
       <div id="virtual-keyboard" className="w-full flex flex-col gap-1 content-center">
         {
           extendedKeyboardContent.map((row, index) =>
-            <div className={`w-full gap-1 ${index === 4 ? 'grid grid-cols-12' : 'flex'}`}>
+            <div key={index} className={`w-full gap-1 ${index === 4 ? 'grid grid-cols-12' : 'flex'}`}>
               {
                 row.map((keyMap, index) =>
                   <button
-
+                    key={keyMap.id}
                     onClick={() => {
                       setButtonEffect(true);
                       keyMap.key === "ENTER" ? handleEnterPress(inputTab) : handleUserInputSubmission(keyMap.key, inputTab);
