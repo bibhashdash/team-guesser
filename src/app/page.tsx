@@ -200,7 +200,7 @@ export default function Home() {
 
   return (
     <main
-      className="relative w-full h-screen justify-evenly py-2 max-w-6xl flex flex-col border-2 border-gray50 rounded lg:px-6 shadow-xl bg-black300">
+      className="relative w-full h-screen justify-between py-2 max-w-6xl flex flex-col border-2 border-gray50 rounded lg:px-6 shadow-xl bg-black300">
       <Navbar clickRulesIcon={() => setShowRulesModal(true)} clickRefreshIcon={() => setTheTeam()} />
 
       <div className="flex flex-col items-center w-full h-fit">

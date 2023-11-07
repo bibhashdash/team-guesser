@@ -37,7 +37,7 @@
         transform: translateY(-9px);
         animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
     }
-    80% {
+    85% {
         transform: translateY(0px);
         animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
     }
