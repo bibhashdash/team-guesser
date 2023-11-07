@@ -23,8 +23,8 @@ export const CharacterStorageBox = ({character, backgroundColor, squareSize, gam
           {
             width: `${squareSize}px`,
             height: `${squareSize}px`,
-            maxWidth: "70px",
-            maxHeight: "70px",
+            maxWidth: "50px",
+            maxHeight: "50px",
             fontSize: `${squareSize <= 40 ? 20 : 30}px`,
           }
         }
