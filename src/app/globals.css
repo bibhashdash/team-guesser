@@ -84,7 +84,7 @@
 
 @keyframes game-over-message-fade-in {
     from {
-        transform: translateY(100px);
+        transform: translateY(10px);
         opacity: 0;
     }
     to {

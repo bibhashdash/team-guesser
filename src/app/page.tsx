@@ -200,7 +200,7 @@ export default function Home() {
 
   return (
     <main
-      className="relative w-full h-screen justify-between py-2 max-w-6xl flex flex-col border-2 border-gray50 rounded lg:px-6 shadow-xl bg-black300">
+      className="relative w-full h-screen justify-between py-2 md:py-6 max-w-6xl flex flex-col border-2 border-gray50 rounded lg:px-6 shadow-xl bg-black300">
       <Navbar clickRulesIcon={() => setShowRulesModal(true)} clickRefreshIcon={() => setTheTeam()} />
 
       <div className="flex flex-col items-center w-full h-fit">
@@ -252,7 +252,7 @@ export default function Home() {
         {
           gameState === GameState.gameOver && (
             <div className="absolute w-full h-full bg-black300 opacity-90">
-              <div className="w-full h-full flex flex-col justify-center items-center game-over-message-fade-in">
+              <div className="absolute top-0 w-full h-full flex flex-col justify-center items-center game-over-message-fade-in">
                 <h1 className="text-2xl md:text-5xl text-white100" >{
                   gameResult === GameResult.win ? 'WINNER!' : 'BAD LUCK!'
                 }</h1>
