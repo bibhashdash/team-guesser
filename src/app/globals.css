@@ -93,4 +93,6 @@
     }
 }
 
-
+.control-dots, .carousel-status {
+    display: none;
+}

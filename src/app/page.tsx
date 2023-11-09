@@ -10,6 +10,7 @@ import {useClientDimensions} from "@/utlities/clientDimensions";
 import {BackspaceIcon} from "@/icons/BackspaceIcon";
 import {ReturnIcon} from "@/icons/ReturnIcon";
 import {Navbar} from "@/components/Navbar";
+import {RulesModal} from "@/components/RulesModal";
 
 export default function Home() {
   useClientDimensions();
@@ -300,60 +301,8 @@ export default function Home() {
       </div>
       {
         showRulesModal && (
-          <div className="absolute w-full bg-black200 h-full px-2">
-            <div className="h-full w-full max-w-6xl bg-whiteTranslucent flex flex-col items-center">
-              <div
-                className="h-full w-full max-w-3xl bg-black200 md:px-12 lg:px-16 md:pt-12 flex flex-col justify-start gap-2 md:gap-6">
-                <div className="w-full pt-4 flex justify-between">
-                  <p className="text-lg sm:text-xl lg:text-2xl text-green200">Rules</p>
-                  <CloseIcon onClick={() => setShowRulesModal(false)} color="#f8f8f8" size={28}/>
-                </div>
-                <div className="">
-                  <ul className="m-0 text-sm sm:text-lg list-disc text-white100">
-                    <li>
-                      <p className="text-white100">Each deck of white squares represents a word in the name of a football
-                        team.</p>
-                    </li>
-                    <li>
-                      <p className="text-white100">Like hangman, you can enter 1 character and see how many occurrences
-                        you have in the entire answer.</p>
-                    </li>
-                    <li>
-                      <p className="text-white100">Or you can chance it in one attempt! Do you dare?</p>
-                    </li>
-                    <li>
-                      <p className="text-white100">If you chance it in one and get it wrong, you lose!</p>
-                    </li>
-                    <li>
-                      <p className="text-white100">Numbers/Digits/Dashes/Ampersands are very much possible in a team
-                        name.</p>
-                    </li>
-                    <li>
-                      <p className="text-white100">Other special characters not possible!</p>
-                    </li>
-                    <li>
-                      <p className="text-white100">All clues based on data from the BBC.</p>
-                    </li>
-                    <li>
-                      <p className="text-white100">All clues based on teams from the following leagues:-</p>
-                      <ul className="text-white100">
-                        <li><p>- English Premier League</p></li>
-                        <li><p>- English Championship</p></li>
-                        <li><p>- English League One</p></li>
-                        <li><p>- English League Two</p></li>
-                        <li><p>- English National League</p></li>
-                        <li><p>- Scottish Premiership</p></li>
-                        <li><p>- French Ligue 1</p></li>
-                        <li><p>- German Bundesliga</p></li>
-                        <li><p>- Italian Serie A</p></li>
-                        <li><p>- Spanish La Liga</p></li>
-                        <li><p>- American MLS</p></li>
-                      </ul>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
+          <div className="absolute w-full h-screen top-0 left-0 bg-black300">
+            <RulesModal onClickClose={() => setShowRulesModal(false)} />
           </div>
         )
       }
