@@ -22,7 +22,7 @@ export const RulesModal = ({onClickClose}: RulesModalProps) => {
         <CloseIcon onClick={onClickClose} color="#f8f8f8" size={28}/>
       </div>
       <div className="text-xs">
-        <Carousel autoplay={false}>
+        <Carousel autoPlay={false}>
           <RulesModalSlide index={1}>
             <p className="leading-6 text-left"><span className="font-display">?ERFECT</span> is a really simple game
               (and very
@@ -31,7 +31,7 @@ export const RulesModal = ({onClickClose}: RulesModalProps) => {
             <div className="w-full flex flex-col items-center border-2 border-gray50 rounded-md p-2">
               <WhiteSquaresContainer matcherText="Manchester United" userSubmissionArray={["e"]}
                                      gameState={GameState.gameStarted} gameResult={GameResult.default}/>
-              <InputSection inputTab={InputTab.oneByOne} userInput="e" userNuclearInput="" onClickTab={() => {
+              <InputSection inputTab={InputTab.oneByOne} userInput="e" userNuclearInput={[]} onClickTab={() => {
               }}/>
             </div>
             <p className="leading-6 text-left">You can keep going till you get the full name. If the character isn't in
