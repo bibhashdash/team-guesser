@@ -12,6 +12,7 @@ import {ReturnIcon} from "@/icons/ReturnIcon";
 import {Navbar} from "@/components/Navbar";
 import {RulesModal} from "@/components/RulesModal";
 import {InputSection} from "@/components/InputSection";
+import {Keyboard} from "@/components/Keyboard";
 
 export default function Home() {
   useClientDimensions();
@@ -219,56 +220,16 @@ export default function Home() {
         }
       </div>
 
-      <div id="virtual-keyboard" className="relative w-full flex flex-col gap-1 content-center">
-        {
-          gameState === GameState.gameOver && (
-            <div className="absolute w-full h-full bg-black300 opacity-90">
-              <div className="absolute top-0 w-full h-full flex flex-col justify-center items-center game-over-message-fade-in">
-                <h1 className="text-2xl md:text-5xl text-white100" >{
-                  gameResult === GameResult.win ? 'WINNER!' : 'BAD LUCK!'
-                }</h1>
-              </div>
-            </div>
-          )
-        }
-        {
-          extendedKeyboardContent.map((row, index) =>
-            <div key={index} className={`w-full gap-1 ${index === 4 ? 'grid grid-cols-12' : 'flex'}`}>
-              {
-                row.map((keyMap, index) =>
-                  <button
-                    key={keyMap.id}
-                    onClick={() => {
-                      setButtonEffect(true);
-                      keyMap.key === "ENTER" ? handleEnterPress(inputTab) : handleUserInputSubmission(keyMap.key, inputTab);
-                    }}
-                    onAnimationEnd={() => setButtonEffect(false)}
-                    className={`
-                    ${keyMap.row < 4 && 'focus:animate-ping-once '} 
-                    ${keyMap.row === 4 && buttonEffect && 'focus:animate-button-pressed '}
-                    ${keyMap.key === "DEL" || keyMap.key === "ENTER" ? 'col-span-3' : keyMap.key === "SPACE" ? 'col-span-6' : null}  
-                    ${inputTab === InputTab.oneByOne && disabledKeysForOneByOne.includes(keyMap.key)
-                      ? 'bg-black300 text-gray50'
-                      : 'bg-gray50 text-blue300 hover:bg-black100'}
-                      cursor-pointer m-0 w-full py-2 lg:py-4 flex items-center justify-center
-                      `}
-                    disabled={inputTab === InputTab.oneByOne ? disabledKeysForOneByOne.includes(keyMap.key) : false}
-                  >
-                    {
-                      keyMap.key === "DEL" ? (<BackspaceIcon size={24} color="#54b4ff"/>)
-                        :
-                        keyMap.key === "ENTER" ? (<ReturnIcon size={24} color="#54b4ff"/>)
-                          :
-                          keyMap.key === "SPACE" ? ' '
-                            : keyMap.key
-                    }
-                  </button>
-                )
-              }
-            </div>
-          )
-        }
-      </div>
+      <Keyboard
+        inputTab={inputTab}
+        buttonEffect={buttonEffect}
+        buttonEffectCallback={setButtonEffect}
+        onEnterClick={handleEnterPress}
+        userInputSubmissionCallback={handleUserInputSubmission}
+        disabledKeysArray={disabledKeysForOneByOne}
+        gameState={gameState}
+        gameResult={gameResult}
+      />
       {
         showRulesModal && (
           <div className="absolute w-full h-screen top-0 left-0 bg-black300">
