@@ -93,6 +93,11 @@
     }
 }
 
-.control-dots, .carousel-status {
+.carousel-status, .control-arrow {
     display: none;
 }
+
+.control-dots {
+    position: relative !important;
+}
+
