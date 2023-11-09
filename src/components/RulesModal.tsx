@@ -2,18 +2,19 @@ import {Carousel} from "react-responsive-carousel";
 import {RulesModalSlide} from "@/components/RulesModalSlide";
 import {CloseIcon} from "@/components/CloseIcon";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-import Image from "next/image";
-import rule1Pic1 from "../../public/assets/rule1pic1.png";
 import {WhiteSquaresContainer} from "@/components/WhiteSquaresContainer";
 import {GameResult, GameState, InputTab} from "@/utlities/models";
 import {InputSection} from "@/components/InputSection";
 import {Keyboard} from "@/components/Keyboard";
+import {FootballIcon} from "@/icons/FootballIcon";
+import React from "react";
 
 interface RulesModalProps {
   onClickClose: () => void;
 }
 
 export const RulesModal = ({onClickClose}: RulesModalProps) => {
+  const wrongGuessArray = new Array(7).fill(<></>);
   return (
     <div className="h-screen w-full py-2 lg:py-6 text-white100 flex flex-col">
       <div className="flex justify-between w-full my-5 px-2">
@@ -48,6 +49,20 @@ export const RulesModal = ({onClickClose}: RulesModalProps) => {
             <p className="leading-6 text-left">The downside? If you get it wrong, you lose. No re-dos!</p>
           </RulesModalSlide>
           <RulesModalSlide index={3}>
+            <p className="leading-6 text-left"><p className="leading-6 text-left">In <span className="text-blue300 font-bold">One by One</span> mode you have 7 chances.</p></p>
+            <div className="w-full flex flex-col items-center border-2 border-gray50 rounded-md p-2">
+              <div className="flex gap-4 w-full justify-center">
+                {
+                  wrongGuessArray.map((item, index) =>
+                    <div key={index} className={`${index + 1 <= 6 ? 'animate-on-wrong-guess' : null}`}>
+                      <FootballIcon size={20} color={index + 1 <= 6 ? '#ec0202' : '#3d3d3d'}/>
+                    </div>)
+                }
+              </div>
+            </div>
+            <p className="leading-6 text-left">Else it's off for an early bath!</p>
+          </RulesModalSlide>
+          <RulesModalSlide index={4}>
             <p className="leading-6 text-left">Numbers/Dashes/Ampersands are very much possible in a team name.</p>
             <div className="w-full flex flex-col items-center border-2 border-gray50 rounded-md p-2">
               <WhiteSquaresContainer matcherText="Vfl Bochum 1848"
@@ -60,7 +75,7 @@ export const RulesModal = ({onClickClose}: RulesModalProps) => {
             </div>
             <p className="leading-6 text-left">Other special characters, not really!</p>
           </RulesModalSlide>
-          <RulesModalSlide index={4}>
+          <RulesModalSlide index={5}>
             <p className="leading-6 text-left">In <span className="text-blue300 font-bold">One by One</span> mode once you
               submit a character, it is no longer available on the keyboard.</p>
             <div className="w-full flex flex-col items-center border-2 border-gray50 rounded-md p-2">
@@ -83,7 +98,7 @@ export const RulesModal = ({onClickClose}: RulesModalProps) => {
               />
             </div>
           </RulesModalSlide>
-          <RulesModalSlide index={5}>
+          <RulesModalSlide index={6}>
             <p className="leading-6 text-left">All clues based on teams from the following leagues.</p>
             <div>
               <ul className="list-disc text-left text-lg">
