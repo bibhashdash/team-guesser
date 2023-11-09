@@ -93,7 +93,7 @@
     }
 }
 
-.carousel-status, .control-arrow {
+.carousel-status {
     display: none;
 }
 
@@ -101,10 +101,7 @@
     position: relative !important;
 }
 
-/*.slide {*/
-/*    border: 2px solid #fff;*/
-/*    flex-direction: row !important;*/
-/*    justify-content: center !important;*/
-/*    flex-flow: row !important;*/
-/*}*/
+.dot {
+    background: #54b4ff !important;
+}
 
