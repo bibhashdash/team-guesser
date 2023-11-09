@@ -10,6 +10,9 @@ import {useClientDimensions} from "@/utlities/clientDimensions";
 import {BackspaceIcon} from "@/icons/BackspaceIcon";
 import {ReturnIcon} from "@/icons/ReturnIcon";
 import {Navbar} from "@/components/Navbar";
+import {RulesModal} from "@/components/RulesModal";
+import {InputSection} from "@/components/InputSection";
+import {Keyboard} from "@/components/Keyboard";
 
 export default function Home() {
   useClientDimensions();
@@ -207,38 +210,7 @@ export default function Home() {
         <WhiteSquaresContainer gameResult={gameResult} gameState={gameState} userSubmissionArray={userSubmissionArray}
                                matcherText={team}/>
       </div>
-      <div id="tabbed-view-for-inputs" className="flex flex-col items-center w-full gap-2 md:gap-6 py-1">
-        <div id="tabbed-navbar" className="flex w-full max-w-3xl justify-evenly">
-          <div onClick={() => handleTabChange(InputTab.oneByOne)}
-               className={`cursor-pointer border-gray50 w-full py-2 text-center ${inputTab === InputTab.oneByOne ? 'shadow-xl border-b-4 border-b-blue500 text-blue500 font-semibold' : 'text-white50'}`}>
-            One by One
-          </div>
-          <div onClick={() => handleTabChange(InputTab.goForGlory)}
-               className={`cursor-pointer border-gray50 w-full py-2 text-center ${inputTab === InputTab.goForGlory ? 'shadow-xl border-b-4 border-b-blue500 text-blue500 font-semibold' : 'text-white50'}`}>
-            Go for glory!
-          </div>
-        </div>
-        {
-          inputTab === InputTab.oneByOne ? (
-              <div id="one-by-one-input" className="flex justify-center">
-                <div
-                  className="rounded-md text-3xl text-center bg-black300 border-2 border-black100 text-white100 w-16 h-12 sm:w-20 sm:h-18 flex justify-center items-center">
-                  {userInput}
-                </div>
-              </div>
-            ) :
-            (
-              <div id="go-for-glory-input" className="flex justify-center w-full">
-                <div
-                  className="rounded-md text-sm sm:text-lg md:text-xl lg:text-3xl text-center bg-black300 border-2 border-black100 text-white100 w-full h-12 sm:h-18 flex justify-center items-center">
-                  {userNuclearInput}
-                </div>
-              </div>
-            )
-        }
-
-      </div>
-
+      <InputSection inputTab={inputTab} userInput={userInput ?? ''} userNuclearInput={userNuclearInput} onClickTab={handleTabChange} />
       <div className="flex gap-4 w-full justify-center">
         {
           wrongGuessArray.map((item, index) =>
@@ -248,112 +220,20 @@ export default function Home() {
         }
       </div>
 
-      <div id="virtual-keyboard" className="relative w-full flex flex-col gap-1 content-center">
-        {
-          gameState === GameState.gameOver && (
-            <div className="absolute w-full h-full bg-black300 opacity-90">
-              <div className="absolute top-0 w-full h-full flex flex-col justify-center items-center game-over-message-fade-in">
-                <h1 className="text-2xl md:text-5xl text-white100" >{
-                  gameResult === GameResult.win ? 'WINNER!' : 'BAD LUCK!'
-                }</h1>
-              </div>
-            </div>
-          )
-        }
-        {
-          extendedKeyboardContent.map((row, index) =>
-            <div key={index} className={`w-full gap-1 ${index === 4 ? 'grid grid-cols-12' : 'flex'}`}>
-              {
-                row.map((keyMap, index) =>
-                  <button
-                    key={keyMap.id}
-                    onClick={() => {
-                      setButtonEffect(true);
-                      keyMap.key === "ENTER" ? handleEnterPress(inputTab) : handleUserInputSubmission(keyMap.key, inputTab);
-                    }}
-                    onAnimationEnd={() => setButtonEffect(false)}
-                    className={`
-                    ${keyMap.row < 4 && 'focus:animate-ping-once '} 
-                    ${keyMap.row === 4 && buttonEffect && 'focus:animate-button-pressed '}
-                    ${keyMap.key === "DEL" || keyMap.key === "ENTER" ? 'col-span-3' : keyMap.key === "SPACE" ? 'col-span-6' : null}  
-                    ${inputTab === InputTab.oneByOne && disabledKeysForOneByOne.includes(keyMap.key)
-                      ? 'bg-black300 text-gray50'
-                      : 'bg-gray50 text-blue300 hover:bg-black100'}
-                      cursor-pointer m-0 w-full py-2 lg:py-4 flex items-center justify-center
-                      `}
-                    disabled={inputTab === InputTab.oneByOne ? disabledKeysForOneByOne.includes(keyMap.key) : false}
-                  >
-                    {
-                      keyMap.key === "DEL" ? (<BackspaceIcon size={24} color="#54b4ff"/>)
-                        :
-                        keyMap.key === "ENTER" ? (<ReturnIcon size={24} color="#54b4ff"/>)
-                          :
-                          keyMap.key === "SPACE" ? ' '
-                            : keyMap.key
-                    }
-                  </button>
-                )
-              }
-            </div>
-          )
-        }
-      </div>
+      <Keyboard
+        inputTab={inputTab}
+        buttonEffect={buttonEffect}
+        buttonEffectCallback={setButtonEffect}
+        onEnterClick={handleEnterPress}
+        userInputSubmissionCallback={handleUserInputSubmission}
+        disabledKeysArray={disabledKeysForOneByOne}
+        gameState={gameState}
+        gameResult={gameResult}
+      />
       {
         showRulesModal && (
-          <div className="absolute w-full bg-black200 h-full px-2">
-            <div className="h-full w-full max-w-6xl bg-whiteTranslucent flex flex-col items-center">
-              <div
-                className="h-full w-full max-w-3xl bg-black200 md:px-12 lg:px-16 md:pt-12 flex flex-col justify-start gap-2 md:gap-6">
-                <div className="w-full pt-4 flex justify-between">
-                  <p className="text-lg sm:text-xl lg:text-2xl text-green200">Rules</p>
-                  <CloseIcon onClick={() => setShowRulesModal(false)} color="#f8f8f8" size={28}/>
-                </div>
-                <div className="">
-                  <ul className="m-0 text-sm sm:text-lg list-disc text-white100">
-                    <li>
-                      <p className="text-white100">Each deck of white squares represents a word in the name of a football
-                        team.</p>
-                    </li>
-                    <li>
-                      <p className="text-white100">Like hangman, you can enter 1 character and see how many occurrences
-                        you have in the entire answer.</p>
-                    </li>
-                    <li>
-                      <p className="text-white100">Or you can chance it in one attempt! Do you dare?</p>
-                    </li>
-                    <li>
-                      <p className="text-white100">If you chance it in one and get it wrong, you lose!</p>
-                    </li>
-                    <li>
-                      <p className="text-white100">Numbers/Digits/Dashes/Ampersands are very much possible in a team
-                        name.</p>
-                    </li>
-                    <li>
-                      <p className="text-white100">Other special characters not possible!</p>
-                    </li>
-                    <li>
-                      <p className="text-white100">All clues based on data from the BBC.</p>
-                    </li>
-                    <li>
-                      <p className="text-white100">All clues based on teams from the following leagues:-</p>
-                      <ul className="text-white100">
-                        <li><p>- English Premier League</p></li>
-                        <li><p>- English Championship</p></li>
-                        <li><p>- English League One</p></li>
-                        <li><p>- English League Two</p></li>
-                        <li><p>- English National League</p></li>
-                        <li><p>- Scottish Premiership</p></li>
-                        <li><p>- French Ligue 1</p></li>
-                        <li><p>- German Bundesliga</p></li>
-                        <li><p>- Italian Serie A</p></li>
-                        <li><p>- Spanish La Liga</p></li>
-                        <li><p>- American MLS</p></li>
-                      </ul>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
+          <div className="absolute w-full h-screen top-0 left-0 bg-black300">
+            <RulesModal onClickClose={() => setShowRulesModal(false)} />
           </div>
         )
       }

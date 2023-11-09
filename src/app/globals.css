@@ -93,4 +93,15 @@
     }
 }
 
+.carousel-status {
+    display: none;
+}
+
+.control-dots {
+    position: relative !important;
+}
+
+.dot {
+    background: #54b4ff !important;
+}
 
