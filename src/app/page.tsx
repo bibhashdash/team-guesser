@@ -28,6 +28,7 @@ export default function Home() {
   const [inputTab, setInputTab] = useState<InputTab>(InputTab.oneByOne);
   const [disabledKeysForOneByOne, setDisabledKeysForOneByOne] = useState<string[]>([]);
   const [buttonEffect, setButtonEffect] = useState<boolean>(false);
+  const [wrongAnswerInputEffect, setWrongAnswerInputEffect] = useState<boolean>(false);
   // const testingTeam = "Borussia Monchengladbach";
   const setTheTeam = () => {
     setGameState(GameState.gameStarted);
@@ -172,14 +173,27 @@ export default function Home() {
     const array2 = team.toLowerCase().split(' ');
     if (array1.length !== array2.length) {
       // show an error message saying "Number of words do not match"
+      setWrongAnswerInputEffect(true);
       return;
+    }
+    else if (array1.length === array2.length) {
+      for (let i=0; i<array1.length ; i++) {
+        if (array1[i].length !== array2[i].length) {
+          setWrongAnswerInputEffect(true);
+          return;
+        }
+      }
     }
 
     // check if userNuclearInput has same number of characters as team
     if (userNuclearInput.length !== team.length) {
+      setWrongAnswerInputEffect(true);
       // show an error message saying "Number of characters do not match"
       return;
     }
+
+    // check if team name and user nuclear input have the same number of words and each word has the same number of characters
+
 
     // check if there is a full match
     else {
@@ -206,7 +220,7 @@ export default function Home() {
       className="relative w-full h-screen justify-between py-2 md:py-6 max-w-6xl flex flex-col border-2 border-gray50 rounded lg:px-6 shadow-xl bg-black300">
       <Navbar clickRulesIcon={() => setShowRulesModal(true)} clickRefreshIcon={() => setTheTeam()} />
 
-      <div className="flex flex-col items-center w-full h-fit">
+      <div onAnimationEnd={() => setWrongAnswerInputEffect(false)} className={`flex flex-col items-center w-full h-fit ${wrongAnswerInputEffect && 'wrong-answer-input'}`}>
         <WhiteSquaresContainer gameResult={gameResult} gameState={gameState} userSubmissionArray={userSubmissionArray}
                                matcherText={team}/>
       </div>
