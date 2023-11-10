@@ -1,5 +1,5 @@
 import {GameResult} from "../utlities/models";
-import {useEffect, useRef} from "react";
+import React, {MutableRefObject, useEffect, useRef} from "react";
 import {className} from "postcss-selector-parser";
 
 interface CharacterStorageBoxProps {
@@ -10,10 +10,15 @@ interface CharacterStorageBoxProps {
 }
 
 export const CharacterStorageBox = ({character, backgroundColor, squareSize, gameResult}: CharacterStorageBoxProps) => {
-  const characterStorageRef = useRef<HTMLParagraphElement | null>(null);
-  if (character !=='' && character !== undefined && characterStorageRef.current) {
-    characterStorageRef.current?.classList.add('animate-character-into-view');
-  }
+  const characterStorageRef = useRef<HTMLDivElement | null>(null);
+
+    if (characterStorageRef && characterStorageRef.current) {
+      if (character !=='' && character !== undefined) {
+        characterStorageRef.current?.classList.add('animate-character-into-view');
+
+      }
+    }
+
   return (
     <div
       className={`mt-1 flex justify-center items-center ${backgroundColor}`}
@@ -29,9 +34,9 @@ export const CharacterStorageBox = ({character, backgroundColor, squareSize, gam
           }
         }
     >
-      <p className="text-center text-white100" ref={characterStorageRef}>
+      <div className="text-center text-white100" ref={characterStorageRef as MutableRefObject<HTMLDivElement>}>
         {character}
-      </p>
+      </div>
     </div>
   )
 }

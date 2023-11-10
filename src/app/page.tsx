@@ -220,11 +220,22 @@ export default function Home() {
       className="relative w-full h-screen justify-between py-2 md:py-6 max-w-6xl flex flex-col border-2 border-gray50 rounded lg:px-6 shadow-xl bg-black300">
       <Navbar clickRulesIcon={() => setShowRulesModal(true)} clickRefreshIcon={() => setTheTeam()} />
 
-      <div onAnimationEnd={() => setWrongAnswerInputEffect(false)} className={`flex flex-col items-center w-full h-fit ${wrongAnswerInputEffect && 'wrong-answer-input'}`}>
-        <WhiteSquaresContainer gameResult={gameResult} gameState={gameState} userSubmissionArray={userSubmissionArray}
-                               matcherText={team}/>
+      <div
+        onAnimationEnd={() => setWrongAnswerInputEffect(false)}
+        className={`flex flex-col items-center w-full h-fit ${wrongAnswerInputEffect && 'wrong-answer-input'}`}
+      >
+        <WhiteSquaresContainer
+          gameResult={gameResult}
+          gameState={gameState}
+          userSubmissionArray={userSubmissionArray}
+          matcherText={team}
+        />
       </div>
-      <InputSection inputTab={inputTab} userInput={userInput ?? ''} userNuclearInput={userNuclearInput} onClickTab={handleTabChange} />
+      <InputSection
+        inputTab={inputTab}
+        userInput={userInput ?? ''} userNuclearInput={userNuclearInput}
+        onClickTab={handleTabChange}
+      />
       <div className="flex gap-4 w-full justify-center">
         {
           wrongGuessArray.map((item, index) =>
