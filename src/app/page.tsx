@@ -13,6 +13,7 @@ import {Navbar} from "@/components/Navbar";
 import {RulesModal} from "@/components/RulesModal";
 import {InputSection} from "@/components/InputSection";
 import {Keyboard} from "@/components/Keyboard";
+import {CreditsModal} from "@/components/CreditsModal";
 
 export default function Home() {
   useClientDimensions();
@@ -29,6 +30,7 @@ export default function Home() {
   const [disabledKeysForOneByOne, setDisabledKeysForOneByOne] = useState<string[]>([]);
   const [buttonEffect, setButtonEffect] = useState<boolean>(false);
   const [wrongAnswerInputEffect, setWrongAnswerInputEffect] = useState<boolean>(false);
+  const [showCreditsModal, setShowCreditsModal] = useState<boolean>(false);
   // const testingTeam = "Borussia Monchengladbach";
   const setTheTeam = () => {
     setGameState(GameState.gameStarted);
@@ -218,7 +220,11 @@ export default function Home() {
   return (
     <main
       className="relative w-full h-screen justify-between py-2 md:py-6 max-w-6xl flex flex-col border-2 border-gray50 rounded lg:px-6 shadow-xl bg-black300">
-      <Navbar clickRulesIcon={() => setShowRulesModal(true)} clickRefreshIcon={() => setTheTeam()} />
+      <Navbar
+        clickRulesIcon={() => setShowRulesModal(true)}
+        clickRefreshIcon={() => setTheTeam()}
+        clickCreditsIcon={() => setShowCreditsModal(true)}
+      />
 
       <div
         onAnimationEnd={() => setWrongAnswerInputEffect(false)}
@@ -259,6 +265,13 @@ export default function Home() {
         showRulesModal && (
           <div className="absolute w-full h-screen top-0 left-0 bg-black300">
             <RulesModal onClickClose={() => setShowRulesModal(false)} />
+          </div>
+        )
+      }
+      {
+        showCreditsModal && (
+          <div className="absolute w-full h-screen top-0 left-0 bg-black300">
+            <CreditsModal onClickClose={() => setShowCreditsModal(false)} />
           </div>
         )
       }
