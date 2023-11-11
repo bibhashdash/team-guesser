@@ -10,7 +10,7 @@ interface NavbarProps {
 
 export const Navbar = ({clickRulesIcon, clickRefreshIcon, clickCreditsIcon}: NavbarProps) => {
   return (
-    <div className="bg-black300 w-full md:py-6 px-2 md:px-6 flex flex-col gap-1 items-center">
+    <div className="bg-black300 w-full md:py-2 px-2 md:px-6 flex flex-col gap-2 items-center">
       <div>
         <p className="text-white100 text-xs md:text-xl italic">Think you know your football team names?</p>
       </div>
