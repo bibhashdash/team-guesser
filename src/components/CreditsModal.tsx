@@ -12,8 +12,8 @@ export const CreditsModal = ({onClickClose}: CreditsModalProps) => {
         <h1 className="text-white100">Credits</h1>
         <CloseIcon onClick={onClickClose} color="#f8f8f8" size={28}/>
       </div>
-      <div className="text-xs text-center px-2 md:px-8 flex flex-col gap-4 md:gap-10">
-        <p className="text-left leading-4 md:text-center">
+      <div className="text-center px-2 md:px-8 flex flex-col gap-4 md:gap-10">
+        <p className="text-xs sm:text-lg text-left leading-4">
           As the game developer, I'd like to thank the following folks for their time, advice, guidance, and (most
           importantly!) feedback.
         </p>
@@ -31,7 +31,7 @@ export const CreditsModal = ({onClickClose}: CreditsModalProps) => {
             <li>Felix Wentworth</li>
           </ul>
         </div>
-        <p className="text-left leading-4 md:text-center">
+        <p className="text-xs sm:text-lg text-left leading-4">
           If you'd like to make any suggestions or provide any feedback, I'd love to hear from you! Please feel free to
           connect with me on <a className="text-blue500"
                                 href="https://www.linkedin.com/in/bibhash-dash-57307921/" target="_blank">LinkedIn</a>.
