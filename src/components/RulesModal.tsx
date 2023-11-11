@@ -24,7 +24,7 @@ export const RulesModal = ({onClickClose}: RulesModalProps) => {
       <div className="text-xs">
         <Carousel autoPlay={false}>
           <RulesModalSlide index={1}>
-            <p className="leading-6 text-left"><span className="font-display">?ERFECT</span> is a really simple game
+            <p className="leading-6 text-left"><span className="font-display">?ERFECT</span> is a really simple game around football team names
               (and very
               similar to Hangman). You can enter characters one by one and see how many occurrences there are in
               the answer.</p>
