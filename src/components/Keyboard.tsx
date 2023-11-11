@@ -58,7 +58,7 @@ export const Keyboard = (
                     ${inputTab === InputTab.oneByOne && disabledKeysArray.includes(keyMap.key)
                     ? 'bg-black300 text-gray50'
                     : 'bg-gray50 text-blue300 hover:bg-black100'}
-                      cursor-pointer m-0 w-full py-2 lg:py-4 flex items-center justify-center
+                      cursor-pointer m-0 w-full py-2 lg:py-4 flex items-center justify-center max-[320px]:text-xs 
                       `}
                   disabled={inputTab === InputTab.oneByOne ? disabledKeysArray.includes(keyMap.key) : false}
                 >

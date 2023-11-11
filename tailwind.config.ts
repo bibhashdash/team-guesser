@@ -52,7 +52,7 @@ const config: Config = {
       },
       fontFamily: {
         sans: ["var(--font-poppins)"],
-        display: ["Rock Salt"],
+        display: ["Orbitron"],
       }
     },
   },
