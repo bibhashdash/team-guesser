@@ -99,6 +99,25 @@ export const RulesModal = ({onClickClose}: RulesModalProps) => {
             </div>
           </RulesModalSlide>
           <RulesModalSlide index={6}>
+            <p className="leading-4 text-left">In <span className="text-blue300 font-bold">Go For Glory</span> mode you must get the following correct before being considered for a victory check:-</p>
+            <ul className="text-left m-0 p-0">
+              <li>Number of words in the team name</li>
+              <li>Number of characters in each word of the team name</li>
+              <li>Number of characters in the entire team name</li>
+            </ul>
+            <p>So for example, if the correct answer is meant to be: AFC Wimbledon</p>
+            <p>Then the following entry</p>
+            <div className="w-full flex flex-col items-center border-2 border-gray50 rounded-md p-2">
+
+              <InputSection inputTab={InputTab.goForGlory} userInput=""
+                            userNuclearInput={["A", "F", "C", "E", " ", "W", "I", "M", "B", "L", "E", "D", "O", "O", "N"]}
+                            onClickTab={() => {
+                            }}/>
+            </div>
+            <p>...would be invalid! Make sure you check the white squares to see how many characters and words you need.</p>
+          </RulesModalSlide>
+
+          <RulesModalSlide index={7}>
             <p className="leading-6 text-left">All clues based on teams from the following leagues.</p>
             <div>
               <ul className="list-disc text-left text-lg">
