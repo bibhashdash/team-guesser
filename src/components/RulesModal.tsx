@@ -101,9 +101,9 @@ export const RulesModal = ({onClickClose}: RulesModalProps) => {
           <RulesModalSlide index={6}>
             <p className="leading-4 text-left">In <span className="text-blue300 font-bold">Go For Glory</span> mode you must get the following correct before being considered for a victory check:-</p>
             <ul className="text-left m-0 p-0">
-              <li>Number of words in the team name</li>
-              <li>Number of characters in each word of the team name</li>
-              <li>Number of characters in the entire team name</li>
+              <li>- Number of words in the team name</li>
+              <li>- Number of characters in each word of the team name</li>
+              <li>- Number of characters in the entire team name</li>
             </ul>
             <p>So for example, if the correct answer is meant to be: AFC Wimbledon</p>
             <p>Then the following entry</p>

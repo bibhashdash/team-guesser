@@ -8,16 +8,19 @@ interface CreditsModalProps {
 export const CreditsModal = ({onClickClose}: CreditsModalProps) => {
   return (
     <div className="h-screen w-full py-2 lg:py-6 text-white100 flex flex-col">
-      <div className="flex justify-between w-full my-5 px-2">
+      <div className="flex justify-between w-full my-2 px-2">
         <h1 className="text-white100">Credits</h1>
         <CloseIcon onClick={onClickClose} color="#f8f8f8" size={28}/>
       </div>
       <div className="text-center px-2 md:px-8 flex flex-col gap-4 md:gap-10">
         <p className="text-xs sm:text-lg text-left leading-4">
-          As the game developer, I'd like to thank the following folks for their time, advice, guidance, and (most
-          importantly!) feedback.
+          Hi! I'm Bibhash Dash. Thank you for taking the time to enjoy this little game of mine.
         </p>
-        <div className="w-full flex justify-center text-xl">
+        <p className="text-xs sm:text-lg text-left leading-4">
+          As the saying goes, "It takes a village". Therefore I'd like to thank the following folks for their time, advice, guidance, and (most
+          importantly!) feedback during the development process.
+        </p>
+        <div className="w-full flex justify-center text-lg">
           <ul className="list-disc text-left">
             <li>Kirstie Dash</li>
             <li>Arjun Dash</li>
@@ -29,6 +32,7 @@ export const CreditsModal = ({onClickClose}: CreditsModalProps) => {
             <li>Craig Pickles</li>
             <li>Andy Gibson</li>
             <li>Felix Wentworth</li>
+            <li>Chris Maughan</li>
           </ul>
         </div>
         <p className="text-xs sm:text-lg text-left leading-4">
