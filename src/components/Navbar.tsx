@@ -27,15 +27,15 @@ export const Navbar = ({clickRulesIcon, clickRefreshIcon, clickCreditsIcon}: Nav
           <div className={`gap-4 md:gap-8 ${!showMenu && 'hidden'} flex px-2 md:px-4 rounded`}>
             <div onClick={() => clickRulesIcon()}
                  className="cursor-pointer flex items-center focus:animate-button-pressed">
-              <p className="text-black50 text-xs sm:text-xl hover:text-blue500">Rules</p>
+              <p className="text-white100 text-xs sm:text-xl hover:text-blue500">Rules</p>
             </div>
             <div onClick={() => clickRefreshIcon()}
                  className="cursor-pointer flex items-center focus:animate-button-pressed">
-              <p className="text-black50 text-xs sm:text-xl hover:text-blue500">New Game</p>
+              <p className="text-white100 text-xs sm:text-xl hover:text-blue500">New Game</p>
             </div>
             <div onClick={() => clickCreditsIcon()}
                  className="cursor-pointer flex items-center focus:animate-button-pressed">
-              <p className="text-black50 text-xs sm:text-xl hover:text-blue500">Credits</p>
+              <p className="text-white100 text-xs sm:text-xl hover:text-blue500">Credits</p>
             </div>
           </div>
           <div onClick={() => setShowMenu(true)}
