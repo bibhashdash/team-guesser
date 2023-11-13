@@ -27,24 +27,44 @@ export const RulesModal = ({onClickClose}: RulesModalProps) => {
             <p className="leading-6 text-left"><span className="font-display">?ERFECT</span> is a really simple game around football team names
               (and very
               similar to Hangman). You can enter characters one by one and see how many occurrences there are in
-              the answer.</p>
+              the answer.
+            </p>
             <div className="w-full flex flex-col items-center border-2 border-gray50 rounded-md p-2">
-              <WhiteSquaresContainer matcherText="Manchester United" userSubmissionArray={["e"]}
-                                     gameState={GameState.gameStarted} gameResult={GameResult.default}/>
-              <InputSection inputTab={InputTab.oneByOne} userInput="e" userNuclearInput={[]} onClickTab={() => {
-              }}/>
+              <WhiteSquaresContainer
+                matcherText="Manchester United"
+                userSubmissionArray={["e"]}
+                gameState={GameState.gameStarted}
+                gameResult={GameResult.default}
+                nuclearInputFullString={"Manchester United"}
+                inputTab={InputTab.oneByOne}
+              />
+              <InputSection
+                inputTab={InputTab.oneByOne}
+                userInput="e"
+                tempNuclearInput={'Manchester United'}
+                onClickTab={() => {}}
+              />
             </div>
             <p className="leading-6 text-left">You can keep going till you get the full name. If the character isn't in
-              the name, it won't show up in the answer board.</p>
+              the name, it won't show up in the answer board.
+            </p>
           </RulesModalSlide>
           <RulesModalSlide index={2}>
             <p className="leading-6 text-left">Or you can chance it in one go. Do you dare?</p>
             <div className="w-full flex flex-col items-center border-2 border-gray50 rounded-md p-2">
-              <WhiteSquaresContainer matcherText="Arsenal" userSubmissionArray={["f", "r", "s", "e", "n", "l"]}
-                                     gameState={GameState.gameOver} gameResult={GameResult.loss}/>
-              <InputSection inputTab={InputTab.goForGlory} userInput="e"
-                            userNuclearInput={["f", "r", "s", "e", "n", "a", "l"]} onClickTab={() => {
-              }}/>
+              <WhiteSquaresContainer
+                matcherText="Arsenal"
+                userSubmissionArray={["f", "r", "s", "e", "n", "l"]}
+                gameState={GameState.gameOver}
+                gameResult={GameResult.loss}
+                inputTab={InputTab.goForGlory}
+                nuclearInputFullString={"FRSENAL"}
+              />
+              <InputSection inputTab={InputTab.goForGlory}
+                            userInput="e"
+                            tempNuclearInput={"frsenal"}
+                            onClickTab={() => {}}
+              />
             </div>
             <p className="leading-6 text-left">The downside? If you get it wrong, you lose. No re-dos!</p>
           </RulesModalSlide>
@@ -65,13 +85,20 @@ export const RulesModal = ({onClickClose}: RulesModalProps) => {
           <RulesModalSlide index={4}>
             <p className="leading-6 text-left">Numbers/Dashes/Ampersands are very much possible in a team name.</p>
             <div className="w-full flex flex-col items-center border-2 border-gray50 rounded-md p-2">
-              <WhiteSquaresContainer matcherText="Vfl Bochum 1848"
-                                     userSubmissionArray={['v', 'f', 'l', 'b', 'o', 'c', 'h', 'u', 'm', '1', '8', '4', '8']}
-                                     gameState={GameState.gameOver} gameResult={GameResult.win}/>
-              <InputSection inputTab={InputTab.goForGlory} userInput="e"
-                            userNuclearInput={['V', 'f', 'l', ' ', 'B', 'o', 'c', 'h', 'u', 'm', ' ', '1', '8', '4', '8']}
-                            onClickTab={() => {
-                            }}/>
+              <WhiteSquaresContainer
+                matcherText="Vfl Bochum 1848"
+                nuclearInputFullString={"Vfl Bochum 1848"}
+                inputTab={InputTab.goForGlory}
+                userSubmissionArray={['v', 'f', 'l', 'b', 'o', 'c', 'h', 'u', 'm', '1', '8', '4', '8']}
+                gameState={GameState.gameOver}
+                gameResult={GameResult.win}
+              />
+              <InputSection
+                inputTab={InputTab.goForGlory}
+                userInput="e"
+                tempNuclearInput={"Vfl Bochum 1848"}
+                onClickTab={() => {}}
+              />
             </div>
             <p className="leading-6 text-left">Other special characters, not really!</p>
           </RulesModalSlide>
@@ -79,13 +106,19 @@ export const RulesModal = ({onClickClose}: RulesModalProps) => {
             <p className="leading-6 text-left">In <span className="text-blue300 font-bold">One by One</span> mode once you
               submit a character, it is no longer available on the keyboard.</p>
             <div className="w-full flex flex-col items-center border-2 border-gray50 rounded-md p-2">
-              <WhiteSquaresContainer matcherText="Chelsea"
-                                     userSubmissionArray={['e', 'l', 's']}
-                                     gameState={GameState.gameStarted} gameResult={GameResult.default}/>
-              <InputSection inputTab={InputTab.oneByOne} userInput=""
-                            userNuclearInput={[]}
-                            onClickTab={() => {
-                            }}/>
+              <WhiteSquaresContainer
+                matcherText="Chelsea"
+                userSubmissionArray={['e', 'l', 's']}
+                nuclearInputFullString={'Hello'}
+                inputTab={InputTab.oneByOne}
+                gameState={GameState.gameStarted}
+                gameResult={GameResult.default}
+              />
+              <InputSection
+                inputTab={InputTab.oneByOne} userInput=""
+                tempNuclearInput={''}
+                onClickTab={() => {}}
+              />
               <Keyboard
                 inputTab={InputTab.oneByOne}
                 buttonEffect={true}
@@ -110,10 +143,12 @@ export const RulesModal = ({onClickClose}: RulesModalProps) => {
             <p>Then the following entry</p>
             <div className="w-full flex flex-col items-center border-2 border-gray50 rounded-md p-2">
 
-              <InputSection inputTab={InputTab.goForGlory} userInput=""
-                            userNuclearInput={["A", "F", "C", "E", " ", "W", "I", "M", "B", "L", "E", "D", "O", "O", "N"]}
-                            onClickTab={() => {
-                            }}/>
+              <InputSection
+                inputTab={InputTab.goForGlory}
+                userInput=""
+                tempNuclearInput={"AFCE WIMBLEDOON"}
+                onClickTab={() => {}}
+              />
             </div>
             <p>...would be invalid! Make sure you check the white squares to see how many characters and words you need.</p>
           </RulesModalSlide>

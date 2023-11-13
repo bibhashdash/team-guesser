@@ -1,7 +1,7 @@
 'use client';
 
 import {WordStorageBox} from "./WordStorageBox";
-import {GameResult, GameState} from "@/utlities/models";
+import {GameResult, GameState, InputTab} from "@/utlities/models";
 import React, {useRef} from "react";
 
 export interface WhiteSquaresContainerProps {
@@ -9,13 +9,17 @@ export interface WhiteSquaresContainerProps {
   userSubmissionArray: Array<string>;
   gameState: GameState;
   gameResult: GameResult;
+  inputTab: InputTab;
+  nuclearInputFullString: string;
 }
 
 export const WhiteSquaresContainer = ({
                                         matcherText,
                                         userSubmissionArray,
                                         gameState,
-                                        gameResult
+                                        gameResult,
+                                        inputTab,
+                                        nuclearInputFullString
                                       }: WhiteSquaresContainerProps) => {
   const [squareSize, setSquareSize] = React.useState(0);
   const [containerSize, setContainerSize] = React.useState(0);
@@ -46,6 +50,9 @@ export const WhiteSquaresContainer = ({
   }, [containerSize]);
 
   const arrayOfDecksOfWhiteSquares = matcherText.split(' ');
+
+  const arrayOfFullUserNuclearInput = nuclearInputFullString.split(' ');
+
   return (
     <div id="white-squares-container" className="w-full h-full px-2 flex flex-col gap-2 content-center">
       {
@@ -56,7 +63,10 @@ export const WhiteSquaresContainer = ({
                               gameState={gameState}
                               matcherWord={word}
                               key={index}
-                              userSubmissionArray={userSubmissionArray}/>
+                              inputTab={inputTab}
+                              userSubmissionArray={userSubmissionArray}
+                              userNuclearWord={arrayOfFullUserNuclearInput[index]}
+              />
             )
           ) :
           <div className="w-full h-full flex justify-center">

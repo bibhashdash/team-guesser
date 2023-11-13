@@ -234,6 +234,9 @@ export const tempData =
     "Austin FC",
     "LA Galaxy",
   ];
+
+const gillinghamPosn = tempData.indexOf("Inter Miami CF");
+console.log(gillinghamPosn);
 let longestWordInEntireArray = "";
 const bigResult = tempData.reduce((acc, curr) => {
     let longestOfAnIndividualTeam = "";

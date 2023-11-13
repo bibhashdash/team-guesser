@@ -1,7 +1,7 @@
 import type {Meta, StoryObj} from '@storybook/react';
 import {WhiteSquaresContainer} from "./WhiteSquaresContainer";
 import {useEffect, useState} from "react";
-import {GameResult, GameState} from "../utlities/models";
+import {GameResult, GameState, InputTab} from "../utlities/models";
 
 interface Props {
   userInput: string;
@@ -45,7 +45,7 @@ export const Default = {
       setUserSubmissionArray(userInput.toLowerCase().split(''));
     }, [userInput]);
     return (
-      <WhiteSquaresContainer gameResult={GameResult.default} matcherText={matcherWord} userSubmissionArray={userSubmissionArray} gameState={gameState} />
+      <WhiteSquaresContainer nuclearInputFullString={''} inputTab={InputTab.oneByOne} gameResult={GameResult.default} matcherText={matcherWord} userSubmissionArray={userSubmissionArray} gameState={gameState} />
     )
   }
 }

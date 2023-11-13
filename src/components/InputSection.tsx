@@ -4,11 +4,11 @@ import React from "react";
 interface InputSectionProps {
   inputTab: InputTab;
   userInput: string;
-  userNuclearInput: string[];
+  tempNuclearInput: string;
   onClickTab: (tab: InputTab) => void;
 }
 
-export const InputSection = ({userInput, userNuclearInput, inputTab, onClickTab}: InputSectionProps) => {
+export const InputSection = ({userInput, inputTab, onClickTab ,tempNuclearInput}: InputSectionProps) => {
   return (
     <div id="tabbed-view-for-inputs" className="flex flex-col items-center w-full gap-2 md:gap-6 py-1">
       <div id="tabbed-navbar" className="flex w-full max-w-3xl justify-evenly">
@@ -34,7 +34,7 @@ export const InputSection = ({userInput, userNuclearInput, inputTab, onClickTab}
             <div id="go-for-glory-input" className="flex justify-center w-full">
               <div
                 className="rounded-md text-sm sm:text-lg md:text-xl lg:text-3xl text-center bg-black300 border-2 border-black100 text-white100 w-full h-12 sm:h-18 flex justify-center items-center">
-                {userNuclearInput}
+                {tempNuclearInput}
               </div>
             </div>
           )

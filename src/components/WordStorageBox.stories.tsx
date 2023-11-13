@@ -1,7 +1,7 @@
 import type {Meta, StoryObj} from '@storybook/react';
 import {WordStorageBox} from "./WordStorageBox";
 import {useEffect, useState} from "react";
-import {GameResult, GameState} from "../utlities/models";
+import {GameResult, GameState, InputTab} from "../utlities/models";
 
 interface Props {
   userInput: string;
@@ -54,7 +54,7 @@ export const Default = {
       setGameResultState(gameResult);
     }, [gameResult]);
     return (
-      <WordStorageBox gameResult={gameResult} squareSize={39} matcherWord={'Manchester'} userSubmissionArray={userSubmissionArray} gameState={gameState} />
+      <WordStorageBox userNuclearWord={''} inputTab={InputTab.oneByOne} gameResult={gameResult} squareSize={39} matcherWord={'Manchester'} userSubmissionArray={userSubmissionArray} gameState={gameState} />
     )
   }
 }
