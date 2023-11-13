@@ -95,6 +95,7 @@ export const RulesModal = ({onClickClose}: RulesModalProps) => {
                 disabledKeysArray={["E", "L", "S"]}
                 gameState={GameState.gameStarted}
                 gameResult={GameResult.default}
+                onClickNewGameButton={() => {}}
               />
             </div>
           </RulesModalSlide>
