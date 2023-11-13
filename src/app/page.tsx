@@ -39,7 +39,7 @@ export default function Home() {
     setShowRulesModal(false);
     setTempNuclearInput('');
     const random = Math.floor(Math.random() * tempData.length);
-    setTeam(tempData[77]);
+    setTeam(tempData[random]);
     setGameResult(GameResult.default);
     setWrongGuessCount(0);
   }
