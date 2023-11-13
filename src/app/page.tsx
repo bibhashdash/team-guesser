@@ -260,6 +260,7 @@ export default function Home() {
         disabledKeysArray={disabledKeysForOneByOne}
         gameState={gameState}
         gameResult={gameResult}
+        onClickNewGameButton={() => setTheTeam()}
       />
       {
         showRulesModal && (

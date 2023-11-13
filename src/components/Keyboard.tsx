@@ -3,6 +3,7 @@ import {GameResult, GameState, InputTab} from "@/utlities/models";
 import {BackspaceIcon} from "@/icons/BackspaceIcon";
 import {ReturnIcon} from "@/icons/ReturnIcon";
 import React from "react";
+import {GameResultBanner} from "@/components/GameResultBanner";
 
 interface KeyboardProps {
   inputTab: InputTab;
@@ -13,6 +14,7 @@ interface KeyboardProps {
   disabledKeysArray: string[];
   gameState: GameState;
   gameResult: GameResult;
+  onClickNewGameButton: () => void;
 }
 
 export const Keyboard = (
@@ -24,19 +26,17 @@ export const Keyboard = (
     buttonEffect,
     disabledKeysArray,
     gameState,
-    gameResult
+    gameResult,
+    onClickNewGameButton
   }: KeyboardProps) => {
   return (
     <div className="relative w-full flex flex-col gap-1 content-center">
       {
         gameState === GameState.gameOver && (
-          <div className="absolute w-full h-full bg-black300 opacity-90">
-            <div className="absolute top-0 w-full h-full flex flex-col justify-center items-center game-over-message-fade-in">
-              <h1 className="text-2xl md:text-5xl text-white100" >{
-                gameResult === GameResult.win ? 'WINNER!' : 'BAD LUCK!'
-              }</h1>
-            </div>
-          </div>
+          <GameResultBanner
+            gameResult={gameResult}
+            onButtonClick={onClickNewGameButton}
+          />
         )
       }
       {
