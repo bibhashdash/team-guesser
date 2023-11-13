@@ -1,14 +1,11 @@
 'use client';
 
 import React, {useEffect, useState} from "react";
-import {extendedKeyboardContent, tempData} from "@/tempData";
+import {tempData} from "@/tempData";
 import {GameResult, GameState, InputTab} from "@/utlities/models";
 import {WhiteSquaresContainer} from "@/components/WhiteSquaresContainer";
-import {CloseIcon} from "@/components/CloseIcon";
 import {FootballIcon} from "@/icons/FootballIcon";
 import {useClientDimensions} from "@/utlities/clientDimensions";
-import {BackspaceIcon} from "@/icons/BackspaceIcon";
-import {ReturnIcon} from "@/icons/ReturnIcon";
 import {Navbar} from "@/components/Navbar";
 import {RulesModal} from "@/components/RulesModal";
 import {InputSection} from "@/components/InputSection";
@@ -20,7 +17,8 @@ export default function Home() {
 
   const [team, setTeam] = useState<string>('');
   const [userInput, setUserInput] = useState<string | undefined>(undefined);
-  const [userNuclearInput, setUserNuclearInput] = useState<Array<string>>([]);
+  const [tempNuclearInput, setTempNuclearInput] = useState<string>('');
+  const [nuclearSubmissionFullString, setNuclearSubmissionFullString] = useState<string>('');
   const [wrongGuessCount, setWrongGuessCount] = useState<number>(0);
   const [userSubmissionArray, setUserSubmissionArray] = useState<string[]>([]);
   const [gameState, setGameState] = useState<GameState>(GameState.gameStarted);
@@ -37,9 +35,9 @@ export default function Home() {
     setUserSubmissionArray([]);
     setInputTab(InputTab.oneByOne);
     setDisabledKeysForOneByOne([]);
-    setUserNuclearInput([]);
     setUserInput(undefined);
-    setShowRulesModal(false)
+    setShowRulesModal(false);
+    setTempNuclearInput('');
     const random = Math.floor(Math.random() * tempData.length);
     setTeam(tempData[random]);
     setGameResult(GameResult.default);
@@ -59,7 +57,7 @@ export default function Home() {
   }
   const handleTabChange = (tab: InputTab) => {
     setUserInput('');
-    setUserNuclearInput([]);
+    setTempNuclearInput('');
     setInputTab(tab);
   }
 
@@ -74,7 +72,7 @@ export default function Home() {
         }
         break;
       case InputTab.goForGlory:
-        if (userNuclearInput.length > 0) {
+        if (tempNuclearInput.length > 0) {
           // call the handlenuclearsubmission function
           handleNuclearSubmission();
         }
@@ -100,14 +98,14 @@ export default function Home() {
         break;
       case InputTab.goForGlory:
         if (text === "DEL") {
-          setUserNuclearInput(prevState => prevState.slice(0, prevState.length - 1));
+          setTempNuclearInput(prevState => prevState.slice(0, prevState.length - 1));
           return;
         }
         if (text === "SPACE") {
-          setUserNuclearInput(prevState => [...prevState, " "]);
+          setTempNuclearInput(prevState => prevState + " ");
           return;
         }
-        setUserNuclearInput(prevState => [...prevState, text]);
+        setTempNuclearInput(prevState => prevState + text)
         break;
     }
   }
@@ -171,7 +169,7 @@ export default function Home() {
 
   const handleNuclearSubmission = () => {
     // check if userNuclearInput has same number of words as team
-    const array1 = userNuclearInput.join('').toLowerCase().split(' ');
+    const array1 = tempNuclearInput.toLowerCase().split(' ');
     const array2 = team.toLowerCase().split(' ');
     if (array1.length !== array2.length) {
       // show an error message saying "Number of words do not match"
@@ -188,7 +186,7 @@ export default function Home() {
     }
 
     // check if userNuclearInput has same number of characters as team
-    if (userNuclearInput.length !== team.length) {
+    if (tempNuclearInput.length !== team.length) {
       setWrongAnswerInputEffect(true);
       // show an error message saying "Number of characters do not match"
       return;
@@ -201,17 +199,18 @@ export default function Home() {
     else {
       setGameState(GameState.gameOver);
 
-      if (userNuclearInput.join('').toLowerCase() === team.toLowerCase()) {
+      if (tempNuclearInput.toLowerCase() === team.toLowerCase()) {
         setGameResult(GameResult.win)
         handleGameFinished();
       }
-      if (userNuclearInput.join('').toLowerCase() !== team.toLowerCase()) {
+      if (tempNuclearInput.toLowerCase() !== team.toLowerCase()) {
         setGameResult(GameResult.loss)
         handleGameFinished();
       }
-      const array3 = userNuclearInput.filter(item => item !== " ");
-      const array4 = array3.map(item => item.toLowerCase());
-      setUserSubmissionArray(array4);
+      // Derby County - correct answer
+      // Darby County - tempNuclearInput
+
+     setNuclearSubmissionFullString(tempNuclearInput);
       setGameState(GameState.gameOver);
     }
 
@@ -235,12 +234,15 @@ export default function Home() {
           gameState={gameState}
           userSubmissionArray={userSubmissionArray}
           matcherText={team}
+          inputTab={inputTab}
+          nuclearInputFullString={nuclearSubmissionFullString}
         />
       </div>
       <InputSection
         inputTab={inputTab}
-        userInput={userInput ?? ''} userNuclearInput={userNuclearInput}
+        userInput={userInput ?? ''}
         onClickTab={handleTabChange}
+        tempNuclearInput={tempNuclearInput}
       />
       <div className="flex gap-4 w-full justify-center">
         {
