@@ -21,12 +21,12 @@ export const WordStorageBox = ({
                                  inputTab,
                                  userNuclearWord
                                }: WordStorageBoxProps) => {
-  const getBgColorAlt = (matcherItem: string, userSubmissionItem: string, tab: InputTab) => {
+  const getBgColorAlt = (matcherItem: string, index: number, tab: InputTab) => {
     let bgAlt = '';
     if (tab === InputTab.oneByOne) {
       userSubmissionArray.includes(matcherItem.toLowerCase()) ? bgAlt = 'bg-green400' : bgAlt = 'bg-red500';
     } else {
-      matcherItem.toLowerCase() === userSubmissionItem.toLowerCase() ? bgAlt = 'bg-green400' : bgAlt = 'bg-red500'
+      matcherItem.toLowerCase() === userNuclearWord[index].toLowerCase() ? bgAlt = 'bg-green400' : bgAlt = 'bg-red500'
     }
 
     return bgAlt
@@ -52,7 +52,7 @@ export const WordStorageBox = ({
                 key={index}
                 gameResult={gameResult}
                 squareSize={squareSize}
-                backgroundColor={getBgColorAlt(item, userNuclearWord[index], inputTab)}
+                backgroundColor={getBgColorAlt(item, index, inputTab)}
                 character={item}/>
             ))
       }

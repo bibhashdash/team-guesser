@@ -38,6 +38,7 @@ export default function Home() {
     setUserInput(undefined);
     setShowRulesModal(false);
     setTempNuclearInput('');
+    setNuclearSubmissionFullString('');
     const random = Math.floor(Math.random() * tempData.length);
     setTeam(tempData[random]);
     setGameResult(GameResult.default);
