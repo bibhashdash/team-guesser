@@ -208,8 +208,6 @@ export default function Home() {
         setGameResult(GameResult.loss)
         handleGameFinished();
       }
-      // Derby County - correct answer
-      // Darby County - tempNuclearInput
 
      setNuclearSubmissionFullString(tempNuclearInput);
       setGameState(GameState.gameOver);
@@ -244,6 +242,7 @@ export default function Home() {
         userInput={userInput ?? ''}
         onClickTab={handleTabChange}
         tempNuclearInput={tempNuclearInput}
+        gameState={gameState}
       />
       <div className="flex gap-4 w-full justify-center">
         {

@@ -10,7 +10,7 @@ export const GameResultBanner = ({gameResult, onButtonClick}: GameResultBannerPr
   return (
     <div className="absolute w-full h-full bg-black300 opacity-95">
       <div className="absolute top-0 w-full h-full flex flex-col gap-6 justify-center items-center game-over-message-fade-in">
-        <h1 className="text-2xl md:text-5xl text-white100">
+        <h1 className="text-7xl text-white100">
           {
             gameResult === GameResult.win ? 'WINNER!' : 'BAD LUCK!'
           }

@@ -43,6 +43,7 @@ export const RulesModal = ({onClickClose}: RulesModalProps) => {
                 userInput="e"
                 tempNuclearInput={'Manchester United'}
                 onClickTab={() => {}}
+                gameState={GameState.gameStarted}
               />
             </div>
             <p className="leading-6 text-left">You can keep going till you get the full name. If the character isn't in
@@ -64,6 +65,7 @@ export const RulesModal = ({onClickClose}: RulesModalProps) => {
                             userInput="e"
                             tempNuclearInput={"frsenal"}
                             onClickTab={() => {}}
+                            gameState={GameState.gameStarted}
               />
             </div>
             <p className="leading-6 text-left">The downside? If you get it wrong, you lose. No re-dos!</p>
@@ -98,6 +100,7 @@ export const RulesModal = ({onClickClose}: RulesModalProps) => {
                 userInput="e"
                 tempNuclearInput={"Vfl Bochum 1848"}
                 onClickTab={() => {}}
+                gameState={GameState.gameStarted}
               />
             </div>
             <p className="leading-6 text-left">Other special characters, not really!</p>
@@ -118,6 +121,7 @@ export const RulesModal = ({onClickClose}: RulesModalProps) => {
                 inputTab={InputTab.oneByOne} userInput=""
                 tempNuclearInput={''}
                 onClickTab={() => {}}
+                gameState={GameState.gameStarted}
               />
               <Keyboard
                 inputTab={InputTab.oneByOne}
@@ -148,6 +152,7 @@ export const RulesModal = ({onClickClose}: RulesModalProps) => {
                 userInput=""
                 tempNuclearInput={"AFCE WIMBLEDOON"}
                 onClickTab={() => {}}
+                gameState={GameState.gameStarted}
               />
             </div>
             <p>...would be invalid! Make sure you check the white squares to see how many characters and words you need.</p>

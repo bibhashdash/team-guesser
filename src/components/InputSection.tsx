@@ -1,4 +1,4 @@
-import {InputTab} from "@/utlities/models";
+import {GameState, InputTab} from "@/utlities/models";
 import React from "react";
 
 interface InputSectionProps {
@@ -6,20 +6,22 @@ interface InputSectionProps {
   userInput: string;
   tempNuclearInput: string;
   onClickTab: (tab: InputTab) => void;
+  gameState: GameState;
 }
 
-export const InputSection = ({userInput, inputTab, onClickTab ,tempNuclearInput}: InputSectionProps) => {
+export const InputSection = ({userInput, inputTab, onClickTab ,tempNuclearInput, gameState}: InputSectionProps) => {
   return (
     <div id="tabbed-view-for-inputs" className="flex flex-col items-center w-full gap-2 md:gap-6 py-1">
       <div id="tabbed-navbar" className="flex w-full max-w-3xl justify-evenly">
-        <div onClick={() => onClickTab(InputTab.oneByOne)}
+        <button onClick={() => onClickTab(InputTab.oneByOne)}
+                disabled={gameState === GameState.gameOver}
              className={`cursor-pointer border-gray50 w-full py-2 text-center ${inputTab === InputTab.oneByOne ? 'shadow-xl border-b-4 border-b-blue500 text-blue500 font-semibold' : 'text-white50'}`}>
           One by One
-        </div>
-        <div onClick={() => onClickTab(InputTab.goForGlory)}
+        </button>
+        <button onClick={() => onClickTab(InputTab.goForGlory)} disabled={gameState === GameState.gameOver}
              className={`cursor-pointer border-gray50 w-full py-2 text-center ${inputTab === InputTab.goForGlory ? 'shadow-xl border-b-4 border-b-blue500 text-blue500 font-semibold' : 'text-white50'}`}>
           Go for glory!
-        </div>
+        </button>
       </div>
       {
         inputTab === InputTab.oneByOne ? (
