@@ -15,6 +15,7 @@ const config: Config = {
      green400: '#188100',
      gray50: 'rgba(218,218,218,0.06)',
       black50: 'rgba(176,176,176,0.46)',
+      black75: 'rgba(176,176,176,0.96)',
       black100: '#626262',
       black200: '#4d4d4d',
       black250: '#3d3d3d',

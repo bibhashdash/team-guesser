@@ -16,7 +16,7 @@ interface RulesModalProps {
 export const RulesModal = ({onClickClose}: RulesModalProps) => {
   const wrongGuessArray = new Array(7).fill(<></>);
   return (
-    <div className="h-screen w-full py-2 lg:py-6 text-white100 flex flex-col">
+    <div className="absolute h-screen w-full py-2 lg:py-6 text-white100 flex flex-col bg-black300">
       <div className="flex justify-between w-full my-2 px-2">
         <h1 className="text-white100">Rules</h1>
         <CloseIcon onClick={onClickClose} color="#f8f8f8" size={28}/>

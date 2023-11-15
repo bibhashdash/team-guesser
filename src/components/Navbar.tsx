@@ -15,9 +15,6 @@ export const Navbar = ({clickRulesIcon, clickRefreshIcon, clickCreditsIcon}: Nav
   const [showMenu, setShowMenu] = useState<boolean>(false);
   return (
     <div className="bg-black300 w-full md:py-2 px-2 md:px-6 flex flex-col gap-2 items-center">
-      <div>
-        <p className="text-white100 text-xs md:text-xl italic">Think you know your football team names?</p>
-      </div>
       <div className="flex items-center w-full justify-between">
         <div className="flex flex-col items-center gap-2">
           <h1 className="text-sm sm:text-2xl text-white100 font-display">?ERFECT</h1>
