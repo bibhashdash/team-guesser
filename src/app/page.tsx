@@ -11,9 +11,14 @@ import {RulesModal} from "@/components/RulesModal";
 import {InputSection} from "@/components/InputSection";
 import {Keyboard} from "@/components/Keyboard";
 import {CreditsModal} from "@/components/CreditsModal";
+import {SplashScreen} from "@/components/SplashScreen";
 
 export default function Home() {
   useClientDimensions();
+
+  useEffect(() => {
+    setShowSplashModal(true);
+  }, [])
 
   const [team, setTeam] = useState<string>('');
   const [userInput, setUserInput] = useState<string | undefined>(undefined);
@@ -29,6 +34,7 @@ export default function Home() {
   const [buttonEffect, setButtonEffect] = useState<boolean>(false);
   const [wrongAnswerInputEffect, setWrongAnswerInputEffect] = useState<boolean>(false);
   const [showCreditsModal, setShowCreditsModal] = useState<boolean>(false);
+  const [showSplashModal, setShowSplashModal] = useState<boolean>(false);
   // const testingTeam = "Borussia Monchengladbach";
   const setTheTeam = () => {
     setGameState(GameState.gameStarted);
@@ -276,6 +282,11 @@ export default function Home() {
           <div className="absolute w-full h-screen top-0 left-0 bg-black300">
             <CreditsModal onClickClose={() => setShowCreditsModal(false)} />
           </div>
+        )
+      }
+      {
+        showSplashModal && (
+            <SplashScreen />
         )
       }
     </main>
