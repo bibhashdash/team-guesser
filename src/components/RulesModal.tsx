@@ -161,18 +161,20 @@ export const RulesModal = ({onClickClose}: RulesModalProps) => {
           <RulesModalSlide index={7}>
             <p className="leading-6 text-left">All clues based on teams from the following leagues.</p>
             <div>
-              <ul className="list-disc text-left text-lg">
-                <li className="">Premier League</li>
-                <li className="">Championship</li>
-                <li className="">League One</li>
-                <li className="">League Two</li>
-                <li className="">National League</li>
-                <li className="">Scottish Premiership</li>
-                <li className="">French Ligue 1</li>
-                <li className="">German Bundesliga</li>
-                <li className="">Italian Serie A</li>
-                <li className="">Spanish La Liga</li>
-                <li className="">American MLS</li>
+              <ul className="list-disc text-left text-sm">
+                <li>Premier League</li>
+                <li>Championship</li>
+                <li>League One</li>
+                <li>League Two</li>
+                <li>National League</li>
+                <li>Scottish Premiership</li>
+                <li>French Ligue 1</li>
+                <li>German Bundesliga</li>
+                <li>Italian Serie A</li>
+                <li>Spanish La Liga</li>
+                <li>American MLS</li>
+                <li>Australian A-League</li>
+                <li>Indian Super League</li>
               </ul>
             </div>
             <p className="leading-6 text-left">More being added in future. All data based on the BBC or official club/league websites.</p>
