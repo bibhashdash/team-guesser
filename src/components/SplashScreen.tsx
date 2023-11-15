@@ -1,9 +1,14 @@
+import Lottie from "lottie-react";
+import bouncingBallAnimation from "../lottie/bouncingBall.json"
 export const SplashScreen = () => {
   return (
-    <div className="fixed w-full h-screen top-0 left-0 bg-black300 flex justify-center items-center">
-      <div>
-        <h1 className="font-display">Welcome to ?ERFECT</h1>
+    <>
+      <div className="game-over-message-fade-in">
+        <h1 className="font-display text-white100 text-5xl">?ERFECT</h1>
       </div>
-    </div>
+      <div className="h-[300px] w-[300px] game-over-message-fade-in">
+        <Lottie animationData={bouncingBallAnimation} />
+      </div>
+    </>
   )
 }
