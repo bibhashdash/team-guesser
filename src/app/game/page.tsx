@@ -11,6 +11,8 @@ import {RulesModal} from "@/components/RulesModal";
 import {InputSection} from "@/components/InputSection";
 import {Keyboard} from "@/components/Keyboard";
 import {CreditsModal} from "@/components/CreditsModal";
+import {GamePageInitialReminder} from "@/components/GamePageInitialReminder";
+import {WrongGuessMarkers} from "@/components/WrongGuessMarkers";
 
 
 export default function Game() {
@@ -29,7 +31,12 @@ export default function Game() {
   const [buttonEffect, setButtonEffect] = useState<boolean>(false);
   const [wrongAnswerInputEffect, setWrongAnswerInputEffect] = useState<boolean>(false);
   const [showCreditsModal, setShowCreditsModal] = useState<boolean>(false);
+  const [showInitialReminder, setShowInitialReminder] = useState<boolean>(false);
   // const testingTeam = "Borussia Monchengladbach";
+
+  useEffect(() => {
+   setShowInitialReminder(true);
+  }, [])
 
   const setTheTeam = () => {
     setGameState(GameState.gameStarted);
@@ -45,8 +52,6 @@ export default function Game() {
     setGameResult(GameResult.default);
     setWrongGuessCount(0);
   }
-
-  const wrongGuessArray = new Array(7).fill(<></>)
 
   useEffect(() => {
     setTheTeam();
@@ -213,7 +218,6 @@ export default function Game() {
      setNuclearSubmissionFullString(tempNuclearInput);
       setGameState(GameState.gameOver);
     }
-
   }
 
   return (
@@ -245,14 +249,7 @@ export default function Game() {
         tempNuclearInput={tempNuclearInput}
         gameState={gameState}
       />
-      <div className="flex gap-4 w-full justify-center">
-        {
-          wrongGuessArray.map((item, index) =>
-            <div key={index} className={`${index + 1 <= wrongGuessCount ? 'animate-on-wrong-guess' : null}`}>
-              <FootballIcon size={20} color={index + 1 <= wrongGuessCount ? '#ec0202' : '#3d3d3d'}/>
-            </div>)
-        }
-      </div>
+      <WrongGuessMarkers wrongGuessCount={wrongGuessCount} />
 
       <Keyboard
         inputTab={inputTab}
@@ -276,6 +273,13 @@ export default function Game() {
         showCreditsModal && (
           <div className="absolute w-full h-screen top-0 left-0 bg-black300">
             <CreditsModal onClickClose={() => setShowCreditsModal(false)} />
+          </div>
+        )
+      }
+      {
+        showInitialReminder && (
+          <div className="absolute w-full top-0 left-0 backdrop-blur h-full bg-backdropFilter flex justify-center py-2 px-2 sm:px-4 md:py-20">
+            <GamePageInitialReminder onClickClose={() => setShowInitialReminder(false)} />
           </div>
         )
       }
