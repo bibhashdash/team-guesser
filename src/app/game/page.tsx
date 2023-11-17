@@ -4,8 +4,6 @@ import React, {useEffect, useState} from "react";
 import {tempData} from "@/tempData";
 import {GameResult, GameState, InputTab} from "@/utlities/models";
 import {WhiteSquaresContainer} from "@/components/WhiteSquaresContainer";
-import {FootballIcon} from "@/icons/FootballIcon";
-import {useClientDimensions} from "@/utlities/clientDimensions";
 import {Navbar} from "@/components/Navbar";
 import {RulesModal} from "@/components/RulesModal";
 import {InputSection} from "@/components/InputSection";
@@ -14,9 +12,7 @@ import {CreditsModal} from "@/components/CreditsModal";
 import {GamePageInitialReminder} from "@/components/GamePageInitialReminder";
 import {WrongGuessMarkers} from "@/components/WrongGuessMarkers";
 
-
 export default function Game() {
-
   const [team, setTeam] = useState<string>('');
   const [userInput, setUserInput] = useState<string | undefined>(undefined);
   const [tempNuclearInput, setTempNuclearInput] = useState<string>('');
@@ -33,6 +29,11 @@ export default function Game() {
   const [showCreditsModal, setShowCreditsModal] = useState<boolean>(false);
   const [showInitialReminder, setShowInitialReminder] = useState<boolean>(false);
   // const testingTeam = "Borussia Monchengladbach";
+  const [timeElapsed, setTimeElapsed] = useState<number>(0)
+
+  setInterval(() => {
+    setTimeElapsed(prevState => prevState + 1);
+  }, 1000);
 
   useEffect(() => {
    setShowInitialReminder(true);
@@ -224,6 +225,7 @@ export default function Game() {
     <main
       className="relative w-full h-screen justify-between md:py-6 max-w-6xl flex flex-col border-2 border-gray50 rounded lg:px-6 shadow-xl bg-black300">
       <Navbar
+        elapsedTime={timeElapsed}
         clickRulesIcon={() => setShowRulesModal(true)}
         clickRefreshIcon={() => setTheTeam()}
         clickCreditsIcon={() => setShowCreditsModal(true)}
