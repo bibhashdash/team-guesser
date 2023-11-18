@@ -3,9 +3,7 @@ import {buildStyles, CircularProgressbarWithChildren} from 'react-circular-progr
 import 'react-circular-progressbar/dist/styles.css';
 
 interface GameTimerProps {
-  gameState: GameState,
   elapsedSeconds: number,
-  elapsedMinutes: number,
 }
 
 export const GameTimer = ({elapsedSeconds}:GameTimerProps) => {
