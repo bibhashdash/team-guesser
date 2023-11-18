@@ -12,7 +12,7 @@ export const GameTimer = ({elapsedSeconds}:GameTimerProps) => {
 
   return (
     <div className="flex gap-0.5 items-center">
-      <div className="w-10 md:w-16">
+      <div className={`w-10 md:w-16 ${elapsedSeconds > 55 && 'animate-ping'}`}>
         <CircularProgressbarWithChildren
           value={elapsedSeconds}
           maxValue={60}
