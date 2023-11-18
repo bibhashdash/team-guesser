@@ -192,7 +192,7 @@ export default function Game() {
       if (tempCheck(userSubmissionArray, teamUniqueLetters)) {
         setGameResult(GameResult.win);
         setGameResultMessage("WINNER!")
-        setScore((60 - seconds) + + (7-wrongGuessCount));
+        setScore((60 - seconds) + (7-wrongGuessCount));
         handleGameFinished();
       } else {
         setGameResult(GameResult.loss);
@@ -238,7 +238,7 @@ export default function Game() {
       if (tempNuclearInput.toLowerCase() === team.toLowerCase()) {
         setGameResult(GameResult.win);
         setGameResultMessage("WINNER!");
-        setScore((60 - seconds));
+        setScore((60 - seconds) + (7-wrongGuessCount));
         handleGameFinished();
       }
       if (tempNuclearInput.toLowerCase() !== team.toLowerCase()) {
