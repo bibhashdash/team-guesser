@@ -4,6 +4,7 @@ import React, {useEffect, useState} from "react";
 import {tempData} from "@/tempData";
 import {GameResult, GameState, InputTab} from "@/utlities/models";
 import {WhiteSquaresContainer} from "@/components/WhiteSquaresContainer";
+import {useClientDimensions} from "@/utlities/clientDimensions";
 import {Navbar} from "@/components/Navbar";
 import {RulesModal} from "@/components/RulesModal";
 import {InputSection} from "@/components/InputSection";
@@ -12,7 +13,7 @@ import {CreditsModal} from "@/components/CreditsModal";
 import {GamePageInitialReminder} from "@/components/GamePageInitialReminder";
 import {WrongGuessMarkers} from "@/components/WrongGuessMarkers";
 import {useStopwatch} from "react-timer-hook";
-import {useClientDimensions} from "@/utlities/clientDimensions";
+
 
 export default function Game() {
   useClientDimensions();
