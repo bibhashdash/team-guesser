@@ -15,6 +15,7 @@ interface KeyboardProps {
   gameState: GameState;
   gameResult: GameResult;
   onClickNewGameButton: () => void;
+  gameResultMessage: string;
 }
 
 export const Keyboard = (
@@ -27,13 +28,15 @@ export const Keyboard = (
     disabledKeysArray,
     gameState,
     gameResult,
-    onClickNewGameButton
+    onClickNewGameButton,
+    gameResultMessage
   }: KeyboardProps) => {
   return (
     <div className="relative w-full flex flex-col gap-1 content-center">
       {
         gameState === GameState.gameOver && (
           <GameResultBanner
+            gameResultMessage={gameResultMessage}
             gameResult={gameResult}
             onButtonClick={onClickNewGameButton}
           />

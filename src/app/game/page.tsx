@@ -31,12 +31,32 @@ export default function Game() {
   const [wrongAnswerInputEffect, setWrongAnswerInputEffect] = useState<boolean>(false);
   const [showCreditsModal, setShowCreditsModal] = useState<boolean>(false);
   const [showInitialReminder, setShowInitialReminder] = useState<boolean>(false);
+  const [gameResultMessage, setGameResultMessage] = useState<string>('');
   // const testingTeam = "Borussia Monchengladbach";
   const {seconds, minutes, reset, pause} = useStopwatch()
 
   useEffect(() => {
    setShowInitialReminder(true);
+    setTheTeam();
+
   }, [])
+
+  useEffect(() => {
+    if (minutes === 1) {
+      setGameResultMessage("Timed out!");
+      setGameResult(GameResult.loss);
+      const len = team.split('').filter(item => item !== ' ').length;
+      const newArray = new Array(len - userSubmissionArray.length).fill(' ');
+      setUserInput(undefined);
+      setUserSubmissionArray(prevState => {
+        return [...prevState, ...newArray]
+      });
+
+      setGameState(GameState.gameOver);
+      setUserInput(undefined);
+      pause();
+    }
+  }, [minutes])
 
   const setTheTeam = () => {
     setGameState(GameState.gameStarted);
@@ -51,13 +71,10 @@ export default function Game() {
     setTeam(tempData[random]);
     setGameResult(GameResult.default);
     setWrongGuessCount(0);
+    setGameResultMessage('');
     reset();
   }
 
-  useEffect(() => {
-    setTheTeam();
-    // setTeam(testingTeam)
-  }, []);
   const handleGameFinished = () => {
     setGameState(GameState.gameOver);
     setUserSubmissionArray(team.toLowerCase().split(""));
@@ -123,6 +140,8 @@ export default function Game() {
 
     if (userInput !== undefined && !team.toLowerCase().includes(userInput.toLowerCase())) {
       if (wrongGuessCount === 6) {
+        setGameResultMessage("Outta chances!")
+
         setWrongGuessCount(prevState => prevState + 1);
         setGameState(GameState.gameOver);
         setGameResult(GameResult.loss);
@@ -168,9 +187,11 @@ export default function Game() {
     if (userSubmissionArray.length === teamUniqueLetters.length) {
       if (tempCheck(userSubmissionArray, teamUniqueLetters)) {
         setGameResult(GameResult.win);
+        setGameResultMessage("WINNER!")
         handleGameFinished();
       } else {
         setGameResult(GameResult.loss);
+        setGameResultMessage("Wrong guess!")
         handleGameFinished();
       }
     }
@@ -209,11 +230,13 @@ export default function Game() {
       setGameState(GameState.gameOver);
 
       if (tempNuclearInput.toLowerCase() === team.toLowerCase()) {
-        setGameResult(GameResult.win)
+        setGameResult(GameResult.win);
+        setGameResultMessage("WINNER!")
         handleGameFinished();
       }
       if (tempNuclearInput.toLowerCase() !== team.toLowerCase()) {
-        setGameResult(GameResult.loss)
+        setGameResult(GameResult.loss);
+        setGameResultMessage("Wrong guess!")
         handleGameFinished();
       }
 
@@ -256,6 +279,7 @@ export default function Game() {
       <WrongGuessMarkers wrongGuessCount={wrongGuessCount} />
 
       <Keyboard
+        gameResultMessage={gameResultMessage}
         inputTab={inputTab}
         buttonEffect={buttonEffect}
         buttonEffectCallback={setButtonEffect}
