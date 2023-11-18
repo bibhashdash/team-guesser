@@ -32,7 +32,7 @@ export default function Game() {
   const [showCreditsModal, setShowCreditsModal] = useState<boolean>(false);
   const [showInitialReminder, setShowInitialReminder] = useState<boolean>(false);
   // const testingTeam = "Borussia Monchengladbach";
-  const {seconds, minutes, reset} = useStopwatch({autoStart: true})
+  const {seconds, minutes, reset, pause} = useStopwatch()
 
   useEffect(() => {
    setShowInitialReminder(true);
@@ -62,6 +62,7 @@ export default function Game() {
     setGameState(GameState.gameOver);
     setUserSubmissionArray(team.toLowerCase().split(""));
     setUserInput(undefined);
+    pause();
   }
   const handleTabChange = (tab: InputTab) => {
     setUserInput('');
@@ -125,11 +126,11 @@ export default function Game() {
         setWrongGuessCount(prevState => prevState + 1);
         setGameState(GameState.gameOver);
         setGameResult(GameResult.loss);
-        // handleGameFinished();
+
         const len = team.split('').filter(item => item !== ' ').length;
         const newArray = new Array(len - userSubmissionArray.length).fill(' ');
         setUserInput(undefined);
-
+        pause();
         setUserSubmissionArray(prevState => {
           return [...prevState, ...newArray]
         });
