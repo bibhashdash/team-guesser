@@ -32,11 +32,7 @@ export default function Game() {
   const [showCreditsModal, setShowCreditsModal] = useState<boolean>(false);
   const [showInitialReminder, setShowInitialReminder] = useState<boolean>(false);
   // const testingTeam = "Borussia Monchengladbach";
-  const [timeElapsed, setTimeElapsed] = useState<number>(0)
-  const {seconds, reset} = useStopwatch({autoStart: true})
-  setInterval(() => {
-    setTimeElapsed(prevState => prevState + 1);
-  }, 1000);
+  const {seconds, minutes, reset} = useStopwatch({autoStart: true})
 
   useEffect(() => {
    setShowInitialReminder(true);
@@ -55,6 +51,7 @@ export default function Game() {
     setTeam(tempData[random]);
     setGameResult(GameResult.default);
     setWrongGuessCount(0);
+    reset();
   }
 
   useEffect(() => {
@@ -228,7 +225,8 @@ export default function Game() {
     <main
       className="relative w-full h-screen justify-between md:py-6 max-w-6xl flex flex-col border-2 border-gray50 rounded lg:px-6 shadow-xl bg-black300">
       <Navbar
-        elapsedTime={seconds}
+        elapsedMinutes={minutes}
+        elapsedSeconds={seconds}
         clickRulesIcon={() => setShowRulesModal(true)}
         clickRefreshIcon={() => setTheTeam()}
         clickCreditsIcon={() => setShowCreditsModal(true)}
@@ -284,7 +282,7 @@ export default function Game() {
       {
         showInitialReminder && (
           <div className="absolute w-full top-0 left-0 backdrop-blur h-full bg-backdropFilter flex justify-center items-center py-2 px-2 sm:px-4 md:py-20">
-            <GamePageInitialReminder onClickClose={() => setShowInitialReminder(false)} />
+            <GamePageInitialReminder onClickClose={() => {setShowInitialReminder(false); setTheTeam() }} />
           </div>
         )
       }
