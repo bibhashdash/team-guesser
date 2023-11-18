@@ -124,6 +124,7 @@ export const RulesModal = ({onClickClose}: RulesModalProps) => {
                 gameState={GameState.gameStarted}
               />
               <Keyboard
+                gameResultMessage={""}
                 inputTab={InputTab.oneByOne}
                 buttonEffect={true}
                 buttonEffectCallback={() => {}}

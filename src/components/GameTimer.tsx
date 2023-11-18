@@ -8,7 +8,7 @@ interface GameTimerProps {
   elapsedMinutes: number,
 }
 
-export const GameTimer = ({elapsedSeconds, elapsedMinutes, gameState}:GameTimerProps) => {
+export const GameTimer = ({elapsedSeconds}:GameTimerProps) => {
 
   return (
     <div className="flex gap-0.5 items-center">

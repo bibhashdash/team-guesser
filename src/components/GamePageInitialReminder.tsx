@@ -18,7 +18,7 @@ export const GamePageInitialReminder = ({onClickClose}: GamePageInitialReminderP
         Welcome to ?ERFECT, the hangman-style game for football team names. Test yourself against 7 chances and against the clock!
       </p>
       <WrongGuessMarkers wrongGuessCount={6}/>
-      <p className="text-white100">The quicker you solve it the more points you score. So be ready for that timer!</p>
+      <p className="text-white100">You have 60 seconds per game. The quicker you solve it the more points you score. So be ready for that timer!</p>
       <ButtonPrimary buttonContent="I'm ready, let's start!" onClickButton={onClickClose} />
     </div>
   )
