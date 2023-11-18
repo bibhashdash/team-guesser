@@ -20,7 +20,7 @@ export const Navbar = ({clickRulesIcon, elapsedSeconds, elapsedMinutes, clickRef
     <div className="bg-black300 w-full md:py-2 px-2 md:px-6 flex flex-col gap-2 items-center">
       <div className="flex items-center w-full justify-between">
         <div className="flex flex-col items-center gap-2">
-          <h1 className="text-sm sm:text-2xl text-white100 font-display">?ERFECT</h1>
+          <h1 className="text-xs sm:text-2xl text-white100 font-display">?ERFECT</h1>
         </div>
         <GameTimer gameState={gameState} elapsedSeconds={elapsedSeconds} elapsedMinutes={elapsedMinutes}/>
         <div className="flex border-2 border-gray50 rounded">
