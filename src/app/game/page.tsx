@@ -4,17 +4,19 @@ import React, {useEffect, useState} from "react";
 import {tempData} from "@/tempData";
 import {GameResult, GameState, InputTab} from "@/utlities/models";
 import {WhiteSquaresContainer} from "@/components/WhiteSquaresContainer";
-import {FootballIcon} from "@/icons/FootballIcon";
 import {useClientDimensions} from "@/utlities/clientDimensions";
 import {Navbar} from "@/components/Navbar";
 import {RulesModal} from "@/components/RulesModal";
 import {InputSection} from "@/components/InputSection";
 import {Keyboard} from "@/components/Keyboard";
 import {CreditsModal} from "@/components/CreditsModal";
+import {GamePageInitialReminder} from "@/components/GamePageInitialReminder";
+import {WrongGuessMarkers} from "@/components/WrongGuessMarkers";
+import {useStopwatch} from "react-timer-hook";
 
 
 export default function Game() {
-
+  useClientDimensions();
   const [team, setTeam] = useState<string>('');
   const [userInput, setUserInput] = useState<string | undefined>(undefined);
   const [tempNuclearInput, setTempNuclearInput] = useState<string>('');
@@ -29,7 +31,33 @@ export default function Game() {
   const [buttonEffect, setButtonEffect] = useState<boolean>(false);
   const [wrongAnswerInputEffect, setWrongAnswerInputEffect] = useState<boolean>(false);
   const [showCreditsModal, setShowCreditsModal] = useState<boolean>(false);
+  const [showInitialReminder, setShowInitialReminder] = useState<boolean>(false);
+  const [gameResultMessage, setGameResultMessage] = useState<string>('');
   // const testingTeam = "Borussia Monchengladbach";
+  const {seconds, minutes, reset, pause} = useStopwatch()
+
+  useEffect(() => {
+   setShowInitialReminder(true);
+    setTheTeam();
+
+  }, [])
+
+  useEffect(() => {
+    if (minutes === 1) {
+      setGameResultMessage("Timed out!");
+      setGameResult(GameResult.loss);
+      const len = team.split('').filter(item => item !== ' ').length;
+      const newArray = new Array(len - userSubmissionArray.length).fill(' ');
+      setUserInput(undefined);
+      setUserSubmissionArray(prevState => {
+        return [...prevState, ...newArray]
+      });
+
+      setGameState(GameState.gameOver);
+      setUserInput(undefined);
+      pause();
+    }
+  }, [minutes])
 
   const setTheTeam = () => {
     setGameState(GameState.gameStarted);
@@ -44,18 +72,15 @@ export default function Game() {
     setTeam(tempData[random]);
     setGameResult(GameResult.default);
     setWrongGuessCount(0);
+    setGameResultMessage('');
+    reset();
   }
 
-  const wrongGuessArray = new Array(7).fill(<></>)
-
-  useEffect(() => {
-    setTheTeam();
-    // setTeam(testingTeam)
-  }, []);
   const handleGameFinished = () => {
     setGameState(GameState.gameOver);
     setUserSubmissionArray(team.toLowerCase().split(""));
     setUserInput(undefined);
+    pause();
   }
   const handleTabChange = (tab: InputTab) => {
     setUserInput('');
@@ -116,14 +141,16 @@ export default function Game() {
 
     if (userInput !== undefined && !team.toLowerCase().includes(userInput.toLowerCase())) {
       if (wrongGuessCount === 6) {
+        setGameResultMessage("Yer off!")
+
         setWrongGuessCount(prevState => prevState + 1);
         setGameState(GameState.gameOver);
         setGameResult(GameResult.loss);
-        // handleGameFinished();
+
         const len = team.split('').filter(item => item !== ' ').length;
         const newArray = new Array(len - userSubmissionArray.length).fill(' ');
         setUserInput(undefined);
-
+        pause();
         setUserSubmissionArray(prevState => {
           return [...prevState, ...newArray]
         });
@@ -161,9 +188,11 @@ export default function Game() {
     if (userSubmissionArray.length === teamUniqueLetters.length) {
       if (tempCheck(userSubmissionArray, teamUniqueLetters)) {
         setGameResult(GameResult.win);
+        setGameResultMessage("WINNER!")
         handleGameFinished();
       } else {
         setGameResult(GameResult.loss);
+        setGameResultMessage("Wrong guess!")
         handleGameFinished();
       }
     }
@@ -202,24 +231,28 @@ export default function Game() {
       setGameState(GameState.gameOver);
 
       if (tempNuclearInput.toLowerCase() === team.toLowerCase()) {
-        setGameResult(GameResult.win)
+        setGameResult(GameResult.win);
+        setGameResultMessage("WINNER!")
         handleGameFinished();
       }
       if (tempNuclearInput.toLowerCase() !== team.toLowerCase()) {
-        setGameResult(GameResult.loss)
+        setGameResult(GameResult.loss);
+        setGameResultMessage("Wrong guess!")
         handleGameFinished();
       }
 
      setNuclearSubmissionFullString(tempNuclearInput);
       setGameState(GameState.gameOver);
     }
-
   }
 
   return (
     <main
       className="relative w-full h-screen justify-between md:py-6 max-w-6xl flex flex-col border-2 border-gray50 rounded lg:px-6 shadow-xl bg-black300">
       <Navbar
+        gameState={gameState}
+        elapsedMinutes={minutes}
+        elapsedSeconds={seconds}
         clickRulesIcon={() => setShowRulesModal(true)}
         clickRefreshIcon={() => setTheTeam()}
         clickCreditsIcon={() => setShowCreditsModal(true)}
@@ -245,16 +278,10 @@ export default function Game() {
         tempNuclearInput={tempNuclearInput}
         gameState={gameState}
       />
-      <div className="flex gap-4 w-full justify-center">
-        {
-          wrongGuessArray.map((item, index) =>
-            <div key={index} className={`${index + 1 <= wrongGuessCount ? 'animate-on-wrong-guess' : null}`}>
-              <FootballIcon size={20} color={index + 1 <= wrongGuessCount ? '#ec0202' : '#3d3d3d'}/>
-            </div>)
-        }
-      </div>
+      <WrongGuessMarkers wrongGuessCount={wrongGuessCount} />
 
       <Keyboard
+        gameResultMessage={gameResultMessage}
         inputTab={inputTab}
         buttonEffect={buttonEffect}
         buttonEffectCallback={setButtonEffect}
@@ -276,6 +303,13 @@ export default function Game() {
         showCreditsModal && (
           <div className="absolute w-full h-screen top-0 left-0 bg-black300">
             <CreditsModal onClickClose={() => setShowCreditsModal(false)} />
+          </div>
+        )
+      }
+      {
+        showInitialReminder && (
+          <div className="absolute w-full top-0 left-0 backdrop-blur h-full bg-backdropFilter flex justify-center items-center py-2 px-2 sm:px-4 md:py-20">
+            <GamePageInitialReminder onClickClose={() => {setShowInitialReminder(false); setTheTeam() }} />
           </div>
         )
       }

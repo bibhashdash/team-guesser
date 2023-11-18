@@ -25,9 +25,13 @@ const config: Config = {
       blue300: '#54b4ff',
       blue500: '#0079cb',
       orange500: '#d75d00',
+      backdropFilter: 'rgb(255 255 255 / 0.3)',
     },
 
     extend: {
+      fontSize: {
+        xxs: '0.5rem',
+      },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic':
