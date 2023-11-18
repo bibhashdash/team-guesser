@@ -140,7 +140,7 @@ export default function Game() {
 
     if (userInput !== undefined && !team.toLowerCase().includes(userInput.toLowerCase())) {
       if (wrongGuessCount === 6) {
-        setGameResultMessage("Outta chances!")
+        setGameResultMessage("Yer off!")
 
         setWrongGuessCount(prevState => prevState + 1);
         setGameState(GameState.gameOver);
@@ -249,6 +249,7 @@ export default function Game() {
     <main
       className="relative w-full h-screen justify-between md:py-6 max-w-6xl flex flex-col border-2 border-gray50 rounded lg:px-6 shadow-xl bg-black300">
       <Navbar
+        gameState={gameState}
         elapsedMinutes={minutes}
         elapsedSeconds={seconds}
         clickRulesIcon={() => setShowRulesModal(true)}

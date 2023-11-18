@@ -2,8 +2,10 @@ import {useState} from "react";
 import {MenuIcon} from "@/icons/MenuIcon";
 import {CloseIcon} from "@/components/CloseIcon";
 import {GameTimer} from "@/components/GameTimer";
+import {GameState} from "@/utlities/models";
 
 interface NavbarProps {
+  gameState: GameState,
   elapsedMinutes: number,
   elapsedSeconds: number,
   clickRulesIcon: () => void,
@@ -11,7 +13,7 @@ interface NavbarProps {
   clickCreditsIcon: () => void,
 }
 
-export const Navbar = ({clickRulesIcon, elapsedSeconds, elapsedMinutes, clickRefreshIcon, clickCreditsIcon}: NavbarProps) => {
+export const Navbar = ({clickRulesIcon, elapsedSeconds, elapsedMinutes, clickRefreshIcon, clickCreditsIcon, gameState}: NavbarProps) => {
   const [showMenu, setShowMenu] = useState<boolean>(false);
 
   return (
@@ -20,7 +22,7 @@ export const Navbar = ({clickRulesIcon, elapsedSeconds, elapsedMinutes, clickRef
         <div className="flex flex-col items-center gap-2">
           <h1 className="text-sm sm:text-2xl text-white100 font-display">?ERFECT</h1>
         </div>
-        <GameTimer elapsedSeconds={elapsedSeconds} elapsedMinutes={elapsedMinutes}/>
+        <GameTimer gameState={gameState} elapsedSeconds={elapsedSeconds} elapsedMinutes={elapsedMinutes}/>
         <div className="flex border-2 border-gray50 rounded">
           <div className={`gap-4 md:gap-8 ${!showMenu && 'hidden'} flex px-2 md:px-4 rounded`}>
             <div onClick={() => {clickRulesIcon(); setShowMenu(false)}}
