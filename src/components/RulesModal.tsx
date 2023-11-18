@@ -134,6 +134,7 @@ export const RulesModal = ({onClickClose}: RulesModalProps) => {
                 gameState={GameState.gameStarted}
                 gameResult={GameResult.default}
                 onClickNewGameButton={() => {}}
+                onClickViewScoreButton={() => {}}
               />
             </div>
           </RulesModalSlide>

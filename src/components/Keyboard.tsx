@@ -15,6 +15,7 @@ interface KeyboardProps {
   gameState: GameState;
   gameResult: GameResult;
   onClickNewGameButton: () => void;
+  onClickViewScoreButton: () => void;
   gameResultMessage: string;
 }
 
@@ -29,6 +30,7 @@ export const Keyboard = (
     gameState,
     gameResult,
     onClickNewGameButton,
+    onClickViewScoreButton,
     gameResultMessage
   }: KeyboardProps) => {
   return (
@@ -36,9 +38,10 @@ export const Keyboard = (
       {
         gameState === GameState.gameOver && (
           <GameResultBanner
+            onNewGameButtonClick={onClickNewGameButton}
             gameResultMessage={gameResultMessage}
             gameResult={gameResult}
-            onButtonClick={onClickNewGameButton}
+            onViewScoreButtonClick={onClickViewScoreButton}
           />
         )
       }
