@@ -11,8 +11,11 @@ import {Keyboard} from "@/components/Keyboard";
 import {CreditsModal} from "@/components/CreditsModal";
 import {GamePageInitialReminder} from "@/components/GamePageInitialReminder";
 import {WrongGuessMarkers} from "@/components/WrongGuessMarkers";
+import {useStopwatch} from "react-timer-hook";
+import {useClientDimensions} from "@/utlities/clientDimensions";
 
 export default function Game() {
+  useClientDimensions();
   const [team, setTeam] = useState<string>('');
   const [userInput, setUserInput] = useState<string | undefined>(undefined);
   const [tempNuclearInput, setTempNuclearInput] = useState<string>('');
@@ -30,7 +33,7 @@ export default function Game() {
   const [showInitialReminder, setShowInitialReminder] = useState<boolean>(false);
   // const testingTeam = "Borussia Monchengladbach";
   const [timeElapsed, setTimeElapsed] = useState<number>(0)
-
+  const {seconds, reset} = useStopwatch({autoStart: true})
   setInterval(() => {
     setTimeElapsed(prevState => prevState + 1);
   }, 1000);
@@ -225,7 +228,7 @@ export default function Game() {
     <main
       className="relative w-full h-screen justify-between md:py-6 max-w-6xl flex flex-col border-2 border-gray50 rounded lg:px-6 shadow-xl bg-black300">
       <Navbar
-        elapsedTime={timeElapsed}
+        elapsedTime={seconds}
         clickRulesIcon={() => setShowRulesModal(true)}
         clickRefreshIcon={() => setTheTeam()}
         clickCreditsIcon={() => setShowCreditsModal(true)}
@@ -280,7 +283,7 @@ export default function Game() {
       }
       {
         showInitialReminder && (
-          <div className="absolute w-full top-0 left-0 backdrop-blur h-full bg-backdropFilter flex justify-center py-2 px-2 sm:px-4 md:py-20">
+          <div className="absolute w-full top-0 left-0 backdrop-blur h-full bg-backdropFilter flex justify-center items-center py-2 px-2 sm:px-4 md:py-20">
             <GamePageInitialReminder onClickClose={() => setShowInitialReminder(false)} />
           </div>
         )

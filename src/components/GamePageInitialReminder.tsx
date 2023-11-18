@@ -9,7 +9,7 @@ interface GamePageInitialReminderProps {
 
 export const GamePageInitialReminder = ({onClickClose}: GamePageInitialReminderProps) => {
   return (
-    <div className="w-[400px] h-full bg-black300 flex flex-col gap-2 justify-between py-2 px-1 sm:px-4 rounded-md">
+    <div className="w-[400px] h-fit bg-black300 flex flex-col gap-6 justify-between py-2 px-1 sm:px-4 rounded-md">
       <div className="flex justify-between items-center">
         <h1 className="text-white100">Quick reminder!</h1>
       </div>
@@ -20,8 +20,6 @@ export const GamePageInitialReminder = ({onClickClose}: GamePageInitialReminderP
       <WrongGuessMarkers wrongGuessCount={6}/>
       <p className="text-white100">The quicker you solve it the more points you score. So be ready for that timer!</p>
       <ButtonPrimary buttonContent="I'm ready, let's start!" onClickButton={onClickClose} />
-      <DividerLine style="dashed" />
-      <AffiliateAd />
     </div>
   )
 }
