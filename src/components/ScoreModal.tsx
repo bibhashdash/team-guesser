@@ -21,23 +21,27 @@ export const ScoreModal = ({onClickClose, wrongGuessCount, score, elapsedSeconds
         <h1 className="text-white100 font-display">Your Score</h1>
         <CloseIcon onClick={onClickClose} color="#f8f8f8" size={28}/>
       </div>
-      <div className="flex items-center gap-4 w-full justify-between px-4">
-        <GameTimer elapsedSeconds={elapsedSeconds} />
-        <p className="text-white100">Time gained</p>
-        <p className="text-white100 font-display">{60-elapsedSeconds}</p>
+      <div className="px-4 grid grid-cols-12">
+        <div className="col-span-3 text-center">
+          <GameTimer elapsedSeconds={elapsedSeconds} />
+        </div>
+        <p className="text-white100 col-span-6 text-center">Time gained</p>
+        <p className="text-white100 font-display col-span-3 text-right">{60-elapsedSeconds}</p>
       </div>
-      <div className="flex items-center gap-4 w-full justify-between px-4">
-        <div className="flex">
-          <FootballIcon size={20} color="#ec0202" />
+      <div className="px-4 grid grid-cols-12">
+        <div className="col-span-3 flex">
+          <div className="flex justify-center">
+            <FootballIcon size={20} color="#ec0202" />
+          </div>
           <p className="text-white100">X {wrongGuessCount}</p>
         </div>
-        <p className="text-white100">Lives bonus</p>
-        <p className="text-white100 font-display">{7 - wrongGuessCount}</p>
+        <p className="text-white100 col-span-6 text-center">Lives bonus</p>
+        <p className="text-white100 font-display col-span-3 text-right">{7 - wrongGuessCount}</p>
       </div>
       <DividerLine style={"dashed"} />
-      <div className="flex justify-between px-4">
-        <p className="text-white100 font-display">TOTAL</p>
-        <p className="text-white100 font-display">{score}</p>
+      <div className="flex justify-between px-4 grid grid-cols-12">
+        <p className="col-span-6 text-left text-blue500 font-bold font-display text-xl">TOTAL</p>
+        <p className="col-span-6 text-right text-blue500 font-bold font-display text-xl">{score}</p>
       </div>
     </div>
   )
