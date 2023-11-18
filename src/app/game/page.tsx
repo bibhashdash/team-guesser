@@ -13,6 +13,7 @@ import {CreditsModal} from "@/components/CreditsModal";
 import {GamePageInitialReminder} from "@/components/GamePageInitialReminder";
 import {WrongGuessMarkers} from "@/components/WrongGuessMarkers";
 import {useStopwatch} from "react-timer-hook";
+import {ScoreModal} from "@/components/ScoreModal";
 
 
 export default function Game() {
@@ -31,6 +32,8 @@ export default function Game() {
   const [buttonEffect, setButtonEffect] = useState<boolean>(false);
   const [wrongAnswerInputEffect, setWrongAnswerInputEffect] = useState<boolean>(false);
   const [showCreditsModal, setShowCreditsModal] = useState<boolean>(false);
+  const [showScoreModal, setShowScoreModal] = useState<boolean>(false);
+  const [score, setScore] = useState<number>(0);
   const [showInitialReminder, setShowInitialReminder] = useState<boolean>(false);
   const [gameResultMessage, setGameResultMessage] = useState<string>('');
   // const testingTeam = "Borussia Monchengladbach";
@@ -189,10 +192,12 @@ export default function Game() {
       if (tempCheck(userSubmissionArray, teamUniqueLetters)) {
         setGameResult(GameResult.win);
         setGameResultMessage("WINNER!")
+        setScore((60 - seconds) + + (7-wrongGuessCount));
         handleGameFinished();
       } else {
         setGameResult(GameResult.loss);
-        setGameResultMessage("Wrong guess!")
+        setGameResultMessage("Wrong guess!");
+        setScore(0);
         handleGameFinished();
       }
     }
@@ -203,7 +208,7 @@ export default function Game() {
     const array1 = tempNuclearInput.toLowerCase().split(' ');
     const array2 = team.toLowerCase().split(' ');
     if (array1.length !== array2.length) {
-      // show an error message saying "Number of words do not match"
+
       setWrongAnswerInputEffect(true);
       return;
     }
@@ -219,7 +224,7 @@ export default function Game() {
     // check if userNuclearInput has same number of characters as team
     if (tempNuclearInput.length !== team.length) {
       setWrongAnswerInputEffect(true);
-      // show an error message saying "Number of characters do not match"
+
       return;
     }
 
@@ -232,12 +237,14 @@ export default function Game() {
 
       if (tempNuclearInput.toLowerCase() === team.toLowerCase()) {
         setGameResult(GameResult.win);
-        setGameResultMessage("WINNER!")
+        setGameResultMessage("WINNER!");
+        setScore((60 - seconds));
         handleGameFinished();
       }
       if (tempNuclearInput.toLowerCase() !== team.toLowerCase()) {
         setGameResult(GameResult.loss);
-        setGameResultMessage("Wrong guess!")
+        setGameResultMessage("Wrong guess!");
+        setScore(0);
         handleGameFinished();
       }
 
@@ -291,6 +298,7 @@ export default function Game() {
         gameState={gameState}
         gameResult={gameResult}
         onClickNewGameButton={() => setTheTeam()}
+        onClickViewScoreButton={() => setShowScoreModal(true)}
       />
       {
         showRulesModal && (
@@ -311,6 +319,13 @@ export default function Game() {
           <div className="absolute w-full top-0 left-0 backdrop-blur h-full bg-backdropFilter flex justify-center items-center py-2 px-2 sm:px-4 md:py-20">
             <GamePageInitialReminder onClickClose={() => {setShowInitialReminder(false); setTheTeam() }} />
           </div>
+        )
+      }
+      {
+        showScoreModal && (
+         <div className="absolute w-full top-0 left-0 backdrop-blur h-full bg-backdropFilter flex justify-center items-center py-2 px-2 sm:px-4 md:py-20">
+           <ScoreModal onClickClose={() => setShowScoreModal(false)} score={score} />
+         </div>
         )
       }
     </main>
