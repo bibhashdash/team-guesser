@@ -16,7 +16,7 @@ interface RulesModalProps {
 export const RulesModal = ({onClickClose}: RulesModalProps) => {
   const wrongGuessArray = new Array(7).fill(<></>);
   return (
-    <div className="absolute h-screen w-full py-2 lg:py-6 text-white100 flex flex-col bg-black300">
+    <div className="absolute z-30 h-screen w-full py-2 lg:py-6 text-white100 flex flex-col bg-black300">
       <div className="flex justify-between w-full my-2 px-2">
         <h1 className="text-white100">Rules</h1>
         <CloseIcon onClick={onClickClose} color="#f8f8f8" size={28}/>
@@ -84,7 +84,7 @@ export const RulesModal = ({onClickClose}: RulesModalProps) => {
             </div>
             <p className="leading-6 text-left">Else it's off for an early bath!</p>
           </RulesModalSlide>
-          <RulesModalSlide index={4}>
+          <RulesModalSlide index={5}>
             <p className="leading-6 text-left">Numbers/Dashes/Ampersands are very much possible in a team name.</p>
             <div className="w-full flex flex-col items-center border-2 border-gray50 rounded-md p-2">
               <WhiteSquaresContainer
@@ -105,7 +105,7 @@ export const RulesModal = ({onClickClose}: RulesModalProps) => {
             </div>
             <p className="leading-6 text-left">Other special characters, not really!</p>
           </RulesModalSlide>
-          <RulesModalSlide index={5}>
+          <RulesModalSlide index={6}>
             <p className="leading-6 text-left">In <span className="text-blue300 font-bold">One by One</span> mode once you
               submit a character, it is no longer available on the keyboard.</p>
             <div className="w-full flex flex-col items-center border-2 border-gray50 rounded-md p-2">
@@ -137,7 +137,7 @@ export const RulesModal = ({onClickClose}: RulesModalProps) => {
               />
             </div>
           </RulesModalSlide>
-          <RulesModalSlide index={6}>
+          <RulesModalSlide index={7}>
             <p className="leading-4 text-left">In <span className="text-blue300 font-bold">Go For Glory</span> mode you must get the following correct before being considered for a victory check:-</p>
             <ul className="text-left m-0 p-0">
               <li>- Number of words in the team name</li>
@@ -159,7 +159,7 @@ export const RulesModal = ({onClickClose}: RulesModalProps) => {
             <p>...would be invalid! Make sure you check the white squares to see how many characters and words you need.</p>
           </RulesModalSlide>
 
-          <RulesModalSlide index={7}>
+          <RulesModalSlide index={8}>
             <p className="leading-6 text-left">All clues based on teams from the following leagues.</p>
             <div>
               <ul className="list-disc text-left text-sm">
