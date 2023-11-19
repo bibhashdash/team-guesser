@@ -1,7 +1,7 @@
 'use client';
 
 import {WordStorageBox} from "./WordStorageBox";
-import {GameResult, GameState, InputTab} from "@/utlities/models";
+import {GameResult, GameState, InputTab} from "../utlities/models";
 import React, {useRef} from "react";
 
 export interface WhiteSquaresContainerProps {

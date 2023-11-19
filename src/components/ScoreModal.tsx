@@ -1,10 +1,8 @@
-import {CloseIcon} from "@/components/CloseIcon";
+import {CloseIcon} from "./CloseIcon";
 import React from "react";
-import {GameTimer} from "@/components/GameTimer";
-import {GameState} from "@/utlities/models";
-import {WrongGuessMarkers} from "@/components/WrongGuessMarkers";
-import {FootballIcon} from "@/icons/FootballIcon";
-import {DividerLine} from "@/components/DividerLine";
+import {GameTimer} from "./GameTimer";
+import {FootballIcon} from "../icons/FootballIcon";
+import {DividerLine} from "./DividerLine";
 
 interface ScoreModalProps {
   onClickClose: () => void;
@@ -25,18 +23,19 @@ export const ScoreModal = ({onClickClose, wrongGuessCount, score, elapsedSeconds
         <div className="col-span-3 text-center">
           <GameTimer elapsedSeconds={elapsedSeconds} />
         </div>
-        <p className="text-white100 col-span-6 text-center">Time gained</p>
-        <p className="text-white100 font-display col-span-3 text-right">{60-elapsedSeconds}</p>
+        <p className="text-white100 col-span-6 flex items-center justify-center">Time gained</p>
+        <p className="text-white100 font-display col-span-3 flex items-center justify-end">{60-elapsedSeconds}</p>
       </div>
       <div className="px-4 grid grid-cols-12">
-        <div className="col-span-3 flex">
-          <div className="flex justify-center">
-            <FootballIcon size={20} color="#ec0202" />
+        <div className="col-span-3 flex relative">
+          <div className="flex justify-center items-center">
+            <FootballIcon size={60} color="#ec0202" />
+            <p className="text-white100 font-display">{wrongGuessCount}</p>
           </div>
-          <p className="text-white100">X {wrongGuessCount}</p>
+
         </div>
-        <p className="text-white100 col-span-6 text-center">Lives bonus</p>
-        <p className="text-white100 font-display col-span-3 text-right">{7 - wrongGuessCount}</p>
+        <p className="text-white100 col-span-6 flex items-center justify-center">Lives bonus</p>
+        <p className="text-white100 font-display col-span-3 flex items-center justify-end">{7 - wrongGuessCount}</p>
       </div>
       <DividerLine style={"dashed"} />
       <div className="flex justify-between px-4 grid grid-cols-12">

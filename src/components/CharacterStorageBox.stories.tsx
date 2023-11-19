@@ -1,6 +1,6 @@
 import type {Meta, StoryObj} from '@storybook/react';
 import {CharacterStorageBox} from "./CharacterStorageBox";
-import {GameResult} from "@/utlities/models";
+import {GameResult} from "../utlities/models";
 
 interface CharacterStorageBoxProps {
   character: string;
