@@ -33,6 +33,7 @@ export const CreditsModal = ({onClickClose}: CreditsModalProps) => {
             <li>Andy Gibson</li>
             <li>Felix Wentworth</li>
             <li>Chris Maughan</li>
+            <li>Michael Rippon</li>
           </ul>
         </div>
         <p className="text-xs sm:text-lg text-left leading-4">
