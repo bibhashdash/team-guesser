@@ -20,7 +20,7 @@ export const ScoreModal = ({onClickClose, wrongGuessCount, score, elapsedSeconds
         <CloseIcon onClick={onClickClose} color="#f8f8f8" size={28}/>
       </div>
       <div className="px-4 grid grid-cols-12">
-        <div className="col-span-3 text-center">
+        <div className="col-span-3 flex justify-center w-full">
           <GameTimer elapsedSeconds={elapsedSeconds} />
         </div>
         <p className="text-white100 col-span-6 flex items-center justify-center">Time gained</p>
@@ -28,8 +28,8 @@ export const ScoreModal = ({onClickClose, wrongGuessCount, score, elapsedSeconds
       </div>
       <div className="px-4 grid grid-cols-12">
         <div className="col-span-3 flex relative">
-          <div className="flex justify-center items-center">
-            <FootballIcon size={60} color="#ec0202" />
+          <div className="flex justify-evenly items-center w-full">
+            <FootballIcon size={28} color="#ec0202" />
             <p className="text-white100 font-display">{wrongGuessCount}</p>
           </div>
 
