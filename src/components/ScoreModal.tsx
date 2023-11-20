@@ -3,15 +3,17 @@ import React from "react";
 import {GameTimer} from "./GameTimer";
 import {FootballIcon} from "../icons/FootballIcon";
 import {DividerLine} from "./DividerLine";
+import {MedalIcon} from "../icons/MedalIcon";
 
 interface ScoreModalProps {
   onClickClose: () => void;
   score: number,
   elapsedSeconds: number,
   wrongGuessCount: number,
+  gloryBonus: number,
 }
 
-export const ScoreModal = ({onClickClose, wrongGuessCount, score, elapsedSeconds}:ScoreModalProps) => {
+export const ScoreModal = ({onClickClose, wrongGuessCount, score, elapsedSeconds, gloryBonus}:ScoreModalProps) => {
 
   return (
     <div className="w-[400px] h-fit bg-black300 flex flex-col gap-6 justify-between py-2 px-1 sm:px-4 rounded-md">
@@ -36,6 +38,13 @@ export const ScoreModal = ({onClickClose, wrongGuessCount, score, elapsedSeconds
         </div>
         <p className="text-white100 col-span-6 flex items-center justify-center">Lives bonus</p>
         <p className="text-white100 font-display col-span-3 flex items-center justify-end">{7 - wrongGuessCount}</p>
+      </div>
+      <div className="px-4 grid grid-cols-12">
+        <div className="col-span-3 flex justify-center w-full">
+          <MedalIcon color="#ffc100" size={28} />
+        </div>
+        <p className="text-white100 col-span-6 flex items-center justify-center">Glory Points</p>
+        <p className="text-white100 font-display col-span-3 flex items-center justify-end">{gloryBonus}</p>
       </div>
       <DividerLine style={"dashed"} />
       <div className="flex justify-between px-4 grid grid-cols-12">
