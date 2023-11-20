@@ -1,7 +1,7 @@
 'use client';
 
 import {useClientDimensions} from "@/utlities/clientDimensions";
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import {SplashScreen} from "@/components/SplashScreen";
 import {useRouter} from "next/navigation";
 import {RulesModal} from "@/components/RulesModal";
@@ -33,7 +33,9 @@ export default function Home() {
       </div>
       {
         showRulesModal && (
-          <RulesModal onClickClose={() => setShowRulesModal(false)} />
+          <div className="w-full max-w-6xl absolute w-full h-screen top-0 bg-black300">
+            <RulesModal onClickClose={() => setShowRulesModal(false)} />
+          </div>
         )
       }
     </>
