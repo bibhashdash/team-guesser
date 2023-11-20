@@ -14,6 +14,7 @@ import {GamePageInitialReminder} from "@/components/GamePageInitialReminder";
 import {WrongGuessMarkers} from "@/components/WrongGuessMarkers";
 import {useStopwatch} from "react-timer-hook";
 import {ScoreModal} from "@/components/ScoreModal";
+import {gfgBonusCalc} from "@/utlities/gfgBonusCalc";
 
 
 export default function Game() {
@@ -36,6 +37,7 @@ export default function Game() {
   const [score, setScore] = useState<number>(0);
   const [showInitialReminder, setShowInitialReminder] = useState<boolean>(false);
   const [gameResultMessage, setGameResultMessage] = useState<string>('');
+  const [gloryBonus, setGloryBonus] = useState<number>(0);
   // const testingTeam = "Borussia Monchengladbach";
   const {seconds, minutes, reset, pause} = useStopwatch()
 
@@ -76,6 +78,7 @@ export default function Game() {
     setGameResult(GameResult.default);
     setWrongGuessCount(0);
     setGameResultMessage('');
+    setGloryBonus(0);
     reset();
   }
 
@@ -103,10 +106,10 @@ export default function Game() {
         break;
       case InputTab.goForGlory:
         if (tempNuclearInput.length > 0) {
+          setGloryBonus(gfgBonusCalc(userSubmissionArray, team));
           // call the handlenuclearsubmission function
           handleNuclearSubmission();
         }
-
     }
   }
 
@@ -204,6 +207,7 @@ export default function Game() {
   }
 
   const handleNuclearSubmission = () => {
+
     // check if userNuclearInput has same number of words as team
     const array1 = tempNuclearInput.toLowerCase().split(' ');
     const array2 = team.toLowerCase().split(' ');
@@ -233,12 +237,12 @@ export default function Game() {
 
     // check if there is a full match
     else {
-      setGameState(GameState.gameOver);
 
+      setGameState(GameState.gameOver);
       if (tempNuclearInput.toLowerCase() === team.toLowerCase()) {
         setGameResult(GameResult.win);
         setGameResultMessage("WINNER!");
-        setScore((60 - seconds) + (7 - wrongGuessCount));
+        setScore((60 - seconds + gfgBonusCalc(userSubmissionArray, team)) + (7 - wrongGuessCount));
         handleGameFinished();
       }
       if (tempNuclearInput.toLowerCase() !== team.toLowerCase()) {
@@ -324,7 +328,7 @@ export default function Game() {
       {
         showScoreModal && (
          <div className="absolute w-full top-0 left-0 backdrop-blur h-full bg-backdropFilter flex justify-center items-center py-2 px-2 sm:px-4 md:py-20">
-           <ScoreModal wrongGuessCount={wrongGuessCount} elapsedSeconds={seconds} onClickClose={() => setShowScoreModal(false)} score={score} />
+           <ScoreModal gloryBonus={gloryBonus} wrongGuessCount={wrongGuessCount} elapsedSeconds={seconds} onClickClose={() => setShowScoreModal(false)} score={score} />
          </div>
         )
       }
