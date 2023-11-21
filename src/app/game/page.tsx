@@ -89,6 +89,7 @@ export default function Game() {
     pause();
   }
   const handleTabChange = (tab: InputTab) => {
+    setGloryBonus(0);
     setUserInput('');
     setTempNuclearInput('');
     setInputTab(tab);
