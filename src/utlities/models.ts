@@ -17,3 +17,9 @@ export enum GameResult {
   loss = 'loss',
   default = 'default',
 }
+
+export interface ScoreBreakdown {
+  timeScore: number,
+  livesBonus: number,
+  gloryBonus: number,
+}

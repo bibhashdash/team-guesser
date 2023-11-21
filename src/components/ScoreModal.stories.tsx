@@ -20,7 +20,7 @@ export default meta;
 export const Default = {
   render:() => {
     return (
-      <ScoreModal gloryBonus={20} onClickClose={() => {}} score={20} elapsedSeconds={34} wrongGuessCount={3} />
+      <ScoreModal onClickClose={() => {}} scoreBreakdown={{timeScore: 20, gloryBonus: 10, livesBonus: 6}} />
     )
   }
 }

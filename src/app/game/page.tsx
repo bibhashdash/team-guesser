@@ -2,7 +2,7 @@
 
 import React, {useEffect, useState} from "react";
 import {tempData} from "@/tempData";
-import {GameResult, GameState, InputTab} from "@/utlities/models";
+import {GameResult, GameState, InputTab, ScoreBreakdown} from "@/utlities/models";
 import {WhiteSquaresContainer} from "@/components/WhiteSquaresContainer";
 import {useClientDimensions} from "@/utlities/clientDimensions";
 import {Navbar} from "@/components/Navbar";
@@ -19,6 +19,11 @@ import {gfgBonusCalc} from "@/utlities/gfgBonusCalc";
 
 export default function Game() {
   useClientDimensions();
+  const defaultScore: ScoreBreakdown = {
+    timeScore: 0,
+    livesBonus: 0,
+    gloryBonus: 0
+  }
   const [team, setTeam] = useState<string>('');
   const [userInput, setUserInput] = useState<string | undefined>(undefined);
   const [tempNuclearInput, setTempNuclearInput] = useState<string>('');
@@ -34,10 +39,9 @@ export default function Game() {
   const [wrongAnswerInputEffect, setWrongAnswerInputEffect] = useState<boolean>(false);
   const [showCreditsModal, setShowCreditsModal] = useState<boolean>(false);
   const [showScoreModal, setShowScoreModal] = useState<boolean>(false);
-  const [score, setScore] = useState<number>(0);
   const [showInitialReminder, setShowInitialReminder] = useState<boolean>(false);
   const [gameResultMessage, setGameResultMessage] = useState<string>('');
-  const [gloryBonus, setGloryBonus] = useState<number>(0);
+  const [scoreBreakdown, setScoreBreakdown] = useState<ScoreBreakdown>(defaultScore)
   // const testingTeam = "Borussia Monchengladbach";
   const {seconds, minutes, reset, pause} = useStopwatch()
 
@@ -78,7 +82,7 @@ export default function Game() {
     setGameResult(GameResult.default);
     setWrongGuessCount(0);
     setGameResultMessage('');
-    setGloryBonus(0);
+    setScoreBreakdown(defaultScore);
     reset();
   }
 
@@ -89,7 +93,6 @@ export default function Game() {
     pause();
   }
   const handleTabChange = (tab: InputTab) => {
-    setGloryBonus(0);
     setUserInput('');
     setTempNuclearInput('');
     setInputTab(tab);
@@ -107,7 +110,6 @@ export default function Game() {
         break;
       case InputTab.goForGlory:
         if (tempNuclearInput.length > 0) {
-          setGloryBonus(gfgBonusCalc(userSubmissionArray, team));
           // call the handlenuclearsubmission function
           handleNuclearSubmission();
         }
@@ -196,12 +198,17 @@ export default function Game() {
       if (tempCheck(userSubmissionArray, teamUniqueLetters)) {
         setGameResult(GameResult.win);
         setGameResultMessage("WINNER!")
-        setScore((60 - seconds) + (7 - wrongGuessCount));
+        setScoreBreakdown(prevState => (
+          {
+            ...prevState,
+            timeScore: 60 - seconds,
+            livesBonus: 7 - wrongGuessCount
+          }))
         handleGameFinished();
       } else {
         setGameResult(GameResult.loss);
         setGameResultMessage("Wrong guess!");
-        setScore(0);
+        setScoreBreakdown(defaultScore)
         handleGameFinished();
       }
     }
@@ -243,13 +250,19 @@ export default function Game() {
       if (tempNuclearInput.toLowerCase() === team.toLowerCase()) {
         setGameResult(GameResult.win);
         setGameResultMessage("WINNER!");
-        setScore((60 - seconds + gfgBonusCalc(userSubmissionArray, team)) + (7 - wrongGuessCount));
+        setScoreBreakdown(prevState => (
+          {
+            ...prevState,
+            timeScore: 60 - seconds,
+            livesBonus: 7 - wrongGuessCount,
+            gloryBonus: gfgBonusCalc(userSubmissionArray, team)
+          }))
         handleGameFinished();
       }
       if (tempNuclearInput.toLowerCase() !== team.toLowerCase()) {
         setGameResult(GameResult.loss);
         setGameResultMessage("Wrong guess!");
-        setScore(0);
+        setScoreBreakdown(defaultScore)
         handleGameFinished();
       }
 
@@ -314,7 +327,7 @@ export default function Game() {
       }
       {
         showCreditsModal && (
-          <div className="absolute w-full h-screen top-0 left-0 bg-black300">
+          <div className="absolute w-full h-screen top-0 left-0 bg-black300 z-30">
             <CreditsModal onClickClose={() => setShowCreditsModal(false)} />
           </div>
         )
@@ -329,7 +342,7 @@ export default function Game() {
       {
         showScoreModal && (
          <div className="absolute w-full top-0 left-0 backdrop-blur h-full bg-backdropFilter flex justify-center items-center py-2 px-2 sm:px-4 md:py-20">
-           <ScoreModal gloryBonus={gloryBonus} wrongGuessCount={wrongGuessCount} elapsedSeconds={seconds} onClickClose={() => setShowScoreModal(false)} score={score} />
+           <ScoreModal scoreBreakdown={scoreBreakdown} onClickClose={() => setShowScoreModal(false)} />
          </div>
         )
       }
