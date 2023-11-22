@@ -15,6 +15,8 @@ import {WrongGuessMarkers} from "@/components/WrongGuessMarkers";
 import {useStopwatch} from "react-timer-hook";
 import {ScoreModal} from "@/components/ScoreModal";
 import {gfgBonusCalc} from "@/utlities/gfgBonusCalc";
+import {LandscapeHandler} from "@/components/LandscapeHandler";
+import {useClientOrientation} from "@/utlities/clientOrientation";
 
 
 export default function Game() {
@@ -44,10 +46,16 @@ export default function Game() {
   const [scoreBreakdown, setScoreBreakdown] = useState<ScoreBreakdown>(defaultScore)
   // const testingTeam = "Borussia Monchengladbach";
   const {seconds, minutes, reset, pause} = useStopwatch()
+  const [showLandscapeModal, setShowLandscapeModal] = useState<boolean>(false);
+  const {deviceOrientation} = useClientOrientation();
+
+  useEffect(() => {
+    deviceOrientation === 'landscape' ? setShowLandscapeModal(true) : setShowLandscapeModal(false);
+  }, [deviceOrientation])
 
   useEffect(() => {
    setShowInitialReminder(true);
-    setTheTeam();
+   setTheTeam();
 
   }, [])
 
@@ -146,7 +154,7 @@ export default function Game() {
     }
   }
 
-  const handleValidInput = (count?: number) => {
+  const handleValidInput = () => {
 
     if (userInput !== undefined && !team.toLowerCase().includes(userInput.toLowerCase())) {
       if (wrongGuessCount === 6) {
@@ -334,7 +342,7 @@ export default function Game() {
       }
       {
         showInitialReminder && (
-          <div className="absolute w-full top-0 left-0 backdrop-blur h-full bg-backdropFilter flex justify-center items-center py-2 px-2 sm:px-4 md:py-20">
+          <div className="absolute w-full top-0 left-0 backdrop-blur h-full bg-backdropFilter flex justify-center items-center py-2 px-2 sm:px-4 md:py-20 z-50">
             <GamePageInitialReminder onClickClose={() => {setShowInitialReminder(false); setTheTeam() }} />
           </div>
         )
@@ -344,6 +352,13 @@ export default function Game() {
          <div className="absolute w-full top-0 left-0 backdrop-blur h-full bg-backdropFilter flex justify-center items-center py-2 px-2 sm:px-4 md:py-20">
            <ScoreModal scoreBreakdown={scoreBreakdown} onClickClose={() => setShowScoreModal(false)} />
          </div>
+        )
+      }
+      {
+        showLandscapeModal && (
+          <div className="w-full max-w-3xl absolute w-full h-screen top-0 bg-black300 z-50">
+            <LandscapeHandler />
+          </div>
         )
       }
     </main>
