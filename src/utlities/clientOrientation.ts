@@ -6,16 +6,19 @@ import {isMobile} from 'react-device-detect'
 export function useClientOrientation() {
   const [deviceOrientation, setDeviceOrientation] = useState<'landscape' | 'portrait'>('portrait');
 
-  const updateOrientaton = () => {
-    if (isMobile && window.innerWidth > window.innerHeight) {
-      setDeviceOrientation('landscape');
-    }
-    else {
-      setDeviceOrientation('portrait');
-    }
-  }
-
   useEffect(() => {
+
+    const updateOrientaton = () => {
+      if (isMobile && window.innerWidth > window.innerHeight) {
+        setDeviceOrientation('landscape');
+      }
+      else {
+        setDeviceOrientation('portrait');
+      }
+    }
+    if (document.readyState === 'complete') {
+      updateOrientaton();
+    }
     window.addEventListener('load', updateOrientaton);
     window.addEventListener('resize', updateOrientaton);
 
@@ -23,7 +26,7 @@ export function useClientOrientation() {
       window.removeEventListener('resize', updateOrientaton);
       window.removeEventListener('load', updateOrientaton);
     };
-  }, [isMobile])
+  })
 
   return {
     deviceOrientation
