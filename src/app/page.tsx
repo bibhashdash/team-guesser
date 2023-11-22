@@ -14,7 +14,7 @@ export default function Home() {
   const [showRulesModal, setShowRulesModal] = useState<boolean>(false);
   const [showLandscapeModal, setShowLandscapeModal] = useState<boolean>(false);
   const {deviceOrientation} = useClientOrientation();
-  // deviceOrientation === 'landscape' ? setShowLandscapeModal(true) : setShowLandscapeModal(false);
+
   useEffect(() => {
     deviceOrientation === 'landscape' ? setShowLandscapeModal(true) : setShowLandscapeModal(false);
   }, [deviceOrientation])

@@ -15,7 +15,6 @@ import {WrongGuessMarkers} from "@/components/WrongGuessMarkers";
 import {useStopwatch} from "react-timer-hook";
 import {ScoreModal} from "@/components/ScoreModal";
 import {gfgBonusCalc} from "@/utlities/gfgBonusCalc";
-import {isMobile, useMobileOrientation} from "react-device-detect";
 import {LandscapeHandler} from "@/components/LandscapeHandler";
 import {useClientOrientation} from "@/utlities/clientOrientation";
 
@@ -28,7 +27,6 @@ export default function Game() {
     gloryBonus: 0
   }
   const [team, setTeam] = useState<string>('');
-  const [deviceOrientaton, setDeviceOrientation] = useState<'landscape' | 'portrait' | undefined>(undefined);
   const [userInput, setUserInput] = useState<string | undefined>(undefined);
   const [tempNuclearInput, setTempNuclearInput] = useState<string>('');
   const [nuclearSubmissionFullString, setNuclearSubmissionFullString] = useState<string>('');
@@ -56,10 +54,8 @@ export default function Game() {
   }, [deviceOrientation])
 
   useEffect(() => {
-
-
    setShowInitialReminder(true);
-    setTheTeam();
+   setTheTeam();
 
   }, [])
 
@@ -158,7 +154,7 @@ export default function Game() {
     }
   }
 
-  const handleValidInput = (count?: number) => {
+  const handleValidInput = () => {
 
     if (userInput !== undefined && !team.toLowerCase().includes(userInput.toLowerCase())) {
       if (wrongGuessCount === 6) {
