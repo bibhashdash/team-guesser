@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {MenuIcon} from "@/icons/MenuIcon";
 import {CloseIcon} from "@/components/CloseIcon";
 import {GameTimer} from "@/components/GameTimer";
@@ -13,8 +13,12 @@ interface NavbarProps {
   clickCreditsIcon: () => void,
 }
 
-export const Navbar = ({clickRulesIcon, elapsedSeconds, elapsedMinutes, clickRefreshIcon, clickCreditsIcon, gameState}: NavbarProps) => {
+export const Navbar = ({clickRulesIcon, elapsedSeconds, clickRefreshIcon, clickCreditsIcon, gameState}: NavbarProps) => {
   const [showMenu, setShowMenu] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (gameState === GameState.gameOver) setShowMenu(false);
+  }, [gameState])
 
   return (
     <div className="bg-black300 w-full md:py-2 px-2 md:px-6 flex flex-col gap-2 items-center">

@@ -2,7 +2,7 @@
 
 import React, {useEffect, useState} from "react";
 import {tempData} from "@/tempData";
-import {GameResult, GameState, InputTab} from "@/utlities/models";
+import {GameResult, GameState, InputTab, ScoreBreakdown} from "@/utlities/models";
 import {WhiteSquaresContainer} from "@/components/WhiteSquaresContainer";
 import {useClientDimensions} from "@/utlities/clientDimensions";
 import {Navbar} from "@/components/Navbar";
@@ -14,10 +14,18 @@ import {GamePageInitialReminder} from "@/components/GamePageInitialReminder";
 import {WrongGuessMarkers} from "@/components/WrongGuessMarkers";
 import {useStopwatch} from "react-timer-hook";
 import {ScoreModal} from "@/components/ScoreModal";
+import {gfgBonusCalc} from "@/utlities/gfgBonusCalc";
+import {LandscapeHandler} from "@/components/LandscapeHandler";
+import {useClientOrientation} from "@/utlities/clientOrientation";
 
 
 export default function Game() {
   useClientDimensions();
+  const defaultScore: ScoreBreakdown = {
+    timeScore: 0,
+    livesBonus: 0,
+    gloryBonus: 0
+  }
   const [team, setTeam] = useState<string>('');
   const [userInput, setUserInput] = useState<string | undefined>(undefined);
   const [tempNuclearInput, setTempNuclearInput] = useState<string>('');
@@ -33,15 +41,21 @@ export default function Game() {
   const [wrongAnswerInputEffect, setWrongAnswerInputEffect] = useState<boolean>(false);
   const [showCreditsModal, setShowCreditsModal] = useState<boolean>(false);
   const [showScoreModal, setShowScoreModal] = useState<boolean>(false);
-  const [score, setScore] = useState<number>(0);
   const [showInitialReminder, setShowInitialReminder] = useState<boolean>(false);
   const [gameResultMessage, setGameResultMessage] = useState<string>('');
+  const [scoreBreakdown, setScoreBreakdown] = useState<ScoreBreakdown>(defaultScore)
   // const testingTeam = "Borussia Monchengladbach";
   const {seconds, minutes, reset, pause} = useStopwatch()
+  const [showLandscapeModal, setShowLandscapeModal] = useState<boolean>(false);
+  const {deviceOrientation} = useClientOrientation();
+
+  useEffect(() => {
+    deviceOrientation === 'landscape' ? setShowLandscapeModal(true) : setShowLandscapeModal(false);
+  }, [deviceOrientation])
 
   useEffect(() => {
    setShowInitialReminder(true);
-    setTheTeam();
+   setTheTeam();
 
   }, [])
 
@@ -76,6 +90,7 @@ export default function Game() {
     setGameResult(GameResult.default);
     setWrongGuessCount(0);
     setGameResultMessage('');
+    setScoreBreakdown(defaultScore);
     reset();
   }
 
@@ -106,7 +121,6 @@ export default function Game() {
           // call the handlenuclearsubmission function
           handleNuclearSubmission();
         }
-
     }
   }
 
@@ -140,7 +154,7 @@ export default function Game() {
     }
   }
 
-  const handleValidInput = (count?: number) => {
+  const handleValidInput = () => {
 
     if (userInput !== undefined && !team.toLowerCase().includes(userInput.toLowerCase())) {
       if (wrongGuessCount === 6) {
@@ -192,18 +206,24 @@ export default function Game() {
       if (tempCheck(userSubmissionArray, teamUniqueLetters)) {
         setGameResult(GameResult.win);
         setGameResultMessage("WINNER!")
-        setScore((60 - seconds) + (7 - wrongGuessCount));
+        setScoreBreakdown(prevState => (
+          {
+            ...prevState,
+            timeScore: 60 - seconds,
+            livesBonus: 7 - wrongGuessCount
+          }))
         handleGameFinished();
       } else {
         setGameResult(GameResult.loss);
         setGameResultMessage("Wrong guess!");
-        setScore(0);
+        setScoreBreakdown(defaultScore)
         handleGameFinished();
       }
     }
   }
 
   const handleNuclearSubmission = () => {
+
     // check if userNuclearInput has same number of words as team
     const array1 = tempNuclearInput.toLowerCase().split(' ');
     const array2 = team.toLowerCase().split(' ');
@@ -233,18 +253,24 @@ export default function Game() {
 
     // check if there is a full match
     else {
-      setGameState(GameState.gameOver);
 
+      setGameState(GameState.gameOver);
       if (tempNuclearInput.toLowerCase() === team.toLowerCase()) {
         setGameResult(GameResult.win);
         setGameResultMessage("WINNER!");
-        setScore((60 - seconds) + (7 - wrongGuessCount));
+        setScoreBreakdown(prevState => (
+          {
+            ...prevState,
+            timeScore: 60 - seconds,
+            livesBonus: 7 - wrongGuessCount,
+            gloryBonus: gfgBonusCalc(userSubmissionArray, team)
+          }))
         handleGameFinished();
       }
       if (tempNuclearInput.toLowerCase() !== team.toLowerCase()) {
         setGameResult(GameResult.loss);
         setGameResultMessage("Wrong guess!");
-        setScore(0);
+        setScoreBreakdown(defaultScore)
         handleGameFinished();
       }
 
@@ -309,14 +335,14 @@ export default function Game() {
       }
       {
         showCreditsModal && (
-          <div className="absolute w-full h-screen top-0 left-0 bg-black300">
+          <div className="absolute w-full h-screen top-0 left-0 bg-black300 z-30">
             <CreditsModal onClickClose={() => setShowCreditsModal(false)} />
           </div>
         )
       }
       {
         showInitialReminder && (
-          <div className="absolute w-full top-0 left-0 backdrop-blur h-full bg-backdropFilter flex justify-center items-center py-2 px-2 sm:px-4 md:py-20">
+          <div className="absolute w-full top-0 left-0 backdrop-blur h-full bg-backdropFilter flex justify-center items-center py-2 px-2 sm:px-4 md:py-20 z-50">
             <GamePageInitialReminder onClickClose={() => {setShowInitialReminder(false); setTheTeam() }} />
           </div>
         )
@@ -324,8 +350,15 @@ export default function Game() {
       {
         showScoreModal && (
          <div className="absolute w-full top-0 left-0 backdrop-blur h-full bg-backdropFilter flex justify-center items-center py-2 px-2 sm:px-4 md:py-20">
-           <ScoreModal wrongGuessCount={wrongGuessCount} elapsedSeconds={seconds} onClickClose={() => setShowScoreModal(false)} score={score} />
+           <ScoreModal scoreBreakdown={scoreBreakdown} onClickClose={() => setShowScoreModal(false)} />
          </div>
+        )
+      }
+      {
+        showLandscapeModal && (
+          <div className="w-full max-w-3xl absolute w-full h-screen top-0 bg-black300 z-50">
+            <LandscapeHandler />
+          </div>
         )
       }
     </main>

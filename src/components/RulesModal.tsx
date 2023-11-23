@@ -63,7 +63,7 @@ export const RulesModal = ({onClickClose}: RulesModalProps) => {
               />
               <InputSection inputTab={InputTab.goForGlory}
                             userInput="e"
-                            tempNuclearInput={"frsenal"}
+                            tempNuclearInput={"FRSENAL"}
                             onClickTab={() => {}}
                             gameState={GameState.gameStarted}
               />
@@ -139,25 +139,24 @@ export const RulesModal = ({onClickClose}: RulesModalProps) => {
             </div>
           </RulesModalSlide>
           <RulesModalSlide index={7}>
-            <p className="leading-4 text-left">In <span className="text-blue300 font-bold">Go For Glory</span> mode you must get the following correct before being considered for a victory check:-</p>
-            <ul className="text-left m-0 p-0">
+            <p className="leading-6 text-left">In <span className="text-blue300 font-bold">Go For Glory</span> mode check the following before pressing enter:-</p>
+            <ul className="text-left m-0 p-0 leading-6">
               <li>- Number of words in the team name</li>
               <li>- Number of characters in each word of the team name</li>
               <li>- Number of characters in the entire team name</li>
             </ul>
-            <p>So for example, if the correct answer is meant to be: AFC Wimbledon</p>
-            <p>Then the following entry</p>
+            <p className="leading-6">If the correct answer is meant to be: AFC Wimbledon</p>
+            <p className="leading-6">Then the following entry</p>
             <div className="w-full flex flex-col items-center border-2 border-gray50 rounded-md p-2">
 
-              <InputSection
-                inputTab={InputTab.goForGlory}
-                userInput=""
-                tempNuclearInput={"AFCE WIMBLEDOON"}
-                onClickTab={() => {}}
-                gameState={GameState.gameStarted}
-              />
+              <div id="go-for-glory-input" className="flex justify-center w-full">
+                <div
+                  className="rounded-md text-sm sm:text-lg md:text-xl lg:text-3xl text-center bg-black300 border-2 border-black100 text-white100 w-full h-12 sm:h-18 flex justify-center items-center">
+                  AFCE WIMBLEDOON
+                </div>
+              </div>
             </div>
-            <p>...would be invalid! Make sure you check the white squares to see how many characters and words you need.</p>
+            <p className="leading-6">...would be invalid!</p>
           </RulesModalSlide>
 
           <RulesModalSlide index={8}>
