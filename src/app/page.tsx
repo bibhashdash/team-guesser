@@ -1,7 +1,7 @@
 'use client';
 
 import {useClientDimensions} from "@/utlities/clientDimensions";
-import React, {useEffect, useState} from "react";
+import React, {useState, useEffect} from "react";
 import {SplashScreen} from "@/components/SplashScreen";
 import {useRouter} from "next/navigation";
 import {RulesModal} from "@/components/RulesModal";

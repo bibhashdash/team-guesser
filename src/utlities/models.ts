@@ -23,3 +23,8 @@ export interface ScoreBreakdown {
   livesBonus: number,
   gloryBonus: number,
 }
+
+export interface FirestoreScoreObjectModel {
+  totalScore: number,
+  scoreBreakdown: ScoreBreakdown
+}

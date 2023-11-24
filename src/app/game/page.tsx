@@ -2,7 +2,7 @@
 
 import React, {useEffect, useState} from "react";
 import {tempData} from "@/tempData";
-import {GameResult, GameState, InputTab, ScoreBreakdown} from "@/utlities/models";
+import {FirestoreScoreObjectModel, GameResult, GameState, InputTab, ScoreBreakdown} from "@/utlities/models";
 import {WhiteSquaresContainer} from "@/components/WhiteSquaresContainer";
 import {useClientDimensions} from "@/utlities/clientDimensions";
 import {Navbar} from "@/components/Navbar";
@@ -17,7 +17,41 @@ import {ScoreModal} from "@/components/ScoreModal";
 import {gfgBonusCalc} from "@/utlities/gfgBonusCalc";
 import {LandscapeHandler} from "@/components/LandscapeHandler";
 import {useClientOrientation} from "@/utlities/clientOrientation";
+import {db} from '@/firebase/firebase'
+import {addDoc, collection, QueryDocumentSnapshot, SnapshotOptions, WithFieldValue} from "firebase/firestore";
+import "firebase/compat/firestore";
 
+const scoreConverter = {
+  toFirestore(score: WithFieldValue<any>): FirestoreScoreObjectModel {
+    return {
+       totalScore: score.totalScore,
+        scoreBreakdown: {
+         timeScore: score.scoreBreakdown['timeScore'],
+          gloryBonus: score.scoreBreakdown['gloryBonus'],
+          livesBonus: score.scoreBreakdown['livesBonus']
+       }
+    };
+  },
+  fromFirestore(
+    snapshot: QueryDocumentSnapshot,
+    options: SnapshotOptions
+  ): FirestoreScoreObjectModel {
+    const data = snapshot.data(options) as FirestoreScoreObjectModel;
+    return {
+      totalScore: data.totalScore,
+      scoreBreakdown: data.scoreBreakdown
+    };
+  }
+};
+
+async function updateScoreToDatabase (uploadedScore: FirestoreScoreObjectModel) {
+  try {
+    const colRef = collection(db, 'leaderboard').withConverter(scoreConverter);
+    await addDoc(colRef, uploadedScore).then(result => console.log(result))
+  } catch (e) {
+    console.log(e);
+  }
+}
 
 export default function Game() {
   useClientDimensions();
@@ -26,6 +60,7 @@ export default function Game() {
     livesBonus: 0,
     gloryBonus: 0
   }
+
   const [team, setTeam] = useState<string>('');
   const [userInput, setUserInput] = useState<string | undefined>(undefined);
   const [tempNuclearInput, setTempNuclearInput] = useState<string>('');
@@ -58,6 +93,22 @@ export default function Game() {
    setTheTeam();
 
   }, [])
+
+  useEffect(() => {
+    if (gameResult === GameResult.win) {
+      const totalScore = scoreBreakdown.timeScore + scoreBreakdown.livesBonus + scoreBreakdown.gloryBonus
+      const uploadedData = {
+        totalScore: totalScore,
+        scoreBreakdown: {
+          gloryBonus: scoreBreakdown.gloryBonus,
+          livesBonus: scoreBreakdown.livesBonus,
+          timeScore: scoreBreakdown.timeScore
+        }
+      }
+
+      updateScoreToDatabase(uploadedData);
+    }
+  }, [gameResult])
 
   useEffect(() => {
     if (minutes === 1) {
@@ -95,6 +146,7 @@ export default function Game() {
   }
 
   const handleGameFinished = () => {
+    // update the score to the database here?
     setGameState(GameState.gameOver);
     setUserSubmissionArray(team.toLowerCase().split(""));
     setUserInput(undefined);
@@ -212,13 +264,12 @@ export default function Game() {
             timeScore: 60 - seconds,
             livesBonus: 7 - wrongGuessCount
           }))
-        handleGameFinished();
       } else {
         setGameResult(GameResult.loss);
         setGameResultMessage("Wrong guess!");
         setScoreBreakdown(defaultScore)
-        handleGameFinished();
       }
+      handleGameFinished();
     }
   }
 
@@ -265,15 +316,14 @@ export default function Game() {
             livesBonus: 7 - wrongGuessCount,
             gloryBonus: gfgBonusCalc(userSubmissionArray, team)
           }))
-        handleGameFinished();
+
       }
       if (tempNuclearInput.toLowerCase() !== team.toLowerCase()) {
         setGameResult(GameResult.loss);
         setGameResultMessage("Wrong guess!");
         setScoreBreakdown(defaultScore)
-        handleGameFinished();
       }
-
+      handleGameFinished();
      setNuclearSubmissionFullString(tempNuclearInput);
       setGameState(GameState.gameOver);
     }
