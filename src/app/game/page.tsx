@@ -2,7 +2,7 @@
 
 import React, {useEffect, useState} from "react";
 import {tempData} from "@/tempData";
-import {GameResult, GameState, InputTab, ScoreBreakdown} from "@/utlities/models";
+import {FirestoreScoreObjectModel, GameResult, GameState, InputTab, ScoreBreakdown} from "@/utlities/models";
 import {WhiteSquaresContainer} from "@/components/WhiteSquaresContainer";
 import {useClientDimensions} from "@/utlities/clientDimensions";
 import {Navbar} from "@/components/Navbar";
@@ -17,18 +17,39 @@ import {ScoreModal} from "@/components/ScoreModal";
 import {gfgBonusCalc} from "@/utlities/gfgBonusCalc";
 import {LandscapeHandler} from "@/components/LandscapeHandler";
 import {useClientOrientation} from "@/utlities/clientOrientation";
-
 import {db} from '@/firebase/firebase'
-
-import {addDoc, collection} from "firebase/firestore";
+import {addDoc, collection, QueryDocumentSnapshot, SnapshotOptions, WithFieldValue} from "firebase/firestore";
 import "firebase/compat/firestore";
 
-export const updateScoreToDatabase = async (uploadedScore) => {
+const scoreConverter = {
+  toFirestore(score: WithFieldValue<any>): FirestoreScoreObjectModel {
+    return {
+       totalScore: score.totalScore,
+        scoreBreakdown: {
+         timeScore: score.scoreBreakdown['timeScore'],
+          gloryBonus: score.scoreBreakdown['gloryBonus'],
+          livesBonus: score.scoreBreakdown['livesBonus']
+       }
+    };
+  },
+  fromFirestore(
+    snapshot: QueryDocumentSnapshot,
+    options: SnapshotOptions
+  ): FirestoreScoreObjectModel {
+    const data = snapshot.data(options) as FirestoreScoreObjectModel;
+    return {
+      totalScore: data.totalScore,
+      scoreBreakdown: data.scoreBreakdown
+    };
+  }
+};
+
+async function updateScoreToDatabase (uploadedScore: FirestoreScoreObjectModel) {
   try {
-    const docRef = await addDoc(collection(db, 'leaderboard'), uploadedScore);
-    return "Score Updated Successfully!";
+    const colRef = collection(db, 'leaderboard').withConverter(scoreConverter);
+    await addDoc(colRef, uploadedScore).then(result => console.log(result))
   } catch (e) {
-    return "Error uploading score";
+    console.log(e);
   }
 }
 
@@ -74,6 +95,22 @@ export default function Game() {
   }, [])
 
   useEffect(() => {
+    if (gameResult === GameResult.win) {
+      const totalScore = scoreBreakdown.timeScore + scoreBreakdown.livesBonus + scoreBreakdown.gloryBonus
+      const uploadedData = {
+        totalScore: totalScore,
+        scoreBreakdown: {
+          gloryBonus: scoreBreakdown.gloryBonus,
+          livesBonus: scoreBreakdown.livesBonus,
+          timeScore: scoreBreakdown.timeScore
+        }
+      }
+
+      updateScoreToDatabase(uploadedData);
+    }
+  }, [gameResult])
+
+  useEffect(() => {
     if (minutes === 1) {
       setGameResultMessage("Timed out!");
       setGameResult(GameResult.loss);
@@ -108,22 +145,8 @@ export default function Game() {
     reset();
   }
 
-  const handleGameFinished = async () => {
+  const handleGameFinished = () => {
     // update the score to the database here?
-
-    const totalScore = scoreBreakdown.timeScore + scoreBreakdown.livesBonus + scoreBreakdown.gloryBonus
-    const uploadedData = {
-      totalScore: totalScore,
-      scoreBreakdown: {
-        gloryBonus: scoreBreakdown.gloryBonus,
-        livesBonus: scoreBreakdown.livesBonus,
-        timeScore: scoreBreakdown.timeScore
-      }
-    }
-
-    const databaseUploadResult = updateScoreToDatabase(uploadedData);
-    console.log(databaseUploadResult);
-
     setGameState(GameState.gameOver);
     setUserSubmissionArray(team.toLowerCase().split(""));
     setUserInput(undefined);

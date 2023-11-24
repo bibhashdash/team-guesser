@@ -27,6 +27,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
+    "node_modules/@google-cloud/firestore/types/firestore.d.ts",
     "node_modules/@google-cloud/firestore/types/firestore.d.ts"
   ],
   "exclude": ["node_modules"]
