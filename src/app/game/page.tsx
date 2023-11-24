@@ -18,6 +18,19 @@ import {gfgBonusCalc} from "@/utlities/gfgBonusCalc";
 import {LandscapeHandler} from "@/components/LandscapeHandler";
 import {useClientOrientation} from "@/utlities/clientOrientation";
 
+import {db} from '@/firebase/firebase'
+
+import {addDoc, collection} from "firebase/firestore";
+import "firebase/compat/firestore";
+
+export const updateScoreToDatabase = async (uploadedScore) => {
+  try {
+    const docRef = await addDoc(collection(db, 'leaderboard'), uploadedScore);
+    return "Score Updated Successfully!";
+  } catch (e) {
+    return "Error uploading score";
+  }
+}
 
 export default function Game() {
   useClientDimensions();
@@ -26,6 +39,7 @@ export default function Game() {
     livesBonus: 0,
     gloryBonus: 0
   }
+
   const [team, setTeam] = useState<string>('');
   const [userInput, setUserInput] = useState<string | undefined>(undefined);
   const [tempNuclearInput, setTempNuclearInput] = useState<string>('');
@@ -94,7 +108,22 @@ export default function Game() {
     reset();
   }
 
-  const handleGameFinished = () => {
+  const handleGameFinished = async () => {
+    // update the score to the database here?
+
+    const totalScore = scoreBreakdown.timeScore + scoreBreakdown.livesBonus + scoreBreakdown.gloryBonus
+    const uploadedData = {
+      totalScore: totalScore,
+      scoreBreakdown: {
+        gloryBonus: scoreBreakdown.gloryBonus,
+        livesBonus: scoreBreakdown.livesBonus,
+        timeScore: scoreBreakdown.timeScore
+      }
+    }
+
+    const databaseUploadResult = updateScoreToDatabase(uploadedData);
+    console.log(databaseUploadResult);
+
     setGameState(GameState.gameOver);
     setUserSubmissionArray(team.toLowerCase().split(""));
     setUserInput(undefined);
@@ -212,13 +241,12 @@ export default function Game() {
             timeScore: 60 - seconds,
             livesBonus: 7 - wrongGuessCount
           }))
-        handleGameFinished();
       } else {
         setGameResult(GameResult.loss);
         setGameResultMessage("Wrong guess!");
         setScoreBreakdown(defaultScore)
-        handleGameFinished();
       }
+      handleGameFinished();
     }
   }
 
@@ -265,15 +293,14 @@ export default function Game() {
             livesBonus: 7 - wrongGuessCount,
             gloryBonus: gfgBonusCalc(userSubmissionArray, team)
           }))
-        handleGameFinished();
+
       }
       if (tempNuclearInput.toLowerCase() !== team.toLowerCase()) {
         setGameResult(GameResult.loss);
         setGameResultMessage("Wrong guess!");
         setScoreBreakdown(defaultScore)
-        handleGameFinished();
       }
-
+      handleGameFinished();
      setNuclearSubmissionFullString(tempNuclearInput);
       setGameState(GameState.gameOver);
     }
