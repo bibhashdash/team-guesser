@@ -61,7 +61,7 @@ export default function Game() {
 
   useEffect(() => {
     if (minutes === 1) {
-      setGameResultMessage("Timed out!");
+      setGameResultMessage("Timed out!!");
       setGameResult(GameResult.loss);
       const len = team.split('').filter(item => item !== ' ').length;
       const newArray = new Array(len - userSubmissionArray.length).fill(' ');
