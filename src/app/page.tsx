@@ -1,7 +1,7 @@
 'use client';
 
 import {useClientDimensions} from "@/utlities/clientDimensions";
-import React, {useState, useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {SplashScreen} from "@/components/SplashScreen";
 import {useRouter} from "next/navigation";
 import {RulesModal} from "@/components/RulesModal";
@@ -9,8 +9,9 @@ import {LandscapeHandler} from "@/components/LandscapeHandler";
 import {useClientOrientation} from "@/utlities/clientOrientation";
 
 export default function Home() {
-  useClientDimensions();
 
+
+  useClientDimensions();
   const [showRulesModal, setShowRulesModal] = useState<boolean>(false);
   const [showLandscapeModal, setShowLandscapeModal] = useState<boolean>(false);
   const {deviceOrientation} = useClientOrientation();

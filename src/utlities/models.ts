@@ -26,5 +26,6 @@ export interface ScoreBreakdown {
 
 export interface FirestoreScoreObjectModel {
   totalScore: number,
-  scoreBreakdown: ScoreBreakdown
+  scoreBreakdown: ScoreBreakdown,
+  datePlayed: string,
 }

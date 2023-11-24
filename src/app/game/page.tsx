@@ -20,6 +20,9 @@ import {useClientOrientation} from "@/utlities/clientOrientation";
 import {db} from '@/firebase/firebase'
 import {addDoc, collection, QueryDocumentSnapshot, SnapshotOptions, WithFieldValue} from "firebase/firestore";
 import "firebase/compat/firestore";
+import dayjs from "dayjs";
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
 
 const scoreConverter = {
   toFirestore(score: WithFieldValue<any>): FirestoreScoreObjectModel {
@@ -29,7 +32,8 @@ const scoreConverter = {
          timeScore: score.scoreBreakdown['timeScore'],
           gloryBonus: score.scoreBreakdown['gloryBonus'],
           livesBonus: score.scoreBreakdown['livesBonus']
-       }
+       },
+      datePlayed: score.datePlayed
     };
   },
   fromFirestore(
@@ -39,7 +43,8 @@ const scoreConverter = {
     const data = snapshot.data(options) as FirestoreScoreObjectModel;
     return {
       totalScore: data.totalScore,
-      scoreBreakdown: data.scoreBreakdown
+      scoreBreakdown: data.scoreBreakdown,
+      datePlayed: data.datePlayed
     };
   }
 };
@@ -54,6 +59,8 @@ async function updateScoreToDatabase (uploadedScore: FirestoreScoreObjectModel) 
 }
 
 export default function Game() {
+  dayjs.extend(utc);
+  dayjs.extend(timezone);
   useClientDimensions();
   const defaultScore: ScoreBreakdown = {
     timeScore: 0,
@@ -96,14 +103,17 @@ export default function Game() {
 
   useEffect(() => {
     if (gameResult === GameResult.win) {
+      const localEpoch = Date.now();
+      const convertedToEuropeLondon: string = dayjs(localEpoch).tz("Europe/London").format("DD-MM-YYYY");
       const totalScore = scoreBreakdown.timeScore + scoreBreakdown.livesBonus + scoreBreakdown.gloryBonus
-      const uploadedData = {
+      const uploadedData: FirestoreScoreObjectModel = {
         totalScore: totalScore,
         scoreBreakdown: {
           gloryBonus: scoreBreakdown.gloryBonus,
           livesBonus: scoreBreakdown.livesBonus,
           timeScore: scoreBreakdown.timeScore
-        }
+        },
+        datePlayed: convertedToEuropeLondon
       }
 
       updateScoreToDatabase(uploadedData);
