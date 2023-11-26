@@ -2,7 +2,7 @@
 
 import React, {useEffect, useState} from "react";
 import {tempData} from "@/tempData";
-import {FirestoreScoreObjectModel, GameResult, GameState, InputTab, ScoreBreakdown} from "@/utlities/models";
+import {GameResult, GameState, InputTab, ScoreBreakdown} from "@/utlities/models";
 import {WhiteSquaresContainer} from "@/components/WhiteSquaresContainer";
 import {useClientDimensions} from "@/utlities/clientDimensions";
 import {Navbar} from "@/components/Navbar";
@@ -12,13 +12,10 @@ import {Keyboard} from "@/components/Keyboard";
 import {CreditsModal} from "@/components/CreditsModal";
 import {GamePageInitialReminder} from "@/components/GamePageInitialReminder";
 import {WrongGuessMarkers} from "@/components/WrongGuessMarkers";
-import {useStopwatch} from "react-timer-hook";
 import {ScoreModal} from "@/components/ScoreModal";
 import {gfgBonusCalc} from "@/utlities/gfgBonusCalc";
 import {LandscapeHandler} from "@/components/LandscapeHandler";
 import {useClientOrientation} from "@/utlities/clientOrientation";
-import {db} from '@/firebase/firebase'
-import {addDoc, collection, QueryDocumentSnapshot, SnapshotOptions, WithFieldValue} from "firebase/firestore";
 import "firebase/compat/firestore";
 import dayjs from "dayjs";
 import utc from 'dayjs/plugin/utc';
@@ -92,15 +89,14 @@ export default function Game() {
 
   useEffect(() => {
     if (minutes === 1) {
-      updateGameResultMessage("Timed out!!");
+      updateGameResultMessage("Timed Out!!");
       updateGameState(GameState.gameOver);
       updateGameResult(GameResult.loss);
-      const stringManipulationResult = livesOverTimedOutStringManip(team, userSubmissionArray)
+      const stringManipulationResult = livesOverTimedOutStringManip(team, userSubmissionArray);
       setUserSubmissionArray(prevState => {
         return [...prevState, ...stringManipulationResult]
       });
       setUserInput(undefined);
-      pause();
     }
   }, [minutes])
 
@@ -187,17 +183,15 @@ export default function Game() {
 
     if (userInput !== undefined && !team.toLowerCase().includes(userInput.toLowerCase())) {
       if (wrongGuessCount === 6) {
-        updateGameResultMessage("Yer off!")
-
-        updateWrongGuessCount(wrongGuessCount + 1);
+        updateGameResultMessage("Yerrr Off!!");
         updateGameState(GameState.gameOver);
         updateGameResult(GameResult.loss);
-        const stringManipulationResult = livesOverTimedOutStringManip(team, userSubmissionArray)
-        setUserSubmissionArray(prevState => {
+        updateWrongGuessCount(wrongGuessCount + 1)
+        const stringManipulationResult = livesOverTimedOutStringManip(team, userSubmissionArray);
+          setUserSubmissionArray(prevState => {
           return [...prevState, ...stringManipulationResult]
         });
         setUserInput(undefined);
-        pause();
         return;
       } else if (wrongGuessCount < 6) {
         updateWrongGuessCount(wrongGuessCount + 1);
