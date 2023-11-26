@@ -7,6 +7,11 @@ export function useGameControlContextState(): GameControlContextState {
   const [timerSeconds, setTimerSeconds] = useState<number>(0);
   const [gameState, setGameState] = useState<GameState>(GameState.gameDefault);
   const [gameResult, setGameResult] = useState<GameResult>(GameResult.default);
+  const [scoreBreakdown, setScoreBreakdown] = useState<ScoreBreakdown>({
+    timeScore: 0,
+    livesBonus: 0,
+    gloryBonus: 0
+  })
   const [gameScore, setGameScore] = useState<FirestoreScoreObjectModel>({
     totalScore: 0,
     scoreBreakdown: {
@@ -48,6 +53,14 @@ export function useGameControlContextState(): GameControlContextState {
     })
   }
 
+  const updateScoreBreakdown = (scoreBreakdown: ScoreBreakdown) => {
+    setScoreBreakdown({
+      timeScore: scoreBreakdown.timeScore,
+      gloryBonus: scoreBreakdown.gloryBonus,
+      livesBonus: scoreBreakdown.livesBonus
+    })
+  }
+
   return {
     gameState,
     gameResult,
@@ -58,5 +71,7 @@ export function useGameControlContextState(): GameControlContextState {
     pause,
     reset,
     minutes,
+    scoreBreakdown,
+    updateScoreBreakdown
   }
 }

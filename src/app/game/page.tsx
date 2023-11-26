@@ -84,10 +84,21 @@ export default function Game() {
   const [showScoreModal, setShowScoreModal] = useState<boolean>(false);
   const [showInitialReminder, setShowInitialReminder] = useState<boolean>(false);
   const [gameResultMessage, setGameResultMessage] = useState<string>('');
-  const [scoreBreakdown, setScoreBreakdown] = useState<ScoreBreakdown>(defaultScore)
   // const testingTeam = "Borussia Monchengladbach";
 
-  const {timerSeconds, pause, reset, minutes, gameState, gameResult, updateGameState, updateGameResult} = useGameControlContext();
+  const {
+    timerSeconds,
+    pause,
+    reset,
+    minutes,
+    gameState,
+    gameResult,
+    updateGameState,
+    updateGameResult,
+    scoreBreakdown,
+    updateScore,
+    updateScoreBreakdown
+  } = useGameControlContext();
   const [showLandscapeModal, setShowLandscapeModal] = useState<boolean>(false);
   const {deviceOrientation} = useClientOrientation();
 
@@ -98,7 +109,6 @@ export default function Game() {
   useEffect(() => {
    setShowInitialReminder(true);
    setTheTeam();
-   console.log(gameState);
   }, [])
 
   useEffect(() => {
@@ -151,7 +161,7 @@ export default function Game() {
     updateGameResult(GameResult.default);
     setWrongGuessCount(0);
     setGameResultMessage('');
-    setScoreBreakdown(defaultScore);
+    updateScoreBreakdown(defaultScore);
     reset();
   }
 
@@ -268,16 +278,15 @@ export default function Game() {
       if (tempCheck(userSubmissionArray, teamUniqueLetters)) {
         updateGameResult(GameResult.win);
         setGameResultMessage("WINNER!")
-        setScoreBreakdown(prevState => (
-          {
-            ...prevState,
-            timeScore: 60 - timerSeconds,
-            livesBonus: 7 - wrongGuessCount
-          }))
+        updateScoreBreakdown({
+          gloryBonus: 0,
+          timeScore: 60 - timerSeconds,
+          livesBonus: 7 - wrongGuessCount
+        })
       } else {
         updateGameResult(GameResult.loss);
         setGameResultMessage("Wrong guess!");
-        setScoreBreakdown(defaultScore)
+        updateScoreBreakdown(defaultScore)
       }
       handleGameFinished();
     }
@@ -319,19 +328,17 @@ export default function Game() {
       if (tempNuclearInput.toLowerCase() === team.toLowerCase()) {
         updateGameResult(GameResult.win);
         setGameResultMessage("WINNER!");
-        setScoreBreakdown(prevState => (
-          {
-            ...prevState,
-            timeScore: 60 - timerSeconds,
-            livesBonus: 7 - wrongGuessCount,
-            gloryBonus: gfgBonusCalc(userSubmissionArray, team)
-          }))
+        updateScoreBreakdown({
+          timeScore: 60 - timerSeconds,
+          livesBonus: 7 - wrongGuessCount,
+          gloryBonus: gfgBonusCalc(userSubmissionArray, team)
+        })
 
       }
       if (tempNuclearInput.toLowerCase() !== team.toLowerCase()) {
         updateGameResult(GameResult.loss);
         setGameResultMessage("Wrong guess!");
-        setScoreBreakdown(defaultScore)
+        updateScoreBreakdown(defaultScore)
       }
       handleGameFinished();
      setNuclearSubmissionFullString(tempNuclearInput);
