@@ -4,6 +4,7 @@ import {CloseIcon} from "@/components/CloseIcon";
 import {GameTimer} from "@/components/GameTimer";
 import {GameState} from "@/utlities/models";
 import {Button, Menu, MenuItem} from "@mui/material";
+import {MainMenu} from "@/components/MainMenu";
 
 interface NavbarProps {
   gameState: GameState,
@@ -14,16 +15,15 @@ interface NavbarProps {
   clickCreditsIcon: () => void,
 }
 
-export const Navbar = ({clickRulesIcon, elapsedSeconds, clickRefreshIcon, clickCreditsIcon, gameState}: NavbarProps) => {
+export const Navbar = ({
+                         clickRulesIcon,
+                         elapsedSeconds,
+                         clickRefreshIcon,
+                         clickCreditsIcon,
+                         gameState
+                       }: NavbarProps) => {
   const [showMenu, setShowMenu] = useState<boolean>(false);
-  const [anchorEl, setAnchorEl] = useState<null | undefined | HTMLElement>(null);
-  const open = Boolean(anchorEl);
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+
   useEffect(() => {
     if (gameState === GameState.gameOver) setShowMenu(false);
   }, [gameState])
@@ -34,33 +34,14 @@ export const Navbar = ({clickRulesIcon, elapsedSeconds, clickRefreshIcon, clickC
         <div className="flex flex-col items-center justify-center">
           <h1 className="text-xs sm:text-2xl text-white100 font-display">?ERFECT</h1>
         </div>
-        <div className="">
-          <GameTimer elapsedSeconds={elapsedSeconds} />
-        </div>
-        <div>
-          <Button
-            id="basic-button"
-            aria-controls={open ? 'basic-menu' : undefined}
-            aria-haspopup="true"
-            aria-expanded={open ? 'true' : undefined}
-            onClick={handleClick}
-          >
-            <MenuIcon size={28} color={'#f8f8f8'} />
-          </Button>
-          <Menu
-            id="basic-menu"
-            anchorEl={anchorEl}
-            open={open}
-            onClose={handleClose}
-            MenuListProps={{
-              'aria-labelledby': 'basic-button',
-            }}
-          >
-            <MenuItem onClick={() => {handleClose(); clickRefreshIcon()}}>New Game</MenuItem>
-            <MenuItem onClick={() => {handleClose(); clickRulesIcon()}}>Rules</MenuItem>
-            <MenuItem onClick={() => {handleClose(); clickCreditsIcon()}}>Credits</MenuItem>
-          </Menu>
-        </div>      </div>
+
+        <GameTimer elapsedSeconds={elapsedSeconds}/>
+
+        <MainMenu
+          clickRulesIcon={clickRulesIcon}
+          clickRefreshIcon={clickRefreshIcon}
+          clickCreditsIcon={clickCreditsIcon}/>
+      </div>
     </div>
   )
 }
