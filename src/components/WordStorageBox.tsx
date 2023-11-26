@@ -1,6 +1,5 @@
 import {GameResult, GameState, InputTab} from "../utlities/models";
 import {CharacterStorageBox} from "./CharacterStorageBox";
-import {useMemo} from "react";
 
 export interface WordStorageBoxProps {
   matcherWord: string;
@@ -36,7 +35,7 @@ export const WordStorageBox = ({
     <div
       className={`flex gap-1 w-full justify-center ${gameResult !== GameResult.default && 'animate-game-over-squares'}`}>
       {
-        gameState === GameState.gameStarted ? (
+        gameState === GameState.gameStarted || gameState === GameState.gameDefault ? (
             matcherWord.split('').map((item, index) =>
               <CharacterStorageBox
                 key={index}

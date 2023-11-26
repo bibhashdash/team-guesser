@@ -1,8 +1,10 @@
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {MenuIcon} from "@/icons/MenuIcon";
 import {CloseIcon} from "@/components/CloseIcon";
 import {GameTimer} from "@/components/GameTimer";
 import {GameState} from "@/utlities/models";
+import {Button, Menu, MenuItem} from "@mui/material";
+import {MainMenu} from "@/components/MainMenu";
 
 interface NavbarProps {
   gameState: GameState,
@@ -13,7 +15,13 @@ interface NavbarProps {
   clickCreditsIcon: () => void,
 }
 
-export const Navbar = ({clickRulesIcon, elapsedSeconds, clickRefreshIcon, clickCreditsIcon, gameState}: NavbarProps) => {
+export const Navbar = ({
+                         clickRulesIcon,
+                         elapsedSeconds,
+                         clickRefreshIcon,
+                         clickCreditsIcon,
+                         gameState
+                       }: NavbarProps) => {
   const [showMenu, setShowMenu] = useState<boolean>(false);
 
   useEffect(() => {
@@ -26,33 +34,13 @@ export const Navbar = ({clickRulesIcon, elapsedSeconds, clickRefreshIcon, clickC
         <div className="flex flex-col items-center justify-center">
           <h1 className="text-xs sm:text-2xl text-white100 font-display">?ERFECT</h1>
         </div>
-        <div className="">
-          <GameTimer elapsedSeconds={elapsedSeconds} />
-        </div>
-        <div className="flex border-2 border-gray50 rounded z-20">
-          <div className={`gap-4 md:gap-8 ${!showMenu && 'hidden'} flex px-2 md:px-4 rounded`}>
-            <div onClick={() => {clickRulesIcon(); setShowMenu(false)}}
-                 className="cursor-pointer flex items-center focus:animate-button-pressed">
-              <p className="text-white100 text-xs sm:text-xl hover:text-blue500">Rules</p>
-            </div>
-            <div onClick={() => {clickRefreshIcon(); setShowMenu(false)}}
-                 className="cursor-pointer flex items-center focus:animate-button-pressed">
-              <p className="text-white100 text-xs sm:text-xl hover:text-blue500">New Game</p>
-            </div>
-            <div onClick={() => {clickCreditsIcon(); setShowMenu(false)}}
-                 className="cursor-pointer flex items-center focus:animate-button-pressed">
-              <p className="text-white100 text-xs sm:text-xl hover:text-blue500">Credits</p>
-            </div>
-          </div>
-          <div onClick={() => setShowMenu(true)}
-               className={`cursor-pointer text-white100 text-xs sm:text-xl px-2 md:px-4 ${showMenu && 'hidden'}`}>
-            <MenuIcon size={24} color="#f8f8f8"/>
-          </div>
-          <div onClick={() => setShowMenu(false)}
-               className={`${!showMenu && 'hidden'} px-2 md:px-4 text-white100 text-xs sm:text-xl cursor-pointer flex items-center`}>
-            <CloseIcon size={24} color="#f8f8f8"/>
-          </div>
-        </div>
+
+        <GameTimer elapsedSeconds={elapsedSeconds}/>
+
+        <MainMenu
+          clickRulesIcon={clickRulesIcon}
+          clickRefreshIcon={clickRefreshIcon}
+          clickCreditsIcon={clickCreditsIcon}/>
       </div>
     </div>
   )
