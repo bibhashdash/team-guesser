@@ -23,6 +23,7 @@ import "firebase/compat/firestore";
 import dayjs from "dayjs";
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
+import {useGameControlContext} from "@/contexts/gamecontrol";
 
 const scoreConverter = {
   toFirestore(score: WithFieldValue<any>): FirestoreScoreObjectModel {
@@ -74,8 +75,6 @@ export default function Game() {
   const [nuclearSubmissionFullString, setNuclearSubmissionFullString] = useState<string>('');
   const [wrongGuessCount, setWrongGuessCount] = useState<number>(0);
   const [userSubmissionArray, setUserSubmissionArray] = useState<string[]>([]);
-  const [gameState, setGameState] = useState<GameState>(GameState.gameStarted);
-  const [gameResult, setGameResult] = useState<GameResult>(GameResult.default);
   const [showRulesModal, setShowRulesModal] = useState<boolean>(false);
   const [inputTab, setInputTab] = useState<InputTab>(InputTab.oneByOne);
   const [disabledKeysForOneByOne, setDisabledKeysForOneByOne] = useState<string[]>([]);
@@ -87,7 +86,8 @@ export default function Game() {
   const [gameResultMessage, setGameResultMessage] = useState<string>('');
   const [scoreBreakdown, setScoreBreakdown] = useState<ScoreBreakdown>(defaultScore)
   // const testingTeam = "Borussia Monchengladbach";
-  const {seconds, minutes, reset, pause} = useStopwatch()
+
+  const {timerSeconds, pause, reset, minutes, gameState, gameResult, updateGameState, updateGameResult} = useGameControlContext();
   const [showLandscapeModal, setShowLandscapeModal] = useState<boolean>(false);
   const {deviceOrientation} = useClientOrientation();
 
@@ -98,7 +98,7 @@ export default function Game() {
   useEffect(() => {
    setShowInitialReminder(true);
    setTheTeam();
-
+   console.log(gameState);
   }, [])
 
   useEffect(() => {
@@ -121,9 +121,9 @@ export default function Game() {
   }, [gameResult])
 
   useEffect(() => {
-    if (minutes === 1) {
+    if (timerSeconds === 59) {
       setGameResultMessage("Timed out!!");
-      setGameResult(GameResult.loss);
+      updateGameResult(GameResult.loss);
       const len = team.split('').filter(item => item !== ' ').length;
       const newArray = new Array(len - userSubmissionArray.length).fill(' ');
       setUserInput(undefined);
@@ -131,14 +131,14 @@ export default function Game() {
         return [...prevState, ...newArray]
       });
 
-      setGameState(GameState.gameOver);
+      updateGameState(GameState.gameOver);
       setUserInput(undefined);
       pause();
     }
-  }, [minutes])
+  }, [timerSeconds])
 
   const setTheTeam = () => {
-    setGameState(GameState.gameStarted);
+    updateGameState(GameState.gameStarted);
     setUserSubmissionArray([]);
     setInputTab(InputTab.oneByOne);
     setDisabledKeysForOneByOne([]);
@@ -148,7 +148,7 @@ export default function Game() {
     setNuclearSubmissionFullString('');
     const random = Math.floor(Math.random() * tempData.length);
     setTeam(tempData[random]);
-    setGameResult(GameResult.default);
+    updateGameResult(GameResult.default);
     setWrongGuessCount(0);
     setGameResultMessage('');
     setScoreBreakdown(defaultScore);
@@ -157,7 +157,7 @@ export default function Game() {
 
   const handleGameFinished = () => {
     // update the score to the database here?
-    setGameState(GameState.gameOver);
+    updateGameState(GameState.gameOver);
     setUserSubmissionArray(team.toLowerCase().split(""));
     setUserInput(undefined);
     pause();
@@ -223,8 +223,8 @@ export default function Game() {
         setGameResultMessage("Yer off!")
 
         setWrongGuessCount(prevState => prevState + 1);
-        setGameState(GameState.gameOver);
-        setGameResult(GameResult.loss);
+        updateGameState(GameState.gameOver);
+        updateGameResult(GameResult.loss);
 
         const len = team.split('').filter(item => item !== ' ').length;
         const newArray = new Array(len - userSubmissionArray.length).fill(' ');
@@ -266,16 +266,16 @@ export default function Game() {
     }
     if (userSubmissionArray.length === teamUniqueLetters.length) {
       if (tempCheck(userSubmissionArray, teamUniqueLetters)) {
-        setGameResult(GameResult.win);
+        updateGameResult(GameResult.win);
         setGameResultMessage("WINNER!")
         setScoreBreakdown(prevState => (
           {
             ...prevState,
-            timeScore: 60 - seconds,
+            timeScore: 60 - timerSeconds,
             livesBonus: 7 - wrongGuessCount
           }))
       } else {
-        setGameResult(GameResult.loss);
+        updateGameResult(GameResult.loss);
         setGameResultMessage("Wrong guess!");
         setScoreBreakdown(defaultScore)
       }
@@ -315,27 +315,27 @@ export default function Game() {
     // check if there is a full match
     else {
 
-      setGameState(GameState.gameOver);
+      updateGameState(GameState.gameOver);
       if (tempNuclearInput.toLowerCase() === team.toLowerCase()) {
-        setGameResult(GameResult.win);
+        updateGameResult(GameResult.win);
         setGameResultMessage("WINNER!");
         setScoreBreakdown(prevState => (
           {
             ...prevState,
-            timeScore: 60 - seconds,
+            timeScore: 60 - timerSeconds,
             livesBonus: 7 - wrongGuessCount,
             gloryBonus: gfgBonusCalc(userSubmissionArray, team)
           }))
 
       }
       if (tempNuclearInput.toLowerCase() !== team.toLowerCase()) {
-        setGameResult(GameResult.loss);
+        updateGameResult(GameResult.loss);
         setGameResultMessage("Wrong guess!");
         setScoreBreakdown(defaultScore)
       }
       handleGameFinished();
      setNuclearSubmissionFullString(tempNuclearInput);
-      setGameState(GameState.gameOver);
+      updateGameState(GameState.gameOver);
     }
   }
 
@@ -345,7 +345,7 @@ export default function Game() {
       <Navbar
         gameState={gameState}
         elapsedMinutes={minutes}
-        elapsedSeconds={seconds}
+        elapsedSeconds={timerSeconds}
         clickRulesIcon={() => setShowRulesModal(true)}
         clickRefreshIcon={() => setTheTeam()}
         clickCreditsIcon={() => setShowCreditsModal(true)}

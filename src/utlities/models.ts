@@ -1,4 +1,5 @@
 export enum GameState {
+  gameDefault = 'gameDefault',
   gameStarted = 'gameStarted',
   gameOver = 'gameOver',
 }

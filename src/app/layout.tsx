@@ -3,6 +3,7 @@ import { Inter, Poppins, } from 'next/font/google'
 import {} from 'next/font/google'
 import './globals.css'
 import {useClientDimensions} from "@/utlities/clientDimensions";
+import {GameControlContextProvider} from '@/contexts/gamecontrol/Provider'
 
 const inter = Inter({ subsets: ['latin'] })
 const poppins = Poppins(
@@ -25,7 +26,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${poppins.variable} font-sans bg-black300 flex justify-center`}>{children}</body>
+      <body className={`${poppins.variable} font-sans bg-black300 flex justify-center`}>
+        <GameControlContextProvider>
+          {children}
+        </GameControlContextProvider>
+      </body>
     </html>
   )
 }
