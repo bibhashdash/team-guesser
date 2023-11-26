@@ -1,4 +1,4 @@
-import {GameResult, GameState, ScoreBreakdown} from "@/utlities/models";
+import {GameResult, GameState, ScoreBreakdown} from "../../utlities/models";
 import {createContext, useContext} from "react";
 
 export interface GameControlContextState {

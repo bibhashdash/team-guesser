@@ -4,7 +4,7 @@ import {GameTimer} from "./GameTimer";
 import {FootballIcon} from "../icons/FootballIcon";
 import {DividerLine} from "./DividerLine";
 import {MedalIcon} from "../icons/MedalIcon";
-import {ScoreBreakdown} from "@/utlities/models";
+import {ScoreBreakdown} from "../utlities/models";
 
 interface ScoreModalProps {
   onClickClose: () => void;
