@@ -1,12 +1,15 @@
 import {GameControlContextState} from "@/contexts/gamecontrol/index";
-import {useEffect, useState} from "react";
+import {useEffect, useMemo, useState} from "react";
 import {FirestoreScoreObjectModel, GameResult, GameState, ScoreBreakdown} from "@/utlities/models";
 import {useStopwatch} from "react-timer-hook";
 
 export function useGameControlContextState(): GameControlContextState {
   const [timerSeconds, setTimerSeconds] = useState<number>(0);
+  const [wrongGuessCount, setWrongGuessCount] = useState<number>(0);
   const [gameState, setGameState] = useState<GameState>(GameState.gameDefault);
   const [gameResult, setGameResult] = useState<GameResult>(GameResult.default);
+  const [gameResultMessage, setGameResultMessage] = useState<string>('');
+
   const [scoreBreakdown, setScoreBreakdown] = useState<ScoreBreakdown>({
     timeScore: 0,
     livesBonus: 0,
@@ -61,6 +64,14 @@ export function useGameControlContextState(): GameControlContextState {
     })
   }
 
+  const updateGameResultMessage = (message: string) => {
+    setGameResultMessage(message);
+  }
+
+  const updateWrongGuessCount = (count: number) => {
+    setWrongGuessCount(count);
+  }
+
   return {
     gameState,
     gameResult,
@@ -72,6 +83,10 @@ export function useGameControlContextState(): GameControlContextState {
     reset,
     minutes,
     scoreBreakdown,
-    updateScoreBreakdown
+    updateScoreBreakdown,
+    updateGameResultMessage,
+    wrongGuessCount,
+    gameResultMessage,
+    updateWrongGuessCount
   }
 }

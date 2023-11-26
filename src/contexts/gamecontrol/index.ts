@@ -6,6 +6,10 @@ export interface GameControlContextState {
   minutes: number,
   gameState: GameState,
   gameResult: GameResult,
+  gameResultMessage: string,
+  updateGameResultMessage: (message: string) => void,
+  wrongGuessCount: number,
+  updateWrongGuessCount: (count: number) => void,
   scoreBreakdown: ScoreBreakdown,
   updateScore: (score: ScoreBreakdown, datePlayed: string) => void,
   updateScoreBreakdown: (score: ScoreBreakdown) => void,
@@ -25,12 +29,16 @@ export const GameControlContext = createContext<GameControlContextState>({
     livesBonus: 0,
     gloryBonus: 0
   },
+  wrongGuessCount: 0,
+  gameResultMessage: "",
   updateGameResult: () => {},
   updateGameState: () => {},
   updateScore: () => {},
   updateScoreBreakdown: () => {},
   pause: () => {},
-  reset: () => {}
+  reset: () => {},
+  updateGameResultMessage: () => {},
+  updateWrongGuessCount: () => {},
 });
 
 export function useGameControlContext() {

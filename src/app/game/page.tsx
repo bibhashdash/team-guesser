@@ -24,40 +24,8 @@ import dayjs from "dayjs";
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
 import {useGameControlContext} from "@/contexts/gamecontrol";
-
-const scoreConverter = {
-  toFirestore(score: WithFieldValue<any>): FirestoreScoreObjectModel {
-    return {
-       totalScore: score.totalScore,
-        scoreBreakdown: {
-         timeScore: score.scoreBreakdown['timeScore'],
-          gloryBonus: score.scoreBreakdown['gloryBonus'],
-          livesBonus: score.scoreBreakdown['livesBonus']
-       },
-      datePlayed: score.datePlayed
-    };
-  },
-  fromFirestore(
-    snapshot: QueryDocumentSnapshot,
-    options: SnapshotOptions
-  ): FirestoreScoreObjectModel {
-    const data = snapshot.data(options) as FirestoreScoreObjectModel;
-    return {
-      totalScore: data.totalScore,
-      scoreBreakdown: data.scoreBreakdown,
-      datePlayed: data.datePlayed
-    };
-  }
-};
-
-async function updateScoreToDatabase (uploadedScore: FirestoreScoreObjectModel) {
-  try {
-    const colRef = collection(db, 'leaderboard').withConverter(scoreConverter);
-    await addDoc(colRef, uploadedScore).then(result => console.log(result))
-  } catch (e) {
-    console.log(e);
-  }
-}
+import {useApiService} from "@/services/apiService";
+import {livesOverTimedOutStringManip} from "@/utlities/livesOverTimedOutStringManip";
 
 export default function Game() {
   dayjs.extend(utc);
@@ -73,7 +41,6 @@ export default function Game() {
   const [userInput, setUserInput] = useState<string | undefined>(undefined);
   const [tempNuclearInput, setTempNuclearInput] = useState<string>('');
   const [nuclearSubmissionFullString, setNuclearSubmissionFullString] = useState<string>('');
-  const [wrongGuessCount, setWrongGuessCount] = useState<number>(0);
   const [userSubmissionArray, setUserSubmissionArray] = useState<string[]>([]);
   const [showRulesModal, setShowRulesModal] = useState<boolean>(false);
   const [inputTab, setInputTab] = useState<InputTab>(InputTab.oneByOne);
@@ -83,7 +50,6 @@ export default function Game() {
   const [showCreditsModal, setShowCreditsModal] = useState<boolean>(false);
   const [showScoreModal, setShowScoreModal] = useState<boolean>(false);
   const [showInitialReminder, setShowInitialReminder] = useState<boolean>(false);
-  const [gameResultMessage, setGameResultMessage] = useState<string>('');
   // const testingTeam = "Borussia Monchengladbach";
 
   const {
@@ -97,8 +63,15 @@ export default function Game() {
     updateGameResult,
     scoreBreakdown,
     updateScore,
-    updateScoreBreakdown
+    gameResultMessage,
+    updateScoreBreakdown,
+    updateGameResultMessage,
+    wrongGuessCount,
+    updateWrongGuessCount,
   } = useGameControlContext();
+
+  const {updateScoreToDatabase} = useApiService();
+
   const [showLandscapeModal, setShowLandscapeModal] = useState<boolean>(false);
   const {deviceOrientation} = useClientOrientation();
 
@@ -113,35 +86,19 @@ export default function Game() {
 
   useEffect(() => {
     if (gameResult === GameResult.win) {
-      const localEpoch = Date.now();
-      const convertedToEuropeLondon: string = dayjs(localEpoch).tz("Europe/London").format("DD-MM-YYYY");
-      const totalScore = scoreBreakdown.timeScore + scoreBreakdown.livesBonus + scoreBreakdown.gloryBonus
-      const uploadedData: FirestoreScoreObjectModel = {
-        totalScore: totalScore,
-        scoreBreakdown: {
-          gloryBonus: scoreBreakdown.gloryBonus,
-          livesBonus: scoreBreakdown.livesBonus,
-          timeScore: scoreBreakdown.timeScore
-        },
-        datePlayed: convertedToEuropeLondon
-      }
-
-      updateScoreToDatabase(uploadedData);
+      updateScoreToDatabase();
     }
   }, [gameResult])
 
   useEffect(() => {
     if (minutes === 1) {
-      setGameResultMessage("Timed out!!");
-      updateGameResult(GameResult.loss);
-      const len = team.split('').filter(item => item !== ' ').length;
-      const newArray = new Array(len - userSubmissionArray.length).fill(' ');
-      setUserInput(undefined);
-      setUserSubmissionArray(prevState => {
-        return [...prevState, ...newArray]
-      });
-
+      updateGameResultMessage("Timed out!!");
       updateGameState(GameState.gameOver);
+      updateGameResult(GameResult.loss);
+      const stringManipulationResult = livesOverTimedOutStringManip(team, userSubmissionArray)
+      setUserSubmissionArray(prevState => {
+        return [...prevState, ...stringManipulationResult]
+      });
       setUserInput(undefined);
       pause();
     }
@@ -159,8 +116,8 @@ export default function Game() {
     const random = Math.floor(Math.random() * tempData.length);
     setTeam(tempData[random]);
     updateGameResult(GameResult.default);
-    setWrongGuessCount(0);
-    setGameResultMessage('');
+    updateWrongGuessCount(0);
+    updateGameResultMessage('');
     updateScoreBreakdown(defaultScore);
     reset();
   }
@@ -230,22 +187,20 @@ export default function Game() {
 
     if (userInput !== undefined && !team.toLowerCase().includes(userInput.toLowerCase())) {
       if (wrongGuessCount === 6) {
-        setGameResultMessage("Yer off!")
+        updateGameResultMessage("Yer off!")
 
-        setWrongGuessCount(prevState => prevState + 1);
+        updateWrongGuessCount(wrongGuessCount + 1);
         updateGameState(GameState.gameOver);
         updateGameResult(GameResult.loss);
-
-        const len = team.split('').filter(item => item !== ' ').length;
-        const newArray = new Array(len - userSubmissionArray.length).fill(' ');
+        const stringManipulationResult = livesOverTimedOutStringManip(team, userSubmissionArray)
+        setUserSubmissionArray(prevState => {
+          return [...prevState, ...stringManipulationResult]
+        });
         setUserInput(undefined);
         pause();
-        setUserSubmissionArray(prevState => {
-          return [...prevState, ...newArray]
-        });
         return;
       } else if (wrongGuessCount < 6) {
-        setWrongGuessCount(prevState => prevState + 1);
+        updateWrongGuessCount(wrongGuessCount + 1);
       }
       setUserInput(undefined);
       return;
@@ -277,7 +232,7 @@ export default function Game() {
     if (userSubmissionArray.length === teamUniqueLetters.length) {
       if (tempCheck(userSubmissionArray, teamUniqueLetters)) {
         updateGameResult(GameResult.win);
-        setGameResultMessage("WINNER!")
+        updateGameResultMessage("WINNER!")
         updateScoreBreakdown({
           gloryBonus: 0,
           timeScore: 60 - timerSeconds,
@@ -285,7 +240,7 @@ export default function Game() {
         })
       } else {
         updateGameResult(GameResult.loss);
-        setGameResultMessage("Wrong guess!");
+        updateGameResultMessage("Wrong guess!");
         updateScoreBreakdown(defaultScore)
       }
       handleGameFinished();
@@ -327,7 +282,7 @@ export default function Game() {
       updateGameState(GameState.gameOver);
       if (tempNuclearInput.toLowerCase() === team.toLowerCase()) {
         updateGameResult(GameResult.win);
-        setGameResultMessage("WINNER!");
+        updateGameResultMessage("WINNER!");
         updateScoreBreakdown({
           timeScore: 60 - timerSeconds,
           livesBonus: 7 - wrongGuessCount,
@@ -337,7 +292,7 @@ export default function Game() {
       }
       if (tempNuclearInput.toLowerCase() !== team.toLowerCase()) {
         updateGameResult(GameResult.loss);
-        setGameResultMessage("Wrong guess!");
+        updateGameResultMessage("Wrong guess!");
         updateScoreBreakdown(defaultScore)
       }
       handleGameFinished();
