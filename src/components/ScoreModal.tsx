@@ -16,11 +16,21 @@ interface ScoreModalProps {
   scoreBreakdown: ScoreBreakdown,
 }
 
+interface ScoreModalUtils {
+  timeComparison: {
+    myTimeScore: number,
+    fastestKnownTimeScore: number,
+  },
+  wrongGuessCountComparison: number
+}
+
 export const ScoreModal = ({onClickClose, scoreBreakdown}:ScoreModalProps) => {
   const [fastestKnownTime, setFastestKnownTime] = useState<number>(60);
   const {getAllDocsFromDatabase, allDocsFromDatabase} = useGameControlContext();
   useEffect(() => {
-    getAllDocsFromDatabase();
+    if (allDocsFromDatabase.length === 0) {
+      getAllDocsFromDatabase();
+    }
   }, []);
 
  useEffect(() => {
