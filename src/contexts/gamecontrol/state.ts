@@ -2,6 +2,7 @@ import {GameControlContextState} from "@/contexts/gamecontrol/index";
 import {useEffect, useMemo, useState} from "react";
 import {FirestoreScoreObjectModel, GameResult, GameState, ScoreBreakdown} from "@/utlities/models";
 import {useStopwatch} from "react-timer-hook";
+import {useApiService} from "@/services/apiService";
 
 export function useGameControlContextState(): GameControlContextState {
   const [timerSeconds, setTimerSeconds] = useState<number>(0);
@@ -9,6 +10,9 @@ export function useGameControlContextState(): GameControlContextState {
   const [gameState, setGameState] = useState<GameState>(GameState.gameDefault);
   const [gameResult, setGameResult] = useState<GameResult>(GameResult.default);
   const [gameResultMessage, setGameResultMessage] = useState<string>('');
+  const [allDocsFromDatabase, setAllDocsFromDatabase] = useState<Array<FirestoreScoreObjectModel>>([]);
+
+  const {updateScoreToDatabase, getAllScoresFromDatabase} = useApiService();
 
   const [scoreBreakdown, setScoreBreakdown] = useState<ScoreBreakdown>({
     timeScore: 0,
@@ -72,6 +76,14 @@ export function useGameControlContextState(): GameControlContextState {
     setWrongGuessCount(count);
   }
 
+  const uploadScoreToDatabase = () => {
+    updateScoreToDatabase(scoreBreakdown);
+  }
+
+  const getAllDocsFromDatabase = () => {
+    setAllDocsFromDatabase(getAllScoresFromDatabase());
+  }
+
   return {
     gameState,
     gameResult,
@@ -87,6 +99,9 @@ export function useGameControlContextState(): GameControlContextState {
     updateGameResultMessage,
     wrongGuessCount,
     gameResultMessage,
-    updateWrongGuessCount
+    updateWrongGuessCount,
+    allDocsFromDatabase,
+    getAllDocsFromDatabase,
+    uploadScoreToDatabase
   }
 }

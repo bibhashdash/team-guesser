@@ -65,9 +65,10 @@ export default function Game() {
     updateGameResultMessage,
     wrongGuessCount,
     updateWrongGuessCount,
+    uploadScoreToDatabase,
   } = useGameControlContext();
 
-  const {updateScoreToDatabase} = useApiService();
+  // const {updateScoreToDatabase} = useApiService();
 
   const [showLandscapeModal, setShowLandscapeModal] = useState<boolean>(false);
   const {deviceOrientation} = useClientOrientation();
@@ -83,7 +84,7 @@ export default function Game() {
 
   useEffect(() => {
     if (gameResult === GameResult.win) {
-      updateScoreToDatabase();
+      uploadScoreToDatabase();
     }
   }, [gameResult])
 
