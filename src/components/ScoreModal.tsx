@@ -24,13 +24,14 @@ export const ScoreModal = ({onClickClose, scoreBreakdown}:ScoreModalProps) => {
         <h1 className="text-white100 font-display">Your Score</h1>
         <CloseIcon onClick={onClickClose} color="#f8f8f8" size={28}/>
       </div>
-      <div className="flex">
-        <Speedometer speed={60 - scoreBreakdown.timeScore} maxSpeed={50} />
-        <div className="relative">
-          <div className="absolute w-full top-[10%] left-[50%] transform-x-[10%]">
+      <div className="flex justify-evenly">
+        <Speedometer speed={scoreBreakdown.timeScore} maxSpeed={50} />
+        <div className="flex flex-col items-center">
+          <p className="text-white100 text-sm w-full">Va Va Voom!</p>
+          <div className="w-full">
             <Lottie loop={false} style={{height: '75px', width: '100px'}} animationData={fireAnimation} />
           </div>
-          <p className="text-white100 text-sm game-over-message-fade-in w-full">Va Va Voom!</p>
+
         </div>
       </div>
       <div className="px-4 grid grid-cols-12">
