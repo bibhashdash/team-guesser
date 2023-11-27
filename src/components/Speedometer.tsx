@@ -31,7 +31,7 @@ export const Speedometer = ({maxSpeed, speed}: SpeedometerProps) => {
               strokeWidth={20}
               styles={buildStyles(
                 {
-                  pathColor: `${speed < (maxSpeed * 0.5) ? '#399b10' : '#ff5b00'}`,
+                  pathColor: `${value < maxSpeed * 0.5 ? '#399b10' : '#ff5b00'}`,
                   rotation: 3 / 4,
                   strokeLinecap: "butt",
                   textColor: "#f8f8f8",
