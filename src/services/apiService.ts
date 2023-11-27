@@ -1,8 +1,8 @@
-import {FirestoreScoreObjectModel} from "@/utlities/models";
-import {addDoc, collection, QueryDocumentSnapshot, SnapshotOptions, WithFieldValue} from "firebase/firestore";
-import {db} from "@/firebase/firebase";
-import {useGameControlContext} from "@/contexts/gamecontrol";
-import {generateDatePlayedValue} from "@/utlities/generateDatePlayedValue";
+import {FirestoreScoreObjectModel} from "../utlities/models";
+import {addDoc, collection, QueryDocumentSnapshot, SnapshotOptions, WithFieldValue, getDocs} from "firebase/firestore";
+import {db} from "../firebase/firebase";
+import {useGameControlContext} from "../contexts/gamecontrol";
+import {generateDatePlayedValue} from "../utlities/generateDatePlayedValue";
 
 interface ApiServiceUtils {
   updateScoreToDatabase: () => void,
@@ -53,6 +53,12 @@ export function useApiService () {
 
   const getAllScoresFromDatabase = () => {
     console.log("hello")
+    try {
+      const colRef =  collection(db, 'leaderboard').withConverter(scoreConverter);
+      getDocs(colRef).then(result => result.docs.length)
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   return {

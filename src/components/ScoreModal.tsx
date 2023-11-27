@@ -5,6 +5,10 @@ import {FootballIcon} from "../icons/FootballIcon";
 import {DividerLine} from "./DividerLine";
 import {MedalIcon} from "../icons/MedalIcon";
 import {ScoreBreakdown} from "../utlities/models";
+import {useApiService} from "../services/apiService";
+import {Speedometer} from "../components/Speedometer";
+import Lottie from "lottie-react";
+import fireAnimation from "../lottie/fireAnime.json"
 
 interface ScoreModalProps {
   onClickClose: () => void;
@@ -12,12 +16,22 @@ interface ScoreModalProps {
 }
 
 export const ScoreModal = ({onClickClose, scoreBreakdown}:ScoreModalProps) => {
-
+  const {getAllScoresFromDatabase} = useApiService();
+  getAllScoresFromDatabase();
   return (
     <div className="w-[400px] h-fit bg-black300 flex flex-col gap-6 justify-between py-2 px-1 sm:px-4 rounded-md">
       <div className="flex justify-between w-full my-2 px-2">
         <h1 className="text-white100 font-display">Your Score</h1>
         <CloseIcon onClick={onClickClose} color="#f8f8f8" size={28}/>
+      </div>
+      <div className="flex">
+        <Speedometer speed={60 - scoreBreakdown.timeScore} maxSpeed={50} />
+        <div className="relative">
+          <div className="absolute w-full top-[10%] left-[50%] transform-x-[10%]">
+            <Lottie loop={false} style={{height: '75px', width: '100px'}} animationData={fireAnimation} />
+          </div>
+          <p className="text-white100 text-sm game-over-message-fade-in w-full">Va Va Voom!</p>
+        </div>
       </div>
       <div className="px-4 grid grid-cols-12">
         <div className="col-span-3 flex justify-center w-full">
