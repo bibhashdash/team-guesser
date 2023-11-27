@@ -29,7 +29,7 @@ export const ScoreModal = ({onClickClose, scoreBreakdown}:ScoreModalProps) => {
        fastestPLayerTime = item.scoreBreakdown.timeScore
      }
      return fastestPLayerTime
-   }, 0)
+   }, 60)
 
    setFastestKnownTime(result);
 
