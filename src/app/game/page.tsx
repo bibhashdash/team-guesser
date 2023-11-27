@@ -367,7 +367,7 @@ export default function Game() {
       {
         showScoreModal && (
          <div className="absolute w-full top-0 left-0 backdrop-blur h-full bg-backdropFilter flex justify-center items-center py-2 px-2 sm:px-4 md:py-20">
-           <ScoreModal scoreBreakdown={scoreBreakdown} onClickClose={() => setShowScoreModal(false)} />
+           <ScoreModal onClickClose={() => setShowScoreModal(false)} />
          </div>
         )
       }
