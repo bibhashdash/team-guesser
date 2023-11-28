@@ -1,41 +1,45 @@
 import {CloseIcon} from "./CloseIcon";
 import React, {useEffect, useState} from "react";
 import {Speedometer} from "../components/Speedometer";
-import {useGameControlContext} from "../contexts/gamecontrol";
 import {LivesLostChart} from "../components/LivesLostChart";
+import {FirestoreScoreObjectModel, ScoreBreakdown} from "@/utlities/models";
 
 interface ScoreModalProps {
   onClickClose: () => void;
+  allDocs: Array<FirestoreScoreObjectModel>;
+  scoreBreakdown: ScoreBreakdown;
 }
 
-interface ScoreModalUtils {
-  timeComparison: {
-    myTimeScore: number,
-    fastestKnownTimeScore: number,
-  },
-  wrongGuessCountComparison: number
-}
+// interface ScoreModalUtils {
+//   timeComparison: {
+//     myTimeScore: number,
+//     fastestKnownTimeScore: number,
+//   },
+//   wrongGuessCountComparison: Array<number>
+// }
 
-export const ScoreModal = ({onClickClose}:ScoreModalProps) => {
+export const ScoreModal = ({onClickClose, allDocs, scoreBreakdown}:ScoreModalProps) => {
+  const defaultArrayOfWrongGuessFrequencies: Array<number> = new Array(7).fill(0)
   const [fastestKnownTime, setFastestKnownTime] = useState<number>(60);
-  const {getAllDocsFromDatabase, allDocsFromDatabase, scoreBreakdown} = useGameControlContext();
-  useEffect(() => {
-    if (allDocsFromDatabase.length === 0) {
-      getAllDocsFromDatabase();
-    }
-  }, []);
+  const [arrayOfWrongGuessFrequencies, setArrayOfWrongGuessFrequencies] = useState<Array<number>>(defaultArrayOfWrongGuessFrequencies)
 
  useEffect(() => {
-   const result = allDocsFromDatabase.reduce<number>((fastestPLayerTime, item) => {
+   const result = allDocs.reduce<number>((fastestPLayerTime, item) => {
      if (item.scoreBreakdown.timeScore > fastestPLayerTime) {
        fastestPLayerTime = item.scoreBreakdown.timeScore
      }
      return fastestPLayerTime
    }, 60)
-
    setFastestKnownTime(result);
 
- }, [allDocsFromDatabase])
+   const result2 = allDocs.reduce<Array<number>>((frequencyArray, item) => {
+
+      return frequencyArray
+   }, defaultArrayOfWrongGuessFrequencies)
+
+
+
+ }, [allDocs])
 
   return (
     <div className="w-full max-w-xl h-fit bg-black300 flex flex-col gap-6 justify-between py-2 px-1 sm:px-4 rounded-md">

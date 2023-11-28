@@ -21,7 +21,6 @@ import dayjs from "dayjs";
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
 import {useGameControlContext} from "@/contexts/gamecontrol";
-import {useApiService} from "@/services/apiService";
 import {livesOverTimedOutStringManip} from "@/utlities/livesOverTimedOutStringManip";
 
 export default function Game() {
@@ -59,13 +58,14 @@ export default function Game() {
     updateGameState,
     updateGameResult,
     scoreBreakdown,
-    updateScore,
     gameResultMessage,
     updateScoreBreakdown,
     updateGameResultMessage,
     wrongGuessCount,
     updateWrongGuessCount,
     uploadScoreToDatabase,
+    allDocsFromDatabase,
+    getAllDocsFromDatabase
   } = useGameControlContext();
 
   // const {updateScoreToDatabase} = useApiService();
@@ -296,6 +296,13 @@ export default function Game() {
     }
   }
 
+  const handleViewScoreButtonPress = () => {
+      if (allDocsFromDatabase.length === 0) {
+        getAllDocsFromDatabase();
+      }
+      setShowScoreModal(true)
+  }
+
   return (
     <main
       className="relative w-full h-screen justify-between md:py-6 max-w-6xl flex flex-col border-2 border-gray50 rounded lg:px-6 shadow-xl bg-black300">
@@ -341,7 +348,7 @@ export default function Game() {
         gameState={gameState}
         gameResult={gameResult}
         onClickNewGameButton={() => setTheTeam()}
-        onClickViewScoreButton={() => setShowScoreModal(true)}
+        onClickViewScoreButton={handleViewScoreButtonPress}
       />
       {
         showRulesModal && (
@@ -367,7 +374,7 @@ export default function Game() {
       {
         showScoreModal && (
          <div className="absolute w-full top-0 left-0 backdrop-blur h-full bg-backdropFilter flex justify-center items-center py-2 px-2 sm:px-4 md:py-20">
-           <ScoreModal onClickClose={() => setShowScoreModal(false)} />
+           <ScoreModal scoreBreakdown={scoreBreakdown} allDocs={allDocsFromDatabase} onClickClose={() => setShowScoreModal(false)} />
          </div>
         )
       }
