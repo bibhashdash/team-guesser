@@ -24,7 +24,7 @@ export const Default = {
         timeScore: 9,
         livesBonus: 3,
         gloryBonus: 23
-      }} allDocs={[]} onClickClose={() => {}} />
+      }} allDocs={[]} dataset={[]} onClickClose={() => {}} />
     )
   }
 }

@@ -71,7 +71,7 @@ export const WhiteSquaresContainer = ({
             )
           ) :
           <div className="w-full h-full flex justify-center">
-            <CircularProgress color="#f8f8f8" />
+            <CircularProgress color="info" />
           </div>
       }
     </div>
