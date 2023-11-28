@@ -11,8 +11,6 @@ import {
 } from 'chart.js';
 import {Bar} from 'react-chartjs-2';
 import React from "react";
-import dynamic from "next/dynamic";
-import {FootballIcon} from "@/icons/FootballIcon";
 
 ChartJS.register(
   CategoryScale,
@@ -76,7 +74,7 @@ export const LivesLostChart = ({livesLost, dataSet}:LivesLostChartProps) => {
 
   }
   return (
-    <div className="game-over-message-fade-in">
+    <div className="h-[250px] w-full">
       <Bar data={data} options={options}/>
     </div>
   )
