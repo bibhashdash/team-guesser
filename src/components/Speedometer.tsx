@@ -1,7 +1,6 @@
 import {buildStyles, CircularProgressbarWithChildren} from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import React, {useEffect, useState} from "react";
-import ReactSpeedometer from "react-d3-speedometer"
 
 export interface SpeedometerProps {
   speed: number,
@@ -9,6 +8,7 @@ export interface SpeedometerProps {
 }
 
 export const Speedometer = ({maxSpeed, speed}: SpeedometerProps) => {
+  const ReactSpeedometer = require("react-d3-speedometer")
   return (
     <div className="h-[300px] w-[150px]">
       <ReactSpeedometer value={speed} maxValue={maxSpeed} />
