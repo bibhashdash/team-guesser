@@ -28,7 +28,7 @@ interface LivesLostChartProps {
 }
 
 export const LivesLostChart = ({livesLost, dataSet}:LivesLostChartProps) => {
-
+  console.log(dataSet);
   const labels = [0, 1, 2, 3, 4, 5, 6];
 
   const findIndex = labels.indexOf(livesLost);
