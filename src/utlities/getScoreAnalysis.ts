@@ -8,8 +8,9 @@ export const getScoreAnalysis = (allDocs:FirestoreScoreObjectModel[]): ScoreAnal
   const livesBonusDataset = [0,0,0,0,0,0,0];
   allDocs.forEach((scoreObject) => {
     const {livesBonus}  = scoreObject.scoreBreakdown;
-    livesBonusDataset[livesBonus] += 1;
+    livesBonusDataset[livesBonus-1] += 1;
   });
+
   return {
     livesBonusDataset
   }
