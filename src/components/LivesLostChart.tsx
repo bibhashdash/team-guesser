@@ -11,6 +11,7 @@ import {
 } from 'chart.js';
 import {Bar} from 'react-chartjs-2';
 import React from "react";
+import dynamic from "next/dynamic";
 import {FootballIcon} from "@/icons/FootballIcon";
 
 ChartJS.register(
@@ -28,8 +29,8 @@ interface LivesLostChartProps {
 }
 
 export const LivesLostChart = ({livesLost, dataSet}:LivesLostChartProps) => {
-  console.log(dataSet);
-  const labels = [0, 1, 2, 3, 4, 5, 6];
+
+  const labels = [1, 2, 3, 4, 5, 6, 7];
 
   const findIndex = labels.indexOf(livesLost);
 

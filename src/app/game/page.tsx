@@ -2,7 +2,7 @@
 
 import React, {useEffect, useState} from "react";
 import {tempData} from "@/tempData";
-import {GameResult, GameState, InputTab, ScoreBreakdown} from "@/utlities/models";
+import {FirestoreScoreObjectModel, GameResult, GameState, InputTab, ScoreBreakdown} from "@/utlities/models";
 import {WhiteSquaresContainer} from "@/components/WhiteSquaresContainer";
 import {useClientDimensions} from "@/utlities/clientDimensions";
 import {Navbar} from "@/components/Navbar";
@@ -22,6 +22,7 @@ import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
 import {useGameControlContext} from "@/contexts/gamecontrol";
 import {livesOverTimedOutStringManip} from "@/utlities/livesOverTimedOutStringManip";
+import {getScoreAnalysis} from "@/utlities/getScoreAnalysis";
 
 export default function Game() {
   dayjs.extend(utc);
@@ -46,6 +47,8 @@ export default function Game() {
   const [showCreditsModal, setShowCreditsModal] = useState<boolean>(false);
   const [showScoreModal, setShowScoreModal] = useState<boolean>(false);
   const [showInitialReminder, setShowInitialReminder] = useState<boolean>(false);
+  const [arrayOfWrongGuessFrequencies, setArrayOfWrongGuessFrequencies] = useState<Array<number>>([])
+
   // const testingTeam = "Borussia Monchengladbach";
 
   const {
@@ -67,8 +70,6 @@ export default function Game() {
     allDocsFromDatabase,
     getAllDocsFromDatabase
   } = useGameControlContext();
-
-  // const {updateScoreToDatabase} = useApiService();
 
   const [showLandscapeModal, setShowLandscapeModal] = useState<boolean>(false);
   const {deviceOrientation} = useClientOrientation();
@@ -116,11 +117,11 @@ export default function Game() {
     updateWrongGuessCount(0);
     updateGameResultMessage('');
     updateScoreBreakdown(defaultScore);
+    getAllDocsFromDatabase();
     reset();
   }
 
   const handleGameFinished = () => {
-    // update the score to the database here?
     updateGameState(GameState.gameOver);
     setUserSubmissionArray(team.toLowerCase().split(""));
     setUserInput(undefined);
@@ -297,10 +298,9 @@ export default function Game() {
   }
 
   const handleViewScoreButtonPress = () => {
-      if (allDocsFromDatabase.length === 0) {
-        getAllDocsFromDatabase();
-      }
-      setShowScoreModal(true)
+    const {livesBonusDataset} = getScoreAnalysis(allDocsFromDatabase);
+    setArrayOfWrongGuessFrequencies(livesBonusDataset);
+    setShowScoreModal(true)
   }
 
   return (
@@ -374,7 +374,7 @@ export default function Game() {
       {
         showScoreModal && (
          <div className="absolute w-full top-0 left-0 backdrop-blur h-full bg-backdropFilter flex justify-center items-center py-2 px-2 sm:px-4 md:py-20">
-           <ScoreModal scoreBreakdown={scoreBreakdown} allDocs={allDocsFromDatabase} onClickClose={() => setShowScoreModal(false)} />
+           <ScoreModal allDocs={allDocsFromDatabase} scoreBreakdown={scoreBreakdown} dataset={arrayOfWrongGuessFrequencies} onClickClose={() => setShowScoreModal(false)} />
          </div>
         )
       }

@@ -11,6 +11,7 @@ export type Dictionary<T> = {
 interface ScoreModalProps {
   onClickClose: () => void;
   allDocs: Array<FirestoreScoreObjectModel>;
+  dataset: Array<number>
   scoreBreakdown: ScoreBreakdown;
 }
 
@@ -32,25 +33,21 @@ const getFrequency = (allDocs: FirestoreScoreObjectModel[]) => {
   });
   return frequency;
 }
-export const ScoreModal = ({onClickClose, allDocs, scoreBreakdown}:ScoreModalProps) => {
+export const ScoreModal = ({onClickClose, dataset, allDocs, scoreBreakdown}:ScoreModalProps) => {
 
 
   const [fastestKnownTime, setFastestKnownTime] = useState<number>(0);
 
-  const [arrayOfWrongGuessFrequencies, setArrayOfWrongGuessFrequencies] = useState<Array<number>>([])
-
- useEffect(() => {
-   // const result = allDocs.reduce<number>((fastestPLayerTime, item) => {
-   //   if (item.scoreBreakdown.timeScore > fastestPLayerTime) {
-   //     fastestPLayerTime = item.scoreBreakdown.timeScore
-   //   }
-   //   return fastestPLayerTime
-   // }, 0)
-   // setFastestKnownTime(result);
-
-   setArrayOfWrongGuessFrequencies(getFrequency(allDocs).slice(0,-1));
-
- }, [])
+ // useEffect(() => {
+ //   const result = allDocs.reduce<number>((fastestPLayerTime, item) => {
+ //     if (item.scoreBreakdown.timeScore > fastestPLayerTime) {
+ //       fastestPLayerTime = item.scoreBreakdown.timeScore
+ //     }
+ //     return fastestPLayerTime
+ //   }, 0)
+ //   setFastestKnownTime(result);
+ //
+ // }, )
 
   return (
     <div className="w-full max-w-xl h-fit bg-black300 flex flex-col gap-6 justify-between py-2 px-1 sm:px-4 rounded-md">
@@ -59,8 +56,7 @@ export const ScoreModal = ({onClickClose, allDocs, scoreBreakdown}:ScoreModalPro
         <CloseIcon onClick={onClickClose} color="#f8f8f8" size={28}/>
       </div>
       <h1 className="text-white100 font-display">Your Total Score: {scoreBreakdown.timeScore + scoreBreakdown.livesBonus + scoreBreakdown.gloryBonus}</h1>
-      <h1 className="text-white100 font-display">Fastest Known Time: {fastestKnownTime}</h1>
-      <LivesLostChart dataSet={arrayOfWrongGuessFrequencies} livesLost={scoreBreakdown.livesBonus} />
+      <LivesLostChart dataSet={dataset} livesLost={scoreBreakdown.livesBonus} />
 
     </div>
   )
