@@ -34,10 +34,9 @@ export const ScoreModal = ({onClickClose, allDocs, scoreBreakdown}:ScoreModalPro
     });
     return frequency;
   }
-  const defaultArrayOfWrongGuessFrequencies: Array<number> = new Array(7).fill(0);
   const [fastestKnownTime, setFastestKnownTime] = useState<number>(60);
 
-  const [arrayOfWrongGuessFrequencies, setArrayOfWrongGuessFrequencies] = useState<Array<number>>(defaultArrayOfWrongGuessFrequencies)
+  const [arrayOfWrongGuessFrequencies, setArrayOfWrongGuessFrequencies] = useState<Array<number>>([])
 
  useEffect(() => {
    const result = allDocs.reduce<number>((fastestPLayerTime, item) => {
@@ -58,7 +57,7 @@ export const ScoreModal = ({onClickClose, allDocs, scoreBreakdown}:ScoreModalPro
         <h1 className="text-white100 font-display">Your Score</h1>
         <CloseIcon onClick={onClickClose} color="#f8f8f8" size={28}/>
       </div>
-      <LivesLostChart dataSet={arrayOfWrongGuessFrequencies} livesLost={7 - scoreBreakdown.livesBonus} />
+      <LivesLostChart dataSet={arrayOfWrongGuessFrequencies} livesLost={scoreBreakdown.livesBonus} />
 
     </div>
   )
