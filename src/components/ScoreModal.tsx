@@ -1,6 +1,5 @@
 import {CloseIcon} from "./CloseIcon";
 import React, {useEffect, useState} from "react";
-import {Speedometer} from "../components/Speedometer";
 import {LivesLostChart} from "../components/LivesLostChart";
 import {FirestoreScoreObjectModel, ScoreBreakdown} from "@/utlities/models";
 
@@ -59,9 +58,6 @@ export const ScoreModal = ({onClickClose, allDocs, scoreBreakdown}:ScoreModalPro
         <h1 className="text-white100 font-display">Your Score</h1>
         <CloseIcon onClick={onClickClose} color="#f8f8f8" size={28}/>
       </div>
-      {/*<div className="flex">*/}
-      {/*  <Speedometer speed={scoreBreakdown.timeScore} maxSpeed={fastestKnownTime} />*/}
-      {/*</div>*/}
       <LivesLostChart dataSet={arrayOfWrongGuessFrequencies} livesLost={7 - scoreBreakdown.livesBonus} />
 
     </div>
