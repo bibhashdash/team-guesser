@@ -22,15 +22,16 @@ ChartJS.register(
   Legend
 );
 
+interface LivesLostChartProps {
+  livesLost: number,
+  dataSet: Array<number>,
+}
 
+export const LivesLostChart = ({livesLost, dataSet}:LivesLostChartProps) => {
 
-export const LivesLostChart = ({livesLost}: {livesLost: number}) => {
-  // const livesLostTest = 4
   const labels = [0, 1, 2, 3, 4, 5, 6];
-  const dataSet =  [0, 2, 6, 10, 15, 4, 12]  ;
 
   const findIndex = labels.indexOf(livesLost);
-  console.log(dataSet[findIndex]);
 
   const options: ChartOptions<any> = {
     responsive: true,
@@ -39,16 +40,21 @@ export const LivesLostChart = ({livesLost}: {livesLost: number}) => {
         grid: {
           display: false,
         }
+      },
+      y: {
+        grid: {
+          display: false,
+        }
       }
     },
     plugins: {
       legend: {
-        position: 'top' as const,
+        display: false
       },
-      tooltip: false,
       title: {
-        display: false,
-        text: 'Chart.js Bar Chart',
+        display: true,
+        text: 'How your Lives Bonus score stacks up against the rest',
+        color: "#f8f8f8"
       },
     },
   };
@@ -59,7 +65,7 @@ export const LivesLostChart = ({livesLost}: {livesLost: number}) => {
   const data: ChartData<'bar'> = {
     datasets: [
       {
-        label: 'chances',
+        label: 'Lives Bonus',
         data: dataSet,
         backgroundColor: barColors,
         type: 'bar',
@@ -69,6 +75,8 @@ export const LivesLostChart = ({livesLost}: {livesLost: number}) => {
 
   }
   return (
-    <Bar data={data} options={options}/>
+    <div className="game-over-message-fade-in">
+      <Bar data={data} options={options}/>
+    </div>
   )
 }

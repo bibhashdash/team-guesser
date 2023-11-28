@@ -7,10 +7,17 @@ export interface SpeedometerProps {
   maxSpeed: number,
 }
 
+// interface Props {
+//   value: number
+//   maxValue: number
+// }
+import dynamic from 'next/dynamic'
+
 export const Speedometer = ({maxSpeed, speed}: SpeedometerProps) => {
-  const ReactSpeedometer = require("react-d3-speedometer")
+  const ReactSpeedometer: React.ComponentType<Props> = dynamic(import('react-d3-speedometer'), { ssr: false })
+
   return (
-    <div className="h-[300px] w-[150px]">
+    <div className="h-[300px] w-[150px] game-over-message-fade-in">
       <ReactSpeedometer value={speed} maxValue={maxSpeed} />
     </div>
   )

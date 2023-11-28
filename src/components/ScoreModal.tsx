@@ -4,6 +4,10 @@ import {Speedometer} from "../components/Speedometer";
 import {LivesLostChart} from "../components/LivesLostChart";
 import {FirestoreScoreObjectModel, ScoreBreakdown} from "@/utlities/models";
 
+export type Dictionary<T> = {
+  [key: string]: T;
+}
+
 interface ScoreModalProps {
   onClickClose: () => void;
   allDocs: Array<FirestoreScoreObjectModel>;
@@ -18,9 +22,22 @@ interface ScoreModalProps {
 //   wrongGuessCountComparison: Array<number>
 // }
 
+
 export const ScoreModal = ({onClickClose, allDocs, scoreBreakdown}:ScoreModalProps) => {
-  const defaultArrayOfWrongGuessFrequencies: Array<number> = new Array(7).fill(0)
+
+  const getFrequency = () => {
+    const frequency = [0, 0, 0, 0, 0, 0, 0];
+    allDocs.forEach((scoreObject) => {
+      const {livesBonus}  = scoreObject.scoreBreakdown;
+
+        frequency[livesBonus] += 1;
+
+    });
+    return frequency;
+  }
+  const defaultArrayOfWrongGuessFrequencies: Array<number> = new Array(7).fill(0);
   const [fastestKnownTime, setFastestKnownTime] = useState<number>(60);
+
   const [arrayOfWrongGuessFrequencies, setArrayOfWrongGuessFrequencies] = useState<Array<number>>(defaultArrayOfWrongGuessFrequencies)
 
  useEffect(() => {
@@ -32,12 +49,7 @@ export const ScoreModal = ({onClickClose, allDocs, scoreBreakdown}:ScoreModalPro
    }, 60)
    setFastestKnownTime(result);
 
-   const result2 = allDocs.reduce<Array<number>>((frequencyArray, item) => {
-
-      return frequencyArray
-   }, defaultArrayOfWrongGuessFrequencies)
-
-
+   setArrayOfWrongGuessFrequencies(getFrequency().slice(0,-1));
 
  }, [allDocs])
 
@@ -47,10 +59,10 @@ export const ScoreModal = ({onClickClose, allDocs, scoreBreakdown}:ScoreModalPro
         <h1 className="text-white100 font-display">Your Score</h1>
         <CloseIcon onClick={onClickClose} color="#f8f8f8" size={28}/>
       </div>
-      <div className="flex">
-        <Speedometer speed={scoreBreakdown.timeScore} maxSpeed={fastestKnownTime} />
-      </div>
-      <LivesLostChart livesLost={7 - scoreBreakdown.livesBonus} />
+      {/*<div className="flex">*/}
+      {/*  <Speedometer speed={scoreBreakdown.timeScore} maxSpeed={fastestKnownTime} />*/}
+      {/*</div>*/}
+      <LivesLostChart dataSet={arrayOfWrongGuessFrequencies} livesLost={7 - scoreBreakdown.livesBonus} />
 
     </div>
   )
