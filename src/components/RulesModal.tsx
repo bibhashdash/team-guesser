@@ -168,6 +168,8 @@ export const RulesModal = ({onClickClose}: RulesModalProps) => {
                 <li>League One</li>
                 <li>League Two</li>
                 <li>National League</li>
+                <li>National League North</li>
+                <li>National League South</li>
                 <li>Scottish Premiership</li>
                 <li>French Ligue 1</li>
                 <li>German Bundesliga</li>
@@ -175,7 +177,6 @@ export const RulesModal = ({onClickClose}: RulesModalProps) => {
                 <li>Spanish La Liga</li>
                 <li>American MLS</li>
                 <li>Australian A-League</li>
-                <li>Indian Super League</li>
               </ul>
             </div>
             <p className="leading-6 text-left">More being added in future. All data based on the BBC or official club/league websites.</p>
