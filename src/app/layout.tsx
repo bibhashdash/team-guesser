@@ -1,10 +1,9 @@
 import type { Metadata } from 'next'
 import { Inter, Poppins, } from 'next/font/google'
-import {} from 'next/font/google'
 import './globals.css'
-import {useClientDimensions} from "@/utlities/clientDimensions";
+import {GameControlContextProvider} from '@/contexts/gamecontrol/Provider'
+import React from "react";
 
-const inter = Inter({ subsets: ['latin'] })
 const poppins = Poppins(
   {
     subsets: ['latin'],
@@ -25,7 +24,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${poppins.variable} font-sans bg-black300 flex justify-center`}>{children}</body>
+      <body className={`${poppins.variable} font-sans bg-black300 flex justify-center`}>
+        <GameControlContextProvider>
+          {children}
+        </GameControlContextProvider>
+      </body>
     </html>
   )
 }

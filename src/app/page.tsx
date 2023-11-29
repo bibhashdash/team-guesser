@@ -7,14 +7,17 @@ import {useRouter} from "next/navigation";
 import {RulesModal} from "@/components/RulesModal";
 import {LandscapeHandler} from "@/components/LandscapeHandler";
 import {useClientOrientation} from "@/utlities/clientOrientation";
+import {useGameControlContext} from "@/contexts/gamecontrol";
+import {GameState} from "@/utlities/models";
 
 export default function Home() {
-  useClientDimensions();
 
+
+  useClientDimensions();
   const [showRulesModal, setShowRulesModal] = useState<boolean>(false);
   const [showLandscapeModal, setShowLandscapeModal] = useState<boolean>(false);
   const {deviceOrientation} = useClientOrientation();
-
+  const {updateGameState} = useGameControlContext()
   useEffect(() => {
     deviceOrientation === 'landscape' ? setShowLandscapeModal(true) : setShowLandscapeModal(false);
   }, [deviceOrientation])
@@ -36,7 +39,9 @@ export default function Home() {
             View Rules
           </button>
           <button
-            onClick={() => router.push('/game')}
+            onClick={() => {
+              updateGameState(GameState.gameStarted); router.push('/game');
+            }}
             className="px-4 py-2 bg-blue500 text-white100 rounded">
             Play Game
           </button>

@@ -1,4 +1,5 @@
 export enum GameState {
+  gameDefault = 'gameDefault',
   gameStarted = 'gameStarted',
   gameOver = 'gameOver',
 }
@@ -22,4 +23,10 @@ export interface ScoreBreakdown {
   timeScore: number,
   livesBonus: number,
   gloryBonus: number,
+}
+
+export interface FirestoreScoreObjectModel {
+  totalScore: number,
+  scoreBreakdown: ScoreBreakdown,
+  datePlayed: string,
 }

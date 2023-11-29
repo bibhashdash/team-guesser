@@ -2,7 +2,7 @@
 
 import React, {useEffect, useState} from "react";
 import {tempData} from "@/tempData";
-import {GameResult, GameState, InputTab, ScoreBreakdown} from "@/utlities/models";
+import { GameResult, GameState, InputTab, ScoreBreakdown} from "@/utlities/models";
 import {WhiteSquaresContainer} from "@/components/WhiteSquaresContainer";
 import {useClientDimensions} from "@/utlities/clientDimensions";
 import {Navbar} from "@/components/Navbar";
@@ -12,28 +12,33 @@ import {Keyboard} from "@/components/Keyboard";
 import {CreditsModal} from "@/components/CreditsModal";
 import {GamePageInitialReminder} from "@/components/GamePageInitialReminder";
 import {WrongGuessMarkers} from "@/components/WrongGuessMarkers";
-import {useStopwatch} from "react-timer-hook";
 import {ScoreModal} from "@/components/ScoreModal";
 import {gfgBonusCalc} from "@/utlities/gfgBonusCalc";
 import {LandscapeHandler} from "@/components/LandscapeHandler";
 import {useClientOrientation} from "@/utlities/clientOrientation";
-
+import "firebase/compat/firestore";
+import dayjs from "dayjs";
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
+import {useGameControlContext} from "@/contexts/gamecontrol";
+import {livesOverTimedOutStringManip} from "@/utlities/livesOverTimedOutStringManip";
+import {getScoreAnalysis, ScoreAnalysisReturnUtils} from "@/utlities/getScoreAnalysis";
 
 export default function Game() {
+  dayjs.extend(utc);
+  dayjs.extend(timezone);
   useClientDimensions();
   const defaultScore: ScoreBreakdown = {
     timeScore: 0,
     livesBonus: 0,
     gloryBonus: 0
   }
+
   const [team, setTeam] = useState<string>('');
   const [userInput, setUserInput] = useState<string | undefined>(undefined);
   const [tempNuclearInput, setTempNuclearInput] = useState<string>('');
   const [nuclearSubmissionFullString, setNuclearSubmissionFullString] = useState<string>('');
-  const [wrongGuessCount, setWrongGuessCount] = useState<number>(0);
   const [userSubmissionArray, setUserSubmissionArray] = useState<string[]>([]);
-  const [gameState, setGameState] = useState<GameState>(GameState.gameStarted);
-  const [gameResult, setGameResult] = useState<GameResult>(GameResult.default);
   const [showRulesModal, setShowRulesModal] = useState<boolean>(false);
   const [inputTab, setInputTab] = useState<InputTab>(InputTab.oneByOne);
   const [disabledKeysForOneByOne, setDisabledKeysForOneByOne] = useState<string[]>([]);
@@ -42,10 +47,31 @@ export default function Game() {
   const [showCreditsModal, setShowCreditsModal] = useState<boolean>(false);
   const [showScoreModal, setShowScoreModal] = useState<boolean>(false);
   const [showInitialReminder, setShowInitialReminder] = useState<boolean>(false);
-  const [gameResultMessage, setGameResultMessage] = useState<string>('');
-  const [scoreBreakdown, setScoreBreakdown] = useState<ScoreBreakdown>(defaultScore)
+  const [scoreAnalysis, setScoreAnalysis] = useState<ScoreAnalysisReturnUtils>({livesBonusDataset: [0,0,0,0,0,0,0],
+    biggestTimeBonus: 0})
+
   // const testingTeam = "Borussia Monchengladbach";
-  const {seconds, minutes, reset, pause} = useStopwatch()
+
+  const {
+    timerSeconds,
+    pause,
+    reset,
+    minutes,
+    gameState,
+    gameResult,
+    updateGameState,
+    updateGameResult,
+    scoreBreakdown,
+    gameResultMessage,
+    updateScoreBreakdown,
+    updateGameResultMessage,
+    wrongGuessCount,
+    updateWrongGuessCount,
+    uploadScoreToDatabase,
+    allDocsFromDatabase,
+    getAllDocsFromDatabase
+  } = useGameControlContext();
+
   const [showLandscapeModal, setShowLandscapeModal] = useState<boolean>(false);
   const {deviceOrientation} = useClientOrientation();
 
@@ -56,28 +82,29 @@ export default function Game() {
   useEffect(() => {
    setShowInitialReminder(true);
    setTheTeam();
-
   }, [])
 
   useEffect(() => {
-    if (minutes === 1) {
-      setGameResultMessage("Timed out!!");
-      setGameResult(GameResult.loss);
-      const len = team.split('').filter(item => item !== ' ').length;
-      const newArray = new Array(len - userSubmissionArray.length).fill(' ');
-      setUserInput(undefined);
-      setUserSubmissionArray(prevState => {
-        return [...prevState, ...newArray]
-      });
+    if (gameResult === GameResult.win) {
+      uploadScoreToDatabase();
+    }
+  }, [gameResult])
 
-      setGameState(GameState.gameOver);
+  useEffect(() => {
+    if (minutes === 1) {
+      updateGameResultMessage("Timed Out!!");
+      updateGameState(GameState.gameOver);
+      updateGameResult(GameResult.loss);
+      const stringManipulationResult = livesOverTimedOutStringManip(team, userSubmissionArray);
+      setUserSubmissionArray(prevState => {
+        return [...prevState, ...stringManipulationResult]
+      });
       setUserInput(undefined);
-      pause();
     }
   }, [minutes])
 
   const setTheTeam = () => {
-    setGameState(GameState.gameStarted);
+    updateGameState(GameState.gameStarted);
     setUserSubmissionArray([]);
     setInputTab(InputTab.oneByOne);
     setDisabledKeysForOneByOne([]);
@@ -87,15 +114,16 @@ export default function Game() {
     setNuclearSubmissionFullString('');
     const random = Math.floor(Math.random() * tempData.length);
     setTeam(tempData[random]);
-    setGameResult(GameResult.default);
-    setWrongGuessCount(0);
-    setGameResultMessage('');
-    setScoreBreakdown(defaultScore);
+    updateGameResult(GameResult.default);
+    updateWrongGuessCount(0);
+    updateGameResultMessage('');
+    updateScoreBreakdown(defaultScore);
+    getAllDocsFromDatabase();
     reset();
   }
 
   const handleGameFinished = () => {
-    setGameState(GameState.gameOver);
+    updateGameState(GameState.gameOver);
     setUserSubmissionArray(team.toLowerCase().split(""));
     setUserInput(undefined);
     pause();
@@ -158,22 +186,18 @@ export default function Game() {
 
     if (userInput !== undefined && !team.toLowerCase().includes(userInput.toLowerCase())) {
       if (wrongGuessCount === 6) {
-        setGameResultMessage("Yer off!")
-
-        setWrongGuessCount(prevState => prevState + 1);
-        setGameState(GameState.gameOver);
-        setGameResult(GameResult.loss);
-
-        const len = team.split('').filter(item => item !== ' ').length;
-        const newArray = new Array(len - userSubmissionArray.length).fill(' ');
-        setUserInput(undefined);
-        pause();
-        setUserSubmissionArray(prevState => {
-          return [...prevState, ...newArray]
+        updateGameResultMessage("Yerrr Off!!");
+        updateGameState(GameState.gameOver);
+        updateGameResult(GameResult.loss);
+        updateWrongGuessCount(wrongGuessCount + 1)
+        const stringManipulationResult = livesOverTimedOutStringManip(team, userSubmissionArray);
+          setUserSubmissionArray(prevState => {
+          return [...prevState, ...stringManipulationResult]
         });
+        setUserInput(undefined);
         return;
       } else if (wrongGuessCount < 6) {
-        setWrongGuessCount(prevState => prevState + 1);
+        updateWrongGuessCount(wrongGuessCount + 1);
       }
       setUserInput(undefined);
       return;
@@ -204,21 +228,19 @@ export default function Game() {
     }
     if (userSubmissionArray.length === teamUniqueLetters.length) {
       if (tempCheck(userSubmissionArray, teamUniqueLetters)) {
-        setGameResult(GameResult.win);
-        setGameResultMessage("WINNER!")
-        setScoreBreakdown(prevState => (
-          {
-            ...prevState,
-            timeScore: 60 - seconds,
-            livesBonus: 7 - wrongGuessCount
-          }))
-        handleGameFinished();
+        updateGameResult(GameResult.win);
+        updateGameResultMessage("WINNER!")
+        updateScoreBreakdown({
+          gloryBonus: 0,
+          timeScore: 60 - timerSeconds,
+          livesBonus: 7 - wrongGuessCount
+        })
       } else {
-        setGameResult(GameResult.loss);
-        setGameResultMessage("Wrong guess!");
-        setScoreBreakdown(defaultScore)
-        handleGameFinished();
+        updateGameResult(GameResult.loss);
+        updateGameResultMessage("Wrong guess!");
+        updateScoreBreakdown(defaultScore)
       }
+      handleGameFinished();
     }
   }
 
@@ -254,29 +276,31 @@ export default function Game() {
     // check if there is a full match
     else {
 
-      setGameState(GameState.gameOver);
+      updateGameState(GameState.gameOver);
       if (tempNuclearInput.toLowerCase() === team.toLowerCase()) {
-        setGameResult(GameResult.win);
-        setGameResultMessage("WINNER!");
-        setScoreBreakdown(prevState => (
-          {
-            ...prevState,
-            timeScore: 60 - seconds,
-            livesBonus: 7 - wrongGuessCount,
-            gloryBonus: gfgBonusCalc(userSubmissionArray, team)
-          }))
-        handleGameFinished();
+        updateGameResult(GameResult.win);
+        updateGameResultMessage("WINNER!");
+        updateScoreBreakdown({
+          timeScore: 60 - timerSeconds,
+          livesBonus: 7 - wrongGuessCount,
+          gloryBonus: gfgBonusCalc(userSubmissionArray, team)
+        })
+
       }
       if (tempNuclearInput.toLowerCase() !== team.toLowerCase()) {
-        setGameResult(GameResult.loss);
-        setGameResultMessage("Wrong guess!");
-        setScoreBreakdown(defaultScore)
-        handleGameFinished();
+        updateGameResult(GameResult.loss);
+        updateGameResultMessage("Wrong guess!");
+        updateScoreBreakdown(defaultScore)
       }
-
+      handleGameFinished();
      setNuclearSubmissionFullString(tempNuclearInput);
-      setGameState(GameState.gameOver);
+      updateGameState(GameState.gameOver);
     }
+  }
+
+  const handleViewScoreButtonPress = () => {
+    setScoreAnalysis(getScoreAnalysis(allDocsFromDatabase));
+    setShowScoreModal(true)
   }
 
   return (
@@ -285,7 +309,7 @@ export default function Game() {
       <Navbar
         gameState={gameState}
         elapsedMinutes={minutes}
-        elapsedSeconds={seconds}
+        elapsedSeconds={timerSeconds}
         clickRulesIcon={() => setShowRulesModal(true)}
         clickRefreshIcon={() => setTheTeam()}
         clickCreditsIcon={() => setShowCreditsModal(true)}
@@ -324,7 +348,7 @@ export default function Game() {
         gameState={gameState}
         gameResult={gameResult}
         onClickNewGameButton={() => setTheTeam()}
-        onClickViewScoreButton={() => setShowScoreModal(true)}
+        onClickViewScoreButton={handleViewScoreButtonPress}
       />
       {
         showRulesModal && (
@@ -350,7 +374,7 @@ export default function Game() {
       {
         showScoreModal && (
          <div className="absolute w-full top-0 left-0 backdrop-blur h-full bg-backdropFilter flex justify-center items-center py-2 px-2 sm:px-4 md:py-20">
-           <ScoreModal scoreBreakdown={scoreBreakdown} onClickClose={() => setShowScoreModal(false)} />
+           <ScoreModal scoreAnalysis={scoreAnalysis} allDocs={allDocsFromDatabase} scoreBreakdown={scoreBreakdown} onClickClose={() => setShowScoreModal(false)} />
          </div>
         )
       }

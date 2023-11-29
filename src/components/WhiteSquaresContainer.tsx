@@ -3,6 +3,7 @@
 import {WordStorageBox} from "./WordStorageBox";
 import {GameResult, GameState, InputTab} from "../utlities/models";
 import React, {useRef} from "react";
+import CircularProgress from '@mui/material/CircularProgress';
 
 export interface WhiteSquaresContainerProps {
   matcherText: string;
@@ -70,7 +71,7 @@ export const WhiteSquaresContainer = ({
             )
           ) :
           <div className="w-full h-full flex justify-center">
-           <p className="text-white100 text-center">Loading...</p>
+            <CircularProgress color="info" />
           </div>
       }
     </div>
