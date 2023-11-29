@@ -51,20 +51,20 @@ export const LivesLostChart = ({livesLost, dataSet}:LivesLostChartProps) => {
         display: false
       },
       title: {
-        display: true,
+        display: false,
         text: 'How your Lives Bonus score stacks up against the rest',
         color: "#f8f8f8"
       },
     },
   };
 
-  const barColors: Array<string> = new Array(7).fill('#4d4d4d');
-  barColors.splice(findIndex, 1, 'red')
+  const barColors: Array<string> = new Array(7).fill('#cbcbcb');
+  barColors.splice(findIndex, 1, '#ec0202')
 
   const data: ChartData<'bar'> = {
     datasets: [
       {
-        label: 'Lives Bonus',
+        label: 'Number of Scores',
         data: dataSet,
         backgroundColor: barColors,
         type: 'bar',
@@ -74,7 +74,11 @@ export const LivesLostChart = ({livesLost, dataSet}:LivesLostChartProps) => {
 
   }
   return (
-    <div className="h-[250px] w-full">
+    <div className="h-full w-full flex flex-col gap-2">
+      <p className="text-white100 text-sm">
+        How <span className="text-red500 font-bold">your</span> lives bonus stacks up
+        against the <span className="text-white50 font-bold">rest</span> <span className="text-xxs sm:text-xs">(hover or tap on bars to find out more)</span>
+      </p>
       <Bar data={data} options={options}/>
     </div>
   )

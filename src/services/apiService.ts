@@ -1,23 +1,7 @@
 import {FirestoreScoreObjectModel, ScoreBreakdown} from "../utlities/models";
-import {
-  addDoc,
-  collection,
-  QueryDocumentSnapshot,
-  SnapshotOptions,
-  WithFieldValue,
-  getDocs,
-  QuerySnapshot
-} from "firebase/firestore";
+import {addDoc, collection, getDocs, QueryDocumentSnapshot, SnapshotOptions, WithFieldValue,} from "firebase/firestore";
 import {db} from "../firebase/firebase";
-import {useGameControlContext} from "../contexts/gamecontrol";
 import {generateDatePlayedValue} from "../utlities/generateDatePlayedValue";
-import {useState} from "react";
-
-interface ApiServiceUtils {
-  updateScoreToDatabase: (scoreBreakdown: ScoreBreakdown) => void,
-  getAllScoresFromDatabase: () => void
-}
-
 
 const scoreConverter = {
   toFirestore(score: WithFieldValue<any>): FirestoreScoreObjectModel {
@@ -45,7 +29,6 @@ const scoreConverter = {
 };
 
 export function useApiService () {
-  const [allDocs, setAllDocs] = useState([])
 
   const updateScoreToDatabase = (scoreBreakdown: ScoreBreakdown) => {
     const uploadedScore: FirestoreScoreObjectModel = {
