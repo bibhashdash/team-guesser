@@ -1,7 +1,5 @@
 import {WrongGuessMarkers} from "@/components/WrongGuessMarkers";
 import {ButtonPrimary} from "@/components/ButtonPrimary";
-import {DividerLine} from "@/components/DividerLine";
-import {AffiliateAd} from "@/components/AffiliateAd";
 
 interface GamePageInitialReminderProps {
   onClickClose: () => void,
