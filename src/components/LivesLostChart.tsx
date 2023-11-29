@@ -11,6 +11,7 @@ import {
 } from 'chart.js';
 import {Bar} from 'react-chartjs-2';
 import React from "react";
+import {FootballIcon} from "@/icons/FootballIcon";
 
 ChartJS.register(
   CategoryScale,
@@ -75,10 +76,11 @@ export const LivesLostChart = ({livesLost, dataSet}:LivesLostChartProps) => {
   }
   return (
     <div className="h-full w-full flex flex-col gap-2">
-      <p className="text-white100 text-sm">
-        How <span className="text-red500 font-bold">your</span> lives bonus stacks up
-        against the <span className="text-white50 font-bold">rest</span> <span className="text-xxs sm:text-xs">(hover or tap on bars to find out more)</span>
+      <p className="text-white100 text-sm flex gap-2 justify-center">
+        <FootballIcon color="rgba(176,176,176,0.96)" size={20} />
+        <span className="text-red500 font-bold font-display">YOU</span> v <span className="font-display text-white50 font-bold">The Rest</span>
       </p>
+      <p className="text-xxs sm:text-xs text-white100 self-center">(hover / tap on bars to find out more)</p>
       <Bar data={data} options={options}/>
     </div>
   )

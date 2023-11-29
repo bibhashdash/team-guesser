@@ -24,7 +24,16 @@ export const ScoreModal = ({onClickClose, scoreAnalysis, scoreBreakdown}: ScoreM
         <h1 className="text-white100 font-display">Your Score</h1>
         <CloseIcon onClick={onClickClose} color="#f8f8f8" size={28}/>
       </div>
-      <h1 className="text-white100 font-display self-center text-7xl">{scoreBreakdown.timeScore + scoreBreakdown.livesBonus + scoreBreakdown.gloryBonus}</h1>
+      <div className="flex justify-evenly">
+        <div className="flex items-center">
+          <h1 className="text-white100 font-display text-7xl">{scoreBreakdown.timeScore + scoreBreakdown.livesBonus + scoreBreakdown.gloryBonus}</h1>
+        </div>
+        <div className="flex flex-col items-start justify-evenly">
+          <p className="text-white100 text-xs">Lives Bonus: <span className="font-display">{scoreBreakdown.livesBonus}</span></p>
+          <p className="text-white100 text-xs">Time Bonus: <span className="font-display">{scoreBreakdown.timeScore}</span></p>
+          <p className="text-white100 text-xs">One-Shot Bonus: <span className="font-display">{scoreBreakdown.gloryBonus}</span></p>
+        </div>
+      </div>
       <LivesLostChart dataSet={scoreAnalysis.livesBonusDataset} livesLost={scoreBreakdown.livesBonus}/>
       <TimeBonusAnalysis userBonus={scoreBreakdown.timeScore} bestBonus={scoreAnalysis.biggestTimeBonus} />
     </div>
