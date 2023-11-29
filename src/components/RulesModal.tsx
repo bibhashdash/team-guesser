@@ -162,7 +162,7 @@ export const RulesModal = ({onClickClose}: RulesModalProps) => {
           <RulesModalSlide index={8}>
             <p className="leading-6 text-left">All clues based on teams from the following leagues.</p>
             <div>
-              <ul className="list-disc text-left text-sm">
+              <ul className="list-disc text-left text-sm overflow-y-auto">
                 <li>Premier League</li>
                 <li>Championship</li>
                 <li>League One</li>
@@ -170,6 +170,7 @@ export const RulesModal = ({onClickClose}: RulesModalProps) => {
                 <li>National League</li>
                 <li>National League North</li>
                 <li>National League South</li>
+                <li>Northern Premier League</li>
                 <li>Scottish Premiership</li>
                 <li>French Ligue 1</li>
                 <li>German Bundesliga</li>

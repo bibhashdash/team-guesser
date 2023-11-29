@@ -292,11 +292,32 @@ export const tempData =
     'Truro City',
     'Welling United',
     'Dover Athletic',
-    'Havant & Waterlooville'
+    'Havant & Waterlooville',
+    "Radcliffe",
+    "Warrington Rylands",
+    "Worksop Town",
+    "Macclesfield",
+    "Hyde United",
+    "Guiseley",
+    "Ashton United",
+    "Matlock Town",
+    "Marine",
+    "Whitby Town",
+    "Ilkeston Town",
+    "Lancaster City",
+    "Morpeth Town",
+    "Workington AFC",
+    "Gainsborough Trinity",
+    "FC United of Manchester",
+    "Bamber Bridge",
+    "Marske United",
+    "Bradford Park Avenue",
+    "Basford United",
+    "Stafford Rangers",
+    "Atherton Collieries"
   ];
 
 const gillinghamPosn = tempData.indexOf("Inter Miami CF");
-console.log(gillinghamPosn);
 let longestWordInEntireArray = "";
 const bigResult = tempData.reduce((acc, curr) => {
   let longestOfAnIndividualTeam = "";
@@ -311,9 +332,6 @@ const bigResult = tempData.reduce((acc, curr) => {
   }
   return longestWordInEntireArray;
 }, "");
-
-
-console.log(bigResult, bigResult.length);
 
 export const keyboardContent = [
   ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"],
