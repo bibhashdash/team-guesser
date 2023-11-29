@@ -17,7 +17,8 @@ export const CreditsModal = ({onClickClose}: CreditsModalProps) => {
           Hi! I'm Bibhash Dash. Thank you for taking the time to enjoy this little game of mine.
         </p>
         <p className="text-xs sm:text-lg text-left leading-4">
-          As the saying goes, "It takes a village". Therefore I'd like to thank the following folks for their time, advice, guidance, and (most
+          As the saying goes, "It takes a village". Therefore I'd like to thank the following folks for their time,
+          advice, guidance, and (most
           importantly!) feedback during the development process.
         </p>
         <div className="w-full flex justify-center text-lg">
@@ -34,6 +35,7 @@ export const CreditsModal = ({onClickClose}: CreditsModalProps) => {
             <li>Felix Wentworth</li>
             <li>Chris Maughan</li>
             <li>Michael Rippon</li>
+
           </ul>
         </div>
         <p className="text-xs sm:text-lg text-left leading-4">
@@ -41,6 +43,8 @@ export const CreditsModal = ({onClickClose}: CreditsModalProps) => {
           connect with me on <a className="text-blue500"
                                 href="https://www.linkedin.com/in/bibhash-dash-57307921/" target="_blank">LinkedIn</a>.
         </p>
+        <p className="text-left text-white100 text-xs">Favicon built with contributions from <a href="https://iconscout.com/contributors/andrigraphic" className="underline" target="_blank">Andri Graphic</a> and <a className="underline" href="https://iconscout.com/contributors/Redmatric%20Studio" target="_blank">Termicons</a></p>
+
       </div>
     </div>
   )
