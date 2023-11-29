@@ -39,7 +39,8 @@ export const LivesLostChart = ({livesLost, dataSet}:LivesLostChartProps) => {
       x: {
         grid: {
           display: false,
-        }
+        },
+
       },
       y: {
         grid: {
