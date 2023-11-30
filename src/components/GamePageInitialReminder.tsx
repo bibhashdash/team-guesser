@@ -1,5 +1,6 @@
-import {WrongGuessMarkers} from "@/components/WrongGuessMarkers";
 import {ButtonPrimary} from "@/components/ButtonPrimary";
+import {WhiteSquaresContainer} from "@/components/WhiteSquaresContainer";
+import {GameResult, GameState, InputTab} from "@/utlities/models";
 
 interface GamePageInitialReminderProps {
   onClickClose: () => void,
@@ -8,16 +9,22 @@ interface GamePageInitialReminderProps {
 export const GamePageInitialReminder = ({onClickClose}: GamePageInitialReminderProps) => {
   return (
     <div className="w-[400px] h-fit bg-black300 flex flex-col gap-6 justify-between py-2 px-1 sm:px-4 rounded-md">
-      <div className="flex justify-between items-center">
-        <h1 className="text-white100">Quick reminder!</h1>
-      </div>
-
+      <WhiteSquaresContainer
+        matcherText={"Perfect"}
+        userSubmissionArray={["p", "e", "r", "f", "e", "c", "t"]}
+        gameState={GameState.gameOver}
+        gameResult={GameResult.win}
+        inputTab={InputTab.oneByOne}
+        nuclearInputFullString={""}
+      />
       <p className="text-white100">
-        Welcome to ?ERFECT, the hangman-style game for football team names. Test yourself against 7 chances and against the clock!
+        A hangman-style game for football team names? Go on then!
       </p>
-      <WrongGuessMarkers wrongGuessCount={6}/>
-      <p className="text-white100">You have 60 seconds per game. The quicker you solve it the more points you score. So be ready for that timer!</p>
-      <ButtonPrimary buttonContent="I'm ready, let's start!" onClickButton={onClickClose} />
+
+      <p className="text-white100">Play it one character at a time, or in one shot, it's your choice. The quicker you solve it the more bonuses you earn!</p>
+      <div className="w-fit self-center">
+        <ButtonPrimary buttonContent="I'm ready, start the timer!" onClickButton={onClickClose} />
+      </div>
     </div>
   )
 }
