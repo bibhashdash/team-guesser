@@ -104,7 +104,6 @@ export default function Game() {
   }, [minutes])
 
   const setTheTeam = () => {
-    updateGameState(GameState.gameStarted);
     setUserSubmissionArray([]);
     setInputTab(InputTab.oneByOne);
     setDisabledKeysForOneByOne([]);
@@ -347,7 +346,10 @@ export default function Game() {
         disabledKeysArray={disabledKeysForOneByOne}
         gameState={gameState}
         gameResult={gameResult}
-        onClickNewGameButton={() => setTheTeam()}
+        onClickNewGameButton={() => {
+          updateGameState(GameState.gameStarted);
+          setTheTeam()
+        }}
         onClickViewScoreButton={handleViewScoreButtonPress}
       />
       {
@@ -367,7 +369,7 @@ export default function Game() {
       {
         showInitialReminder && (
           <div className="absolute w-full top-0 left-0 backdrop-blur h-full bg-backdropFilter flex justify-center items-center py-2 px-2 sm:px-4 md:py-20 z-50">
-            <GamePageInitialReminder onClickClose={() => {setShowInitialReminder(false); setTheTeam() }} />
+            <GamePageInitialReminder onClickClose={() => {updateGameState(GameState.gameStarted); setShowInitialReminder(false); setTheTeam() }} />
           </div>
         )
       }
