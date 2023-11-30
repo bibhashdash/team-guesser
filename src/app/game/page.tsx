@@ -2,8 +2,7 @@
 
 import React, {useEffect, useState} from "react";
 import {tempData} from "@/tempData";
-import { GameResult, GameState, InputTab, ScoreBreakdown} from "@/utlities/models";
-import {WhiteSquaresContainer} from "@/components/WhiteSquaresContainer";
+import {GameResult, GameState, InputTab, ScoreBreakdown} from "@/utlities/models";
 import {useClientDimensions} from "@/utlities/clientDimensions";
 import {Navbar} from "@/components/Navbar";
 import {RulesModal} from "@/components/RulesModal";
@@ -23,6 +22,7 @@ import timezone from 'dayjs/plugin/timezone';
 import {useGameControlContext} from "@/contexts/gamecontrol";
 import {livesOverTimedOutStringManip} from "@/utlities/livesOverTimedOutStringManip";
 import {getScoreAnalysis, ScoreAnalysisReturnUtils} from "@/utlities/getScoreAnalysis";
+import {WhiteSquaresContainer} from "@/components/WhiteSquaresContainer";
 
 export default function Game() {
   dayjs.extend(utc);
@@ -79,9 +79,14 @@ export default function Game() {
     deviceOrientation === 'landscape' ? setShowLandscapeModal(true) : setShowLandscapeModal(false);
   }, [deviceOrientation])
 
+  const setNewClue = () => {
+    const random = Math.floor(Math.random() * tempData.length);
+    setTeam(tempData[random]);
+  }
+
   useEffect(() => {
    setShowInitialReminder(true);
-   setTheTeam();
+   setNewClue();
   }, [])
 
   useEffect(() => {
@@ -103,7 +108,8 @@ export default function Game() {
     }
   }, [minutes])
 
-  const setTheTeam = () => {
+  const startNewGame = () => {
+    updateGameState(GameState.gameStarted);
     setUserSubmissionArray([]);
     setInputTab(InputTab.oneByOne);
     setDisabledKeysForOneByOne([]);
@@ -111,8 +117,7 @@ export default function Game() {
     setShowRulesModal(false);
     setTempNuclearInput('');
     setNuclearSubmissionFullString('');
-    const random = Math.floor(Math.random() * tempData.length);
-    setTeam(tempData[random]);
+    setNewClue();
     updateGameResult(GameResult.default);
     updateWrongGuessCount(0);
     updateGameResultMessage('');
@@ -310,7 +315,7 @@ export default function Game() {
         elapsedMinutes={minutes}
         elapsedSeconds={timerSeconds}
         clickRulesIcon={() => setShowRulesModal(true)}
-        clickRefreshIcon={() => setTheTeam()}
+        clickRefreshIcon={() => startNewGame()}
         clickCreditsIcon={() => setShowCreditsModal(true)}
       />
 
@@ -347,8 +352,7 @@ export default function Game() {
         gameState={gameState}
         gameResult={gameResult}
         onClickNewGameButton={() => {
-          updateGameState(GameState.gameStarted);
-          setTheTeam()
+          startNewGame()
         }}
         onClickViewScoreButton={handleViewScoreButtonPress}
       />
@@ -368,8 +372,12 @@ export default function Game() {
       }
       {
         showInitialReminder && (
-          <div className="absolute w-full top-0 left-0 backdrop-blur h-full bg-backdropFilter flex justify-center items-center py-2 px-2 sm:px-4 md:py-20 z-50">
-            <GamePageInitialReminder onClickClose={() => {updateGameState(GameState.gameStarted); setShowInitialReminder(false); setTheTeam() }} />
+          <div className="absolute w-full top-0 left-0 backdrop-blur h-full bg-backdropFilter flex justify-center items-center py-2 px-4 sm:px-4 md:py-20 z-50">
+            <GamePageInitialReminder onClickClose={() => {
+              startNewGame();
+              setShowInitialReminder(false);
+               }}
+            />
           </div>
         )
       }
