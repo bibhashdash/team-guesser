@@ -4,6 +4,7 @@ import {LivesLostChart} from "../components/LivesLostChart";
 import {FirestoreScoreObjectModel, ScoreBreakdown} from "@/utlities/models";
 import {ScoreAnalysisReturnUtils} from "@/utlities/getScoreAnalysis";
 import {TimeBonusAnalysis} from "@/components/TimeBonusAnalysis";
+import {ShareIcon} from "@/icons/ShareIcon";
 
 export type Dictionary<T> = {
   [key: string]: T;
@@ -18,10 +19,25 @@ interface ScoreModalProps {
 
 export const ScoreModal = ({onClickClose, scoreAnalysis, scoreBreakdown}: ScoreModalProps) => {
 
+  const handleShareClick = () => {
+    if(navigator.canShare()) {
+      navigator.share({
+        title: "Think you can beat my score?",
+        text: "Play the hangman game for football team names!",
+        url: "https://perfect-score.vercel.app/"
+      })
+    }
+  }
+
   return (
     <div className="w-full max-w-xl h-fit bg-black300 flex flex-col gap-6 py-2 px-1 sm:px-4 rounded-md">
       <div className="flex justify-between w-full my-2 px-2">
-        <h1 className="text-white100 font-display">Your Score</h1>
+        <div className="flex gap-2">
+          <h1 className="text-white100 font-display">Your Score</h1>
+          <div className="cursor-pointer" onClick={() => handleShareClick()}>
+            <ShareIcon color={'#626262'} size={24} />
+          </div>
+        </div>
         <CloseIcon onClick={onClickClose} color="#f8f8f8" size={28}/>
       </div>
       <div className="flex justify-evenly">
