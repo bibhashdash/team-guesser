@@ -32,14 +32,14 @@ export default function Home() {
         <div className="flex gap-4 game-over-message-fade-in">
           <button
             onClick={() => setShowRulesModal(true)}
-            className="px-4 py-2 bg-black300 border-2 border-blue500 text-blue500 rounded">
+            className="px-4 py-2 bg-black300 border-2 border-blue500 text-blue500 rounded focus:animate-button-pressed">
             View Rules
           </button>
           <button
             onClick={() => {
               router.push('/game');
             }}
-            className="px-4 py-2 bg-blue500 text-white100 rounded">
+            className="px-4 py-2 bg-blue500 text-white100 rounded focus:animate-button-pressed">
             Play Game
           </button>
         </div>
