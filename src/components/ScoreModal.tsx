@@ -4,7 +4,6 @@ import {LivesLostChart} from "../components/LivesLostChart";
 import {FirestoreScoreObjectModel, ScoreBreakdown} from "@/utlities/models";
 import {ScoreAnalysisReturnUtils} from "@/utlities/getScoreAnalysis";
 import {TimeBonusAnalysis} from "@/components/TimeBonusAnalysis";
-import {ShareIcon} from "@/icons/ShareIcon";
 
 export type Dictionary<T> = {
   [key: string]: T;
@@ -34,9 +33,9 @@ export const ScoreModal = ({onClickClose, scoreAnalysis, scoreBreakdown}: ScoreM
       <div className="flex justify-between w-full my-2 px-2">
         <div className="flex gap-2">
           <h1 className="text-white100 font-display">Your Score</h1>
-          <div className="cursor-pointer" onClick={() => handleShareClick()}>
-            <ShareIcon color={'#626262'} size={24} />
-          </div>
+          {/*<div className="cursor-pointer" onClick={() => handleShareClick()}>*/}
+          {/*  <ShareIcon color={'#626262'} size={24} />*/}
+          {/*</div>*/}
         </div>
         <CloseIcon onClick={onClickClose} color="#f8f8f8" size={28}/>
       </div>
