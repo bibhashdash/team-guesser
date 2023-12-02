@@ -30,3 +30,9 @@ export interface FirestoreScoreObjectModel {
   scoreBreakdown: ScoreBreakdown,
   datePlayed: string,
 }
+
+
+export interface FeedbackData {
+  stars: number,
+  message: string,
+}
