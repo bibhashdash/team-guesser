@@ -320,6 +320,10 @@ export default function Game() {
         clickRulesIcon={() => setShowRulesModal(true)}
         clickRefreshIcon={() => startNewGame()}
         clickCreditsIcon={() => setShowCreditsModal(true)}
+        clickFeedbackIcon={() => {
+          setShowFeedbackModal(true);
+          pause();
+        }}
       />
 
       <div
@@ -355,6 +359,7 @@ export default function Game() {
         gameState={gameState}
         gameResult={gameResult}
         onClickNewGameButton={() => {
+          pause();
           setShowFeedbackModal(true);
         }}
         onClickViewScoreButton={handleViewScoreButtonPress}
