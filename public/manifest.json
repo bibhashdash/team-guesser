@@ -1,0 +1,55 @@
+{
+    "theme_color": "#0079cb",
+    "background_color": "#2d2d2d",
+    "display": "standalone",
+    "scope": ".",
+    "start_url": "/",
+    "name": "Perfect Score",
+    "short_name": "Perfect",
+    "description": "A hangman-style game for football team names",
+    "prefer_related_applications": false,
+    "icons": [
+        {
+            "src": "./icon-16x16.png",
+            "sizes": "16x16",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "./icon-144x144.png",
+            "sizes": "144x144",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "./icon-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "./icon-256x256.png",
+            "sizes": "256x256",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "./icon-384x384.png",
+            "sizes": "384x384",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "./icon-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "./favicon.ico",
+            "sizes": "any",
+            "type": "image/x-icon",
+            "purpose": "any maskable"
+        }
+    ]
+}
