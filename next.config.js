@@ -1,14 +1,20 @@
+const withPWA = require("@ducanh2912/next-pwa").default({
+    dest: "public",
+    cacheOnFrontEndNav: true,
+    aggressiveFrontEndNavCaching: true,
+    reloadOnOnline: true,
+    swcMinify: true,
+    disable: process.env.NODE_ENV === "development",
+    workboxOptions: {
+        disableDevLogs: true,
+    },
+    // ... other options you like
+});
+
 /** @type {import('next').NextConfig} */
 
-const withPwa = require('next-pwa')(
-    {
-        dest: "public",
-        register: true,
-        skipWaiting: true,
-    }
-);
-const nextConfig = withPwa({
+const nextConfig = {
   // next config
-})
+}
 
-module.exports = nextConfig
+module.exports = withPWA(nextConfig);
