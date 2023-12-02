@@ -51,6 +51,7 @@ export default function Game() {
   const [showInitialReminder, setShowInitialReminder] = useState<boolean>(false);
   const [scoreAnalysis, setScoreAnalysis] = useState<ScoreAnalysisReturnUtils>({livesBonusDataset: [0,0,0,0,0,0,0],
     biggestTimeBonus: 0})
+  const [countBeforeFeedbackPrompt, setCountBeforeFeedbackPrompt] = useState<number>(1);
 
   // const testingTeam = "Borussia Monchengladbach";
 
@@ -318,7 +319,10 @@ export default function Game() {
         elapsedMinutes={minutes}
         elapsedSeconds={timerSeconds}
         clickRulesIcon={() => setShowRulesModal(true)}
-        clickRefreshIcon={() => startNewGame()}
+        clickRefreshIcon={() => {
+          setCountBeforeFeedbackPrompt(prevState => prevState + 1);
+          startNewGame()
+        }}
         clickCreditsIcon={() => setShowCreditsModal(true)}
         clickFeedbackIcon={() => {
           setShowFeedbackModal(true);
@@ -359,8 +363,13 @@ export default function Game() {
         gameState={gameState}
         gameResult={gameResult}
         onClickNewGameButton={() => {
-          pause();
-          setShowFeedbackModal(true);
+          if (countBeforeFeedbackPrompt % 3 === 0) {
+            pause();
+            setShowFeedbackModal(true);
+          } else {
+            setCountBeforeFeedbackPrompt(prevState => prevState + 1);
+            startNewGame();
+          }
         }}
         onClickViewScoreButton={handleViewScoreButtonPress}
       />
@@ -382,6 +391,7 @@ export default function Game() {
         showInitialReminder && (
           <div className="absolute w-full top-0 left-0 backdrop-blur h-full bg-backdropFilter flex justify-center items-center py-2 px-4 sm:px-4 md:py-20 z-50">
             <GamePageInitialReminder onClickClose={() => {
+              setCountBeforeFeedbackPrompt(1);
               startNewGame();
               setShowInitialReminder(false);
                }}
@@ -407,6 +417,7 @@ export default function Game() {
         showFeedbackModal && (
           <FeedbackModal onClickFormSubmit={(stars, message) => handleFeedback({stars, message})} onClickClose={() => {
             setShowFeedbackModal(false);
+            setCountBeforeFeedbackPrompt(1);
             startNewGame();
           }} />
         )
