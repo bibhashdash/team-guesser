@@ -13,6 +13,7 @@ interface NavbarProps {
   clickRulesIcon: () => void,
   clickRefreshIcon: () => void,
   clickCreditsIcon: () => void,
+  clickFeedbackIcon: () => void,
 }
 
 export const Navbar = ({
@@ -20,13 +21,9 @@ export const Navbar = ({
                          elapsedSeconds,
                          clickRefreshIcon,
                          clickCreditsIcon,
+                         clickFeedbackIcon,
                          gameState
                        }: NavbarProps) => {
-  const [showMenu, setShowMenu] = useState<boolean>(false);
-
-  useEffect(() => {
-    if (gameState === GameState.gameOver) setShowMenu(false);
-  }, [gameState])
 
   return (
     <div className="bg-black300 w-full md:py-2 px-2 md:px-6 flex flex-col gap-2 items-center">
@@ -38,6 +35,7 @@ export const Navbar = ({
         <GameTimer elapsedSeconds={elapsedSeconds}/>
 
         <MainMenu
+          clickFeedbackIcon={clickFeedbackIcon}
           clickRulesIcon={clickRulesIcon}
           clickRefreshIcon={clickRefreshIcon}
           clickCreditsIcon={clickCreditsIcon}/>

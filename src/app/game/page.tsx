@@ -23,6 +23,7 @@ import {useGameControlContext} from "@/contexts/gamecontrol";
 import {livesOverTimedOutStringManip} from "@/utlities/livesOverTimedOutStringManip";
 import {getScoreAnalysis, ScoreAnalysisReturnUtils} from "@/utlities/getScoreAnalysis";
 import {WhiteSquaresContainer} from "@/components/WhiteSquaresContainer";
+import {FeedbackModal} from "@/components/FeedbackModal";
 
 export default function Game() {
   dayjs.extend(utc);
@@ -46,6 +47,7 @@ export default function Game() {
   const [wrongAnswerInputEffect, setWrongAnswerInputEffect] = useState<boolean>(false);
   const [showCreditsModal, setShowCreditsModal] = useState<boolean>(false);
   const [showScoreModal, setShowScoreModal] = useState<boolean>(false);
+  const [showFeedbackModal, setShowFeedbackModal] = useState<boolean>(false);
   const [showInitialReminder, setShowInitialReminder] = useState<boolean>(false);
   const [scoreAnalysis, setScoreAnalysis] = useState<ScoreAnalysisReturnUtils>({livesBonusDataset: [0,0,0,0,0,0,0],
     biggestTimeBonus: 0})
@@ -69,7 +71,8 @@ export default function Game() {
     updateWrongGuessCount,
     uploadScoreToDatabase,
     allDocsFromDatabase,
-    getAllDocsFromDatabase
+    getAllDocsFromDatabase,
+    handleFeedback
   } = useGameControlContext();
 
   const [showLandscapeModal, setShowLandscapeModal] = useState<boolean>(false);
@@ -317,6 +320,10 @@ export default function Game() {
         clickRulesIcon={() => setShowRulesModal(true)}
         clickRefreshIcon={() => startNewGame()}
         clickCreditsIcon={() => setShowCreditsModal(true)}
+        clickFeedbackIcon={() => {
+          setShowFeedbackModal(true);
+          pause();
+        }}
       />
 
       <div
@@ -352,7 +359,8 @@ export default function Game() {
         gameState={gameState}
         gameResult={gameResult}
         onClickNewGameButton={() => {
-          startNewGame()
+          pause();
+          setShowFeedbackModal(true);
         }}
         onClickViewScoreButton={handleViewScoreButtonPress}
       />
@@ -393,6 +401,14 @@ export default function Game() {
           <div className="w-full max-w-3xl absolute w-full h-screen top-0 bg-black300 z-50">
             <LandscapeHandler />
           </div>
+        )
+      }
+      {
+        showFeedbackModal && (
+          <FeedbackModal onClickFormSubmit={(stars, message) => handleFeedback({stars, message})} onClickClose={() => {
+            setShowFeedbackModal(false);
+            startNewGame();
+          }} />
         )
       }
     </main>

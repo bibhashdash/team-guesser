@@ -1,4 +1,4 @@
-import {FirestoreScoreObjectModel, GameResult, GameState, ScoreBreakdown} from "../../utlities/models";
+import {FeedbackData, FirestoreScoreObjectModel, GameResult, GameState, ScoreBreakdown} from "../../utlities/models";
 import {createContext, useContext} from "react";
 
 export interface GameControlContextState {
@@ -20,6 +20,7 @@ export interface GameControlContextState {
   updateGameResult: (result: GameResult) => void,
   pause: () => void,
   reset: () => void,
+  handleFeedback: (feedbackData: FeedbackData) => void,
 }
 
 export const GameControlContext = createContext<GameControlContextState>({
@@ -44,7 +45,8 @@ export const GameControlContext = createContext<GameControlContextState>({
   updateWrongGuessCount: () => {},
   allDocsFromDatabase: [],
   getAllDocsFromDatabase: () => {},
-  uploadScoreToDatabase: () => {}
+  uploadScoreToDatabase: () => {},
+  handleFeedback: () => {}
 });
 
 export function useGameControlContext() {

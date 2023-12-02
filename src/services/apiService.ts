@@ -1,4 +1,4 @@
-import {FirestoreScoreObjectModel, ScoreBreakdown} from "../utlities/models";
+import {FeedbackData, FirestoreScoreObjectModel, ScoreBreakdown} from "../utlities/models";
 import {addDoc, collection, getDocs, QueryDocumentSnapshot, SnapshotOptions, WithFieldValue,} from "firebase/firestore";
 import {db} from "../firebase/firebase";
 import {generateDatePlayedValue} from "../utlities/generateDatePlayedValue";
@@ -28,6 +28,22 @@ const scoreConverter = {
   }
 };
 
+const feedbackConverter = {
+  toFirestore(feedbackData: WithFieldValue<any>): FeedbackData {
+    return {
+      message: feedbackData.message,
+      stars: feedbackData.stars
+    }
+  },
+  fromFirestore(snapshot: QueryDocumentSnapshot, options: SnapshotOptions): FeedbackData {
+    const data = snapshot.data(options) as FeedbackData;
+    return {
+      stars: data.stars,
+      message: data.message
+    }
+  }
+}
+
 export function useApiService () {
 
   const updateScoreToDatabase = (scoreBreakdown: ScoreBreakdown) => {
@@ -56,8 +72,18 @@ export function useApiService () {
     return tempArray;
   }
 
+  const uploadFeedbackToDatabase = (feedbackData: FeedbackData) => {
+    try {
+      const colRef = collection(db, 'feedback').withConverter(feedbackConverter);
+      addDoc(colRef, feedbackData)
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
   return {
     getAllScoresFromDatabase,
-    updateScoreToDatabase
+    updateScoreToDatabase,
+    uploadFeedbackToDatabase
   }
 }

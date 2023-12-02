@@ -44,9 +44,10 @@ interface MainMenuProps {
   clickRulesIcon: () => void,
   clickRefreshIcon: () => void,
   clickCreditsIcon: () => void,
+  clickFeedbackIcon: () => void,
 }
 
-export const MainMenu = ({clickRulesIcon, clickRefreshIcon, clickCreditsIcon}: MainMenuProps) => {
+export const MainMenu = ({clickRulesIcon, clickRefreshIcon, clickCreditsIcon, clickFeedbackIcon}: MainMenuProps) => {
   const [anchorEl, setAnchorEl] = useState<null | undefined | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -79,6 +80,7 @@ export const MainMenu = ({clickRulesIcon, clickRefreshIcon, clickCreditsIcon}: M
         <MenuItem onClick={() => {handleClose(); clickRefreshIcon()}}>New Game</MenuItem>
         <MenuItem onClick={() => {handleClose(); clickRulesIcon()}}>Rules</MenuItem>
         <MenuItem onClick={() => {handleClose(); clickCreditsIcon()}}>Credits</MenuItem>
+        <MenuItem onClick={() => {handleClose(); clickFeedbackIcon()}}>Feedback</MenuItem>
       </StyledMenu>
     </div>
   )
