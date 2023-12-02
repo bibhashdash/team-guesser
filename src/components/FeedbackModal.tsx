@@ -1,5 +1,5 @@
 import {CloseIcon} from "@/components/CloseIcon";
-import React, {useState} from "react";
+import React, {FormEvent, useState} from "react";
 import Rating from '@mui/material/Rating';
 import Lottie from "lottie-react";
 import crowdCheerAnimation from '../lottie/crowdCheer.json'
@@ -14,7 +14,7 @@ export const FeedbackModal = ({onClickClose, onClickFormSubmit}: FeedbackModalPr
   const [message, setMessage] = useState<string>("");
   const [showFeedbackInputSection, setShowFeedbackInputSection] = useState<boolean>(true);
   const [showThanksMessage, setShowThanksMessage] = useState<boolean>(false);
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     value && onClickFormSubmit(value, message);
@@ -56,7 +56,7 @@ export const FeedbackModal = ({onClickClose, onClickFormSubmit}: FeedbackModalPr
           {
             showFeedbackInputSection && (
               <form className="w-full flex flex-col gap-4" onSubmit={(e) => handleSubmit(e)}>
-                <textarea placeholder="Type message here..." name="feedback-message" rows="5"
+                <textarea placeholder="Type message here..." name="feedback-message" rows={5}
                           className="w-full rounded p-2 text-black300"
                           onChange={(event) => setMessage(event.currentTarget.value)}/>
                 <div className="grid grid-cols-12 gap-2 sm:gap-8">
