@@ -160,6 +160,15 @@ export const RulesModal = ({onClickClose}: RulesModalProps) => {
           </RulesModalSlide>
 
           <RulesModalSlide index={8}>
+            <p className="text-white100">Scores are calculated as follows:-</p>
+            <ul className="text-left m-0 p-0 flex flex-col gap-6">
+              <li>Time: 60 minus elapsed time</li>
+              <li>Lives: 7 minus number of lives lost</li>
+              <li>Glory: 50 minus percentage of characters revealed</li>
+            </ul>
+          </RulesModalSlide>
+
+          <RulesModalSlide index={9}>
             <p className="leading-6 text-left">All clues based on teams from the following leagues.</p>
             <div>
               <ul className="list-disc text-left text-sm overflow-y-auto">
