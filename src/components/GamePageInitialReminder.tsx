@@ -50,7 +50,7 @@ export const GamePageInitialReminder = ({onClickClose}: GamePageInitialReminderP
         </div>
       </div>
       <p className="text-white100">Play it one character at a time, or in one shot, it's your choice. The quicker you solve it the more bonuses you earn!</p>
-      <div className="w-fit self-center">
+      <div className="w-fit self-center focus:animate-button-pressed">
         <ButtonPrimary buttonContent="I'm ready, start the timer!" onClickButton={onClickClose} />
       </div>
     </div>
