@@ -44,8 +44,8 @@ export const ScoreModal = ({onClickClose, scoreAnalysis, scoreBreakdown}: ScoreM
           <h1 className="text-white100 font-display text-7xl">{scoreBreakdown.timeScore + scoreBreakdown.livesBonus + scoreBreakdown.gloryBonus}</h1>
         </div>
         <div className="flex flex-col items-start justify-evenly">
-          <p className="text-white100 text-xs">Lives Bonus: <span className="font-display">{scoreBreakdown.livesBonus}</span></p>
-          <p className="text-white100 text-xs">Time Bonus: <span className="font-display">{scoreBreakdown.timeScore}</span></p>
+          <p className="text-red500 text-xs">Lives Bonus: <span className="font-display">{scoreBreakdown.livesBonus}</span></p>
+          <p className="text-blue500 text-xs">Time Bonus: <span className="font-display">{scoreBreakdown.timeScore}</span></p>
           <p className="text-white100 text-xs">One-Shot Bonus: <span className="font-display">{scoreBreakdown.gloryBonus}</span></p>
         </div>
       </div>
