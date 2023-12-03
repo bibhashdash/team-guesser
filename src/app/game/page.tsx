@@ -363,7 +363,7 @@ export default function Game() {
         gameState={gameState}
         gameResult={gameResult}
         onClickNewGameButton={() => {
-          if (countBeforeFeedbackPrompt % 3 === 0) {
+          if (countBeforeFeedbackPrompt < 3) {
             pause();
             setShowFeedbackModal(true);
           } else {

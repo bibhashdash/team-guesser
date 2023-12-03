@@ -5,6 +5,7 @@ import {GameTimer} from "@/components/GameTimer";
 import {GameState} from "@/utlities/models";
 import {Button, Menu, MenuItem} from "@mui/material";
 import {MainMenu} from "@/components/MainMenu";
+import {EnvelopeIcon} from "@/icons/EnvelopeIcon";
 
 interface NavbarProps {
   gameState: GameState,
@@ -14,6 +15,7 @@ interface NavbarProps {
   clickRefreshIcon: () => void,
   clickCreditsIcon: () => void,
   clickFeedbackIcon: () => void,
+  countBeforeFeedbackPrompt: number,
 }
 
 export const Navbar = ({
@@ -22,6 +24,7 @@ export const Navbar = ({
                          clickRefreshIcon,
                          clickCreditsIcon,
                          clickFeedbackIcon,
+                         countBeforeFeedbackPrompt,
                          gameState
                        }: NavbarProps) => {
 
@@ -33,12 +36,17 @@ export const Navbar = ({
         </div>
 
         <GameTimer elapsedSeconds={elapsedSeconds}/>
+        <div className="flex items-center">
+          <div className={`${countBeforeFeedbackPrompt >= 3 ? 'visible' : 'invisible'}`}>
+            <EnvelopeIcon size={28} color={'#f8f8f8'} />
+          </div>
+          <MainMenu
+            clickFeedbackIcon={clickFeedbackIcon}
+            clickRulesIcon={clickRulesIcon}
+            clickRefreshIcon={clickRefreshIcon}
+            clickCreditsIcon={clickCreditsIcon}/>
+        </div>
 
-        <MainMenu
-          clickFeedbackIcon={clickFeedbackIcon}
-          clickRulesIcon={clickRulesIcon}
-          clickRefreshIcon={clickRefreshIcon}
-          clickCreditsIcon={clickCreditsIcon}/>
       </div>
     </div>
   )

@@ -3,6 +3,7 @@ import React, {FormEvent, useState} from "react";
 import Rating from '@mui/material/Rating';
 import Lottie from "lottie-react";
 import crowdCheerAnimation from '../lottie/crowdCheer.json'
+import {EnvelopeIcon} from "@/icons/EnvelopeIcon";
 
 export interface FeedbackModalProps {
   onClickClose: () => void;
@@ -70,6 +71,9 @@ export const FeedbackModal = ({onClickClose, onClickFormSubmit}: FeedbackModalPr
                     Submit
                   </button>
                 </div>
+
+                  <p className="text-sm w-full flex items-center justify-center gap-2">You can also find this via the <span><EnvelopeIcon color={'#f8f8f8'} size={16}/></span> at the top</p>
+
               </form>
             )
           }
