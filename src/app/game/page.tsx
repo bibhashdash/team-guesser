@@ -315,6 +315,7 @@ export default function Game() {
     <main
       className="relative w-full h-screen justify-between md:py-6 max-w-6xl flex flex-col border-2 border-gray50 rounded lg:px-6 shadow-xl bg-black300">
       <Navbar
+        onClickEnvelopeIcon={() => { pause(); setShowFeedbackModal(true)}}
         gameState={gameState}
         elapsedMinutes={minutes}
         elapsedSeconds={timerSeconds}
@@ -363,7 +364,7 @@ export default function Game() {
         gameState={gameState}
         gameResult={gameResult}
         onClickNewGameButton={() => {
-          if (countBeforeFeedbackPrompt < 3) {
+          if (countBeforeFeedbackPrompt === 3) {
             pause();
             setShowFeedbackModal(true);
           } else {

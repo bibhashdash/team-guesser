@@ -1,9 +1,6 @@
-import React, {useEffect, useState} from "react";
-import {MenuIcon} from "@/icons/MenuIcon";
-import {CloseIcon} from "@/components/CloseIcon";
+import React from "react";
 import {GameTimer} from "@/components/GameTimer";
 import {GameState} from "@/utlities/models";
-import {Button, Menu, MenuItem} from "@mui/material";
 import {MainMenu} from "@/components/MainMenu";
 import {EnvelopeIcon} from "@/icons/EnvelopeIcon";
 
@@ -15,7 +12,7 @@ interface NavbarProps {
   clickRefreshIcon: () => void,
   clickCreditsIcon: () => void,
   clickFeedbackIcon: () => void,
-  countBeforeFeedbackPrompt: number,
+  onClickEnvelopeIcon: () => void,
 }
 
 export const Navbar = ({
@@ -24,7 +21,7 @@ export const Navbar = ({
                          clickRefreshIcon,
                          clickCreditsIcon,
                          clickFeedbackIcon,
-                         countBeforeFeedbackPrompt,
+                         onClickEnvelopeIcon,
                          gameState
                        }: NavbarProps) => {
 
@@ -37,8 +34,8 @@ export const Navbar = ({
 
         <GameTimer elapsedSeconds={elapsedSeconds}/>
         <div className="flex items-center">
-          <div className={`${countBeforeFeedbackPrompt >= 3 ? 'visible' : 'invisible'}`}>
-            <EnvelopeIcon size={28} color={'#f8f8f8'} />
+          <div onClick={onClickEnvelopeIcon}>
+            <EnvelopeIcon size={28} color={'#f8f8f8'}/>
           </div>
           <MainMenu
             clickFeedbackIcon={clickFeedbackIcon}
